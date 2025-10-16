@@ -28,7 +28,11 @@ body {
 
 .main-content {
   padding: 0;
-  min-height: calc(100vh - 56px);
+  min-height: calc(100vh - 116px); /* Account for both top and bottom nav on mobile */
+  
+  @media (min-width: 768px) {
+    min-height: calc(100vh - 56px); /* Only account for top nav on desktop */
+  }
 }
 
 /* Container adjustments for mobile */
@@ -59,6 +63,47 @@ body {
 
 .table th, .table td {
   padding: 0.75rem 0.5rem !important;
+}
+
+/* Mobile bottom navigation */
+.mobile-nav {
+  z-index: 1000;
+}
+
+.mobile-nav .nav-link {
+  color: #6c757d;
+  transition: all 0.2s ease;
+  
+  &.active,
+  &:active {
+    color: #4361ee;
+  }
+  
+  i {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  span {
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+}
+
+/* Style for routerLinkActive */
+.nav-link.active-nav {
+  color: #4361ee !important;
+  
+  i {
+    color: #4361ee !important;
+  }
+}
+
+/* Adjust main content to make space for bottom nav on mobile */
+@media (max-width: 768px) {
+  .main-content {
+    padding-bottom: 60px; /* Space for bottom nav */
+  }
 }
 
 /* Mobile-specific media queries */
@@ -105,5 +150,15 @@ body {
   
   h1, h2, h3, h4, h5, h6 {
     font-size: 1.2rem !important;
+  }
+  
+  .mobile-nav .nav-link {
+    i {
+      font-size: 1.1rem;
+    }
+    
+    span {
+      font-size: 0.7rem;
+    }
   }
 }

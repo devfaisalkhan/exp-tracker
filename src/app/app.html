@@ -1,4 +1,29 @@
-<nav class="navbar navbar-expand-md navbar-light bg-primary bg-gradient text-white sticky-top">
+<!-- Top navbar for mobile app -->
+<!-- <nav class="navbar navbar-expand-md navbar-light bg-primary bg-gradient text-white sticky-top d-md-none">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white fw-bold" href="#">Expense Tracker</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon text-white"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            More
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+            <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active">Settings</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Sign Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav> -->
+
+<!-- Desktop navbar (hidden on mobile) -->
+<nav class="navbar navbar-expand-md navbar-light bg-primary bg-gradient text-white sticky-top d-none d-md-block">
   <div class="container-fluid">
     <a class="navbar-brand text-white fw-bold" href="#">Expense Tracker</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +47,7 @@
           <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Profile
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
             <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active">Settings</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Sign Out</a></li>
@@ -33,6 +58,38 @@
   </div>
 </nav>
 
+<!-- Main content -->
 <div class="main-content">
   <router-outlet></router-outlet>
+</div>
+
+<!-- Mobile bottom navigation bar -->
+<div class="mobile-nav d-block d-md-none fixed-bottom">
+  <div class="nav d-flex justify-content-around align-items-center py-2 bg-white border-top shadow">
+    <a routerLink="/dashboard" 
+       routerLinkActive="active" 
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center" 
+       >
+      <i class="bi bi-house-door fs-5 mb-1"></i>
+      <span class="small">Home</span>
+    </a>
+    <a routerLink="/add" 
+       routerLinkActive="active" 
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center" >
+      <i class="bi bi-plus-circle fs-5 mb-1"></i>
+      <span class="small">Add</span>
+    </a>
+    <a routerLink="/expenses" 
+       routerLinkActive="active" 
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center" >
+      <i class="bi bi-receipt fs-5 mb-1"></i>
+      <span class="small">Expenses</span>
+    </a>
+    <a routerLink="/budgets" 
+       routerLinkActive="active" 
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center" >
+      <i class="bi bi-wallet2 fs-5 mb-1"></i>
+      <span class="small">Budget</span>
+    </a>
+  </div>
 </div>

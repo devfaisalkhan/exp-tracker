@@ -1,75 +1,68 @@
 <div class="container-fluid">
-  <h2 class="mb-4">Expense Dashboard</h2>
+  <div class="dashboard-header mb-4">
+    <h2 class="mb-0">Dashboard</h2>
+  </div>
   
-  <!-- Summary Cards -->
+  <!-- Summary Cards - Spendee style -->
   <div class="row mb-4">
-    <div class="col-md-3 mb-3">
-      <div class="card bg-primary text-white">
-        <div class="card-body">
-          <h5 class="card-title">Total Expenses</h5>
-          <h3 class="card-text">{{ totalExpenses }}</h3>
-          <p class="card-text">Items tracked</p>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="card summary-card h-100 border-0 shadow-sm">
+        <div class="card-body text-center">
+          <div class="card-icon bg-primary rounded-circle mb-3 mx-auto">
+            <i class="bi bi-receipt text-white fs-4"></i>
+          </div>
+          <h5 class="card-title text-muted">Total Expenses</h5>
+          <h3 class="card-text text-dark mb-0">{{ totalExpenses }}</h3>
+          <p class="card-text text-primary mb-0 small">items</p>
         </div>
       </div>
     </div>
-    <div class="col-md-3 mb-3">
-      <div class="card bg-success text-white">
-        <div class="card-body">
-          <h5 class="card-title">Total Amount</h5>
-          <h3 class="card-text">PKR {{ totalAmount | number:'1.2-2' }}</h3>
-          <p class="card-text">Overall spending</p>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="card summary-card h-100 border-0 shadow-sm">
+        <div class="card-body text-center">
+          <div class="card-icon bg-success rounded-circle mb-3 mx-auto">
+            <i class="bi bi-currency-rupee text-white fs-4"></i>
+          </div>
+          <h5 class="card-title text-muted">Total Spent</h5>
+          <h3 class="card-text text-dark mb-0">PKR {{ totalAmount | number:'1.2-2' }}</h3>
+          <p class="card-text text-success mb-0 small">overall</p>
         </div>
       </div>
     </div>
-    <div class="col-md-3 mb-3">
-      <div class="card bg-info text-white">
-        <div class="card-body">
-          <h5 class="card-title">Top Category</h5>
-          <h3 class="card-text">{{ getTopCategory()?.category || 'N/A' }}</h3>
-          <p class="card-text">Highest spending</p>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="card summary-card h-100 border-0 shadow-sm">
+        <div class="card-body text-center">
+          <div class="card-icon bg-info rounded-circle mb-3 mx-auto">
+            <i class="bi bi-list-task text-white fs-4"></i>
+          </div>
+          <h5 class="card-title text-muted">Top Category</h5>
+          <h3 class="card-text text-dark mb-0">{{ getTopCategory()?.category || 'N/A' }}</h3>
+          <p class="card-text text-info mb-0 small">highest spending</p>
         </div>
       </div>
     </div>
-    <div class="col-md-3 mb-3">
-      <div class="card bg-warning text-dark">
-        <div class="card-body">
-          <h5 class="card-title">Avg. per Expense</h5>
-          <h3 class="card-text" *ngIf="totalExpenses > 0">PKR {{ (totalAmount / totalExpenses) | number:'1.2-2' }}</h3>
-          <h3 class="card-text" *ngIf="totalExpenses === 0">PKR 0.00</h3>
-          <p class="card-text">Average cost</p>
+    <div class="col-6 col-md-3 mb-3">
+      <div class="card summary-card h-100 border-0 shadow-sm">
+        <div class="card-body text-center">
+          <div class="card-icon bg-warning rounded-circle mb-3 mx-auto">
+            <i class="bi bi-graph-up text-white fs-4"></i>
+          </div>
+          <h5 class="card-title text-muted">Average</h5>
+          <h3 class="card-text text-dark mb-0" *ngIf="totalExpenses > 0">PKR {{ (totalAmount / totalExpenses) | number:'1.2-2' }}</h3>
+          <h3 class="card-text text-dark mb-0" *ngIf="totalExpenses === 0">PKR 0.00</h3>
+          <p class="card-text text-warning mb-0 small">per expense</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Charts Section -->
+  <!-- Charts Section - Spendee style -->
   <div class="row mb-4">
-    <!-- Weekly Expenses Chart -->
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h5>Weekly Expenses</h5>
-        </div>
+    <!-- Category Breakdown - Primary chart -->
+    <div class="col-12 col-md-8 mb-4 mb-md-0">
+      <div class="card border-0 shadow-sm">
         <div class="card-body">
-          <div class="chart-container" style="height: 300px;">
-            <canvas 
-              baseChart
-              [data]="weeklyChartData"
-              [options]="chartOptions"
-              [type]="weeklyChartType">
-            </canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Category Breakdown -->
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h5>Spending by Category</h5>
-        </div>
-        <div class="card-body">
+          <h5 class="card-title mb-4">Category Breakdown</h5>
           <div class="chart-container" style="height: 300px;">
             <canvas 
               baseChart
@@ -81,60 +74,56 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Category Summary Table -->
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h5>Category Summary</h5>
-        </div>
+    
+    <!-- Weekly Expenses - Secondary chart -->
+    <div class="col-12 col-md-4">
+      <div class="card border-0 shadow-sm">
         <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Category</th>
-                  <th>Total Amount</th>
-                  <th>Count</th>
-                  <th>% of Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let summary of categorySummaries">
-                  <td><span class="badge bg-primary">{{ summary.category }}</span></td>
-                  <td>PKR {{ summary.total | number:'1.2-2' }}</td>
-                  <td>{{ summary.count }}</td>
-                  <td>
-                    <div class="progress" style="height: 10px;">
-                      <div 
-                        class="progress-bar" 
-                        role="progressbar" 
-                        [style.width.%]="(summary.total / totalAmount) * 100"
-                        [attr.aria-valuenow]="(summary.total / totalAmount) * 100"
-                        aria-valuemin="0" 
-                        aria-valuemax="100">
-                      </div>
-                    </div>
-                    <small>{{ ((summary.total / totalAmount) * 100) | number:'1.2-2' }}%</small>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <h5 class="card-title mb-4">Weekly Overview</h5>
+          <div class="chart-container" style="height: 300px;">
+            <canvas 
+              baseChart
+              [data]="weeklyChartData"
+              [options]="chartOptions"
+              [type]="weeklyChartType">
+            </canvas>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Quick Actions -->
-  <div class="row mt-4">
-    <div class="col-12">
-      <div class="d-flex justify-content-center gap-3">
-        <a routerLink="/add" class="btn btn-primary btn-lg px-4">Add Expense</a>
-        <a routerLink="/expenses" class="btn btn-outline-primary btn-lg px-4">View All Expenses</a>
+  <!-- Recent Expenses - Spendee style -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="card-title mb-0">Recent Expenses</h5>
+        <a routerLink="/expenses" class="btn btn-outline-primary btn-sm">View All</a>
+      </div>
+      <div class="list-group list-group-flush">
+        <div class="list-group-item border-0 px-0 py-3" *ngFor="let expense of expenses | slice:0:5">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h6 class="mb-0">{{ expense.title }}</h6>
+              <small class="text-muted">{{ expense.date | date:'MMM d' }}</small>
+            </div>
+            <div class="text-end">
+              <h6 class="mb-0 text-danger">- PKR {{ expense.amount | number:'1.2-2' }}</h6>
+              <span class="badge bg-secondary">{{ expense.category }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="list-group-item border-0 px-0 py-3" *ngIf="expenses.length === 0">
+          <p class="text-center text-muted mb-0">No expenses recorded yet</p>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Add Expense Button - Floating style like Spendee -->
+  <div class="text-center">
+    <a routerLink="/add" class="btn btn-primary btn-lg rounded-pill px-5 py-3 shadow">
+      <i class="bi bi-plus-lg me-2"></i>Add Expense
+    </a>
   </div>
 </div>

@@ -39,12 +39,11 @@ export class BudgetService {
               (!budget.endDate || new Date(budget.endDate) >= new Date()));
   }
 
-  addBudget(budget: Omit<Budget, 'id' | 'currentSpent' | 'createdAt' | 'updatedAt'>): Budget {
+  addBudget(budget: Omit<Budget, 'id' | 'createdAt' | 'updatedAt'>): Budget {
     const budgets = this.loadBudgets();
     const newBudget: Budget = {
       ...budget,
       id: budgets.length > 0 ? Math.max(...budgets.map(b => b.id)) + 1 : 1,
-      currentSpent: 0, // Will be calculated based on expenses
       createdAt: new Date(),
       updatedAt: new Date()
     };

@@ -125,6 +125,44 @@
     </div>
   </div>
 
+  <!-- Budget Charts Section -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Budget Overview</h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="chart-container" style="height: 400px;">
+                <canvas 
+                  baseChart
+                  [data]="budgetChartData"
+                  [options]="chartOptions"
+                  [type]="budgetChartType">
+                </canvas>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Budget Summary</h5>
+                  <p class="card-text">
+                    <strong>Total Budgets:</strong> {{ totalBudgets }}<br>
+                    <strong>Total Allocated:</strong> PKR {{ totalAllocated | number:'1.2-2' }}<br>
+                    <strong>Total Spent:</strong> PKR {{ totalSpent | number:'1.2-2' }}<br>
+                    <strong>Remaining:</strong> PKR {{ totalRemaining | number:'1.2-2' }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Budget List -->
   <div class="row">
     <div class="col-12">
