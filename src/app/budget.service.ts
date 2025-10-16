@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Budget } from './enhanced-expense.model';
 import { ExpenseCategory } from './expense-category.enum';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { ExpenseCategory } from './expense-category.enum';
 export class BudgetService {
   private localStorageKey = 'budgets';
 
-  constructor() { }
+  constructor(private toastService: ToastService) { }
 
   private loadBudgets(): Budget[] {
     const stored = localStorage.getItem(this.localStorageKey);
@@ -49,6 +50,7 @@ export class BudgetService {
     };
     budgets.push(newBudget);
     this.saveBudgets(budgets);
+    this.toastService.success('Budget created successfully!');
     return newBudget;
   }
 
@@ -61,8 +63,10 @@ export class BudgetService {
         updatedAt: new Date()
       };
       this.saveBudgets(budgets);
+      this.toastService.success('Budget updated successfully!');
       return true;
     }
+    this.toastService.error('Failed to update budget!');
     return false;
   }
 
@@ -72,8 +76,10 @@ export class BudgetService {
     if (index !== -1) {
       budgets.splice(index, 1);
       this.saveBudgets(budgets);
+      this.toastService.success('Budget deleted successfully!');
       return true;
     }
+    this.toastService.error('Failed to delete budget!');
     return false;
   }
 }

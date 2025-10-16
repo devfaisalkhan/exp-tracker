@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from './enhanced-expense.model';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class UserService {
     updatedAt: new Date()
   };
 
-  constructor() { }
+  constructor(private toastService: ToastService) { }
 
   private loadUser(): User | null {
     const stored = localStorage.getItem(this.localStorageKey);
@@ -48,10 +49,12 @@ export class UserService {
       updatedAt: new Date()
     };
     this.saveUser(updatedUser);
+    this.toastService.success('Profile updated successfully!');
     return updatedUser;
   }
 
   setUser(user: User): void {
     this.saveUser(user);
+    this.toastService.success('User profile saved successfully!');
   }
 }

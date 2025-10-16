@@ -4,6 +4,7 @@ import { ExpenseService } from '../expense.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExpenseCategory } from '../expense-category.enum';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-expenses-list',
@@ -36,7 +37,10 @@ export class ExpensesList implements OnInit {
   endDate: string = '';
   paymentMethodFilter: string = '';
 
-  constructor(private expenseService: ExpenseService) { }
+  constructor(
+    private expenseService: ExpenseService,
+    private toastService: ToastService
+  ) { }
 
   ngOnInit(): void {
     this.loadExpenses();
@@ -52,6 +56,9 @@ export class ExpensesList implements OnInit {
       const deleted = this.expenseService.deleteExpense(id);
       if (deleted) {
         this.loadExpenses(); // Refresh the list
+        this.toastService.success('Expense deleted successfully!');
+      } else {
+        this.toastService.error('Failed to delete expense!');
       }
     }
   }
@@ -93,6 +100,7 @@ export class ExpensesList implements OnInit {
     this.endDate = '';
     this.paymentMethodFilter = '';
     this.applyFilters();
+    this.toastService.info('Filters cleared');
   }
   
   getUniquePaymentMethods(): string[] {

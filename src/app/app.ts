@@ -2,11 +2,12 @@ import { Component, signal, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NetworkService } from './network.service';
 import { PWAService } from './pwa.service';
+import { ToastComponent } from './toast/toast.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

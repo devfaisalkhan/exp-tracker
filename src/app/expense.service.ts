@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Expense } from './expense.model';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { Expense } from './expense.model';
 export class ExpenseService {
   private localStorageKey = 'expenses';
 
-  constructor() { }
+  constructor(private toastService: ToastService) { }
 
   private loadExpenses(): Expense[] {
     const stored = localStorage.getItem(this.localStorageKey);
@@ -43,8 +44,7 @@ export class ExpenseService {
     };
     expenses.push(newExpense);
     this.saveExpenses(expenses);
-    console.log('Expense added:', newExpense);
-    console.log('All expenses:', expenses);
+    this.toastService.success('Expense added successfully!');
     return newExpense;
   }
 
@@ -58,9 +58,10 @@ export class ExpenseService {
         updatedAt: now
       };
       this.saveExpenses(expenses);
-      console.log('Expense updated:', updatedExpense);
+      this.toastService.success('Expense updated successfully!');
       return true;
     }
+    this.toastService.error('Failed to update expense!');
     return false;
   }
 
@@ -70,9 +71,10 @@ export class ExpenseService {
     if (index !== -1) {
       expenses.splice(index, 1);
       this.saveExpenses(expenses);
-      console.log('Expense deleted:', id);
+      this.toastService.success('Expense deleted successfully!');
       return true;
     }
+    this.toastService.error('Failed to delete expense!');
     return false;
   }
 }

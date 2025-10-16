@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ExpenseService } from '../expense.service';
 import { Expense } from '../expense.model';
 import { ExpenseCategory } from '../expense-category.enum';
+import { ToastService } from '../toast.service';
 
 @Component({
   selector: 'app-add-expense',
@@ -20,7 +21,8 @@ export class AddExpense implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private expenseService: ExpenseService
+    private expenseService: ExpenseService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +69,9 @@ export class AddExpense implements OnInit {
         notes: '',
         tags: ''
       });
+      this.toastService.success('Expense added successfully!');
+    } else {
+      this.toastService.error('Please fill in all required fields correctly.');
     }
   }
 }
