@@ -34,6 +34,7 @@ export class ExpensesList implements OnInit {
   selectedCategory: string = '';
   startDate: string = '';
   endDate: string = '';
+  paymentMethodFilter: string = '';
 
   constructor(private expenseService: ExpenseService) { }
 
@@ -62,6 +63,11 @@ export class ExpensesList implements OnInit {
         return false;
       }
       
+      // Payment method filter
+      if (this.paymentMethodFilter && expense.paymentMethod !== this.paymentMethodFilter) {
+        return false;
+      }
+      
       // Date filter
       const expenseDate = new Date(expense.date).toISOString().split('T')[0];
       
@@ -85,6 +91,15 @@ export class ExpensesList implements OnInit {
     this.selectedCategory = '';
     this.startDate = '';
     this.endDate = '';
+    this.paymentMethodFilter = '';
     this.applyFilters();
+  }
+  
+  getUniquePaymentMethods(): string[] {
+    const methods = this.expenses
+      .map(expense => expense.paymentMethod)
+      .filter((method): method is string => method !== undefined && method !== '')
+      .filter((value, index, self) => self.indexOf(value) === index);
+    return methods;
   }
 }

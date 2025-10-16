@@ -1,0 +1,140 @@
+<div class="container-fluid">
+  <h2 class="mb-4">Expense Dashboard</h2>
+  
+  <!-- Summary Cards -->
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <h5 class="card-title">Total Expenses</h5>
+          <h3 class="card-text">{{ totalExpenses }}</h3>
+          <p class="card-text">Items tracked</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">Total Amount</h5>
+          <h3 class="card-text">PKR {{ totalAmount | number:'1.2-2' }}</h3>
+          <p class="card-text">Overall spending</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <h5 class="card-title">Top Category</h5>
+          <h3 class="card-text">{{ getTopCategory()?.category || 'N/A' }}</h3>
+          <p class="card-text">Highest spending</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-3">
+      <div class="card bg-warning text-dark">
+        <div class="card-body">
+          <h5 class="card-title">Avg. per Expense</h5>
+          <h3 class="card-text" *ngIf="totalExpenses > 0">PKR {{ (totalAmount / totalExpenses) | number:'1.2-2' }}</h3>
+          <h3 class="card-text" *ngIf="totalExpenses === 0">PKR 0.00</h3>
+          <p class="card-text">Average cost</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="row mb-4">
+    <!-- Weekly Expenses Chart -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Weekly Expenses</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="height: 300px;">
+            <canvas 
+              baseChart
+              [data]="weeklyChartData"
+              [options]="chartOptions"
+              [type]="weeklyChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Category Breakdown -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h5>Spending by Category</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="height: 300px;">
+            <canvas 
+              baseChart
+              [data]="categoryChartData"
+              [options]="chartOptions"
+              [type]="categoryChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Summary Table -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h5>Category Summary</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Total Amount</th>
+                  <th>Count</th>
+                  <th>% of Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let summary of categorySummaries">
+                  <td><span class="badge bg-primary">{{ summary.category }}</span></td>
+                  <td>PKR {{ summary.total | number:'1.2-2' }}</td>
+                  <td>{{ summary.count }}</td>
+                  <td>
+                    <div class="progress" style="height: 10px;">
+                      <div 
+                        class="progress-bar" 
+                        role="progressbar" 
+                        [style.width.%]="(summary.total / totalAmount) * 100"
+                        [attr.aria-valuenow]="(summary.total / totalAmount) * 100"
+                        aria-valuemin="0" 
+                        aria-valuemax="100">
+                      </div>
+                    </div>
+                    <small>{{ ((summary.total / totalAmount) * 100) | number:'1.2-2' }}%</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-center gap-3">
+        <a routerLink="/add" class="btn btn-primary btn-lg px-4">Add Expense</a>
+        <a routerLink="/expenses" class="btn btn-outline-primary btn-lg px-4">View All Expenses</a>
+      </div>
+    </div>
+  </div>
+</div>

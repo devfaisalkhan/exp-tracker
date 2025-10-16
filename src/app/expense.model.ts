@@ -7,4 +7,11 @@ export interface Expense {
   date: Date;
   category: ExpenseCategory;
   notes: string;
+  paymentMethod?: string;
+  receipt?: string;
+  tags?: string[];
+  groupId?: number;
+  recurringId?: number;
+  createdAt: Date;
+  updatedAt: Date;
 }

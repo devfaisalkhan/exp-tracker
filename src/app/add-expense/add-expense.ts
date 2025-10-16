@@ -15,6 +15,7 @@ import { ExpenseCategory } from '../expense-category.enum';
 export class AddExpense implements OnInit {
   expenseForm!: FormGroup;
   expenseCategories = Object.values(ExpenseCategory);
+  paymentMethods = ['Cash', 'Credit Card', 'Debit Card', 'Bank Transfer', 'Mobile Payment', 'Other'];
   defaultDate: Date = new Date();
 
   constructor(
@@ -28,7 +29,9 @@ export class AddExpense implements OnInit {
       amount: ['', [Validators.required, Validators.min(0.01)]],
       date: [this.formatDateForInput(this.defaultDate), [Validators.required]],
       category: ['', [Validators.required]],
-      notes: ['']
+      paymentMethod: [''],
+      notes: [''],
+      tags: ['']
     });
   }
 
@@ -42,12 +45,16 @@ export class AddExpense implements OnInit {
   onSubmit(): void {
     if (this.expenseForm.valid) {
       const formValue = this.expenseForm.value;
-      const newExpense: Omit<Expense, 'id'> = {
+      const tags = formValue.tags ? formValue.tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag) : [];
+      
+      const newExpense: Omit<Expense, 'id' | 'createdAt' | 'updatedAt'> = {
         title: formValue.title,
         amount: parseFloat(formValue.amount),
         date: new Date(formValue.date),
         category: formValue.category,
-        notes: formValue.notes
+        notes: formValue.notes,
+        paymentMethod: formValue.paymentMethod,
+        tags: tags.length > 0 ? tags : undefined
       };
       
       this.expenseService.addExpense(newExpense);
@@ -56,7 +63,9 @@ export class AddExpense implements OnInit {
         amount: '',
         date: this.formatDateForInput(this.defaultDate),
         category: '',
-        notes: ''
+        paymentMethod: '',
+        notes: '',
+        tags: ''
       });
     }
   }

@@ -5,7 +5,7 @@
   <div class="card mb-4">
     <div class="card-body">
       <div class="row g-3">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label for="categoryFilter" class="form-label">Filter by Category</label>
           <select 
             id="categoryFilter" 
@@ -17,7 +17,19 @@
           </select>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <label for="paymentMethodFilter" class="form-label">Filter by Payment Method</label>
+          <select 
+            id="paymentMethodFilter" 
+            class="form-select" 
+            [(ngModel)]="paymentMethodFilter" 
+            (ngModelChange)="onFilterChange()">
+            <option value="">All Payment Methods</option>
+            <option *ngFor="let method of getUniquePaymentMethods()" [value]="method">{{ method }}</option>
+          </select>
+        </div>
+        
+        <div class="col-md-3">
           <label for="startDate" class="form-label">Start Date</label>
           <input 
             type="date" 
@@ -27,7 +39,7 @@
             (ngModelChange)="onFilterChange()">
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-3">
           <label for="endDate" class="form-label">End Date</label>
           <input 
             type="date" 
@@ -39,7 +51,7 @@
         
         <div class="col-12">
           <button class="btn btn-outline-secondary me-2" (click)="clearFilters()">Clear Filters</button>
-          <span class="text-muted" *ngIf="selectedCategory || startDate || endDate">
+          <span class="text-muted" *ngIf="selectedCategory || startDate || endDate || paymentMethodFilter">
             Showing {{ filteredExpenses.length }} of {{ expenses.length }} expenses
           </span>
         </div>
@@ -58,8 +70,12 @@
         <p class="card-text">
           <strong>Amount:</strong> PKR {{ expense.amount | number:'1.2-2' }}<br>
           <strong>Date:</strong> {{ expense.date | date:'short' }}<br>
+          <strong>Payment:</strong> {{ expense.paymentMethod || 'Not specified' }}<br>
           <strong>Notes:</strong> {{ expense.notes || 'None' }}
-        </p>
+          <div *ngIf="expense.tags && expense.tags.length > 0">
+            <strong>Tags:</strong>
+            <span class="badge bg-secondary me-1" *ngFor="let tag of expense.tags">{{ tag }}</span>
+          </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
           <button class="btn btn-sm btn-danger" (click)="deleteExpense(expense.id)">Delete</button>
         </div>
@@ -77,6 +93,8 @@
           <th>Amount</th>
           <th>Date</th>
           <th>Category</th>
+          <th>Payment Method</th>
+          <th>Tags</th>
           <th>Notes</th>
           <th>Actions</th>
         </tr>
@@ -88,7 +106,12 @@
           <td>PKR {{ expense.amount | number:'1.2-2' }}</td>
           <td>{{ expense.date | date:'short' }}</td>
           <td><span class="badge bg-primary">{{ expense.category }}</span></td>
-          <td>{{ expense.notes }}</td>
+          <td>{{ expense.paymentMethod || '-' }}</td>
+          <td>
+            <span class="badge bg-secondary me-1" *ngFor="let tag of expense.tags">{{ tag }}</span>
+            <span *ngIf="!expense.tags || expense.tags.length === 0">-</span>
+          </td>
+          <td>{{ expense.notes || '-' }}</td>
           <td>
             <button class="btn btn-sm btn-danger" (click)="deleteExpense(expense.id)">Delete</button>
           </td>

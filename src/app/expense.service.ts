@@ -12,7 +12,14 @@ export class ExpenseService {
   private loadExpenses(): Expense[] {
     const stored = localStorage.getItem(this.localStorageKey);
     if (stored) {
-      return JSON.parse(stored);
+      const expenses = JSON.parse(stored);
+      // Ensure dates are properly converted to Date objects
+      return expenses.map((expense: any) => ({
+        ...expense,
+        date: new Date(expense.date),
+        createdAt: new Date(expense.createdAt),
+        updatedAt: new Date(expense.updatedAt)
+      }));
     }
     return [];
   }
@@ -25,11 +32,14 @@ export class ExpenseService {
     return this.loadExpenses();
   }
 
-  addExpense(expense: Omit<Expense, 'id'>) {
+  addExpense(expense: Omit<Expense, 'id' | 'createdAt' | 'updatedAt'>) {
     const expenses = this.loadExpenses();
+    const now = new Date();
     const newExpense: Expense = {
       ...expense,
-      id: expenses.length > 0 ? Math.max(...expenses.map(e => e.id)) + 1 : 1
+      id: expenses.length > 0 ? Math.max(...expenses.map(e => e.id)) + 1 : 1,
+      createdAt: now,
+      updatedAt: now
     };
     expenses.push(newExpense);
     this.saveExpenses(expenses);
@@ -42,7 +52,11 @@ export class ExpenseService {
     const expenses = this.loadExpenses();
     const index = expenses.findIndex(e => e.id === updatedExpense.id);
     if (index !== -1) {
-      expenses[index] = updatedExpense;
+      const now = new Date();
+      expenses[index] = {
+        ...updatedExpense,
+        updatedAt: now
+      };
       this.saveExpenses(expenses);
       console.log('Expense updated:', updatedExpense);
       return true;

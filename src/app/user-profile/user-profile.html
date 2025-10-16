@@ -1,0 +1,90 @@
+<div class="container mt-4">
+  <h2>User Profile</h2>
+  
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="name" class="form-label">Full Name</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="name" 
+                formControlName="name"
+                [class.is-invalid]="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
+                placeholder="Enter your full name">
+              <div 
+                *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched" 
+                class="invalid-feedback">
+                Name is required (minimum 2 characters)
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email" 
+                formControlName="email"
+                [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+                placeholder="Enter your email">
+              <div 
+                *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" 
+                class="invalid-feedback">
+                Please enter a valid email address
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="currency" class="form-label">Preferred Currency</label>
+              <select 
+                class="form-select" 
+                id="currency" 
+                formControlName="currency"
+                [class.is-invalid]="profileForm.get('currency')?.invalid && profileForm.get('currency')?.touched">
+                <option *ngFor="let currency of currencies" [value]="currency.value">
+                  {{ currency.label }}
+                </option>
+              </select>
+              <div 
+                *ngIf="profileForm.get('currency')?.invalid && profileForm.get('currency')?.touched" 
+                class="invalid-feedback">
+                Please select a currency
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label for="theme" class="form-label">Theme</label>
+              <select 
+                class="form-select" 
+                id="theme" 
+                formControlName="theme"
+                [class.is-invalid]="profileForm.get('theme')?.invalid && profileForm.get('theme')?.touched">
+                <option *ngFor="let theme of themes" [value]="theme.value">
+                  {{ theme.label }}
+                </option>
+              </select>
+              <div 
+                *ngIf="profileForm.get('theme')?.invalid && profileForm.get('theme')?.touched" 
+                class="invalid-feedback">
+                Please select a theme
+              </div>
+            </div>
+            
+            <div class="d-grid">
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg"
+                [disabled]="profileForm.invalid">
+                Update Profile
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
