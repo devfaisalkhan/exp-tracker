@@ -1,0 +1,107 @@
+<div class="container mt-4">
+  <h2>Expense List</h2>
+  
+  <!-- Filter Section -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label for="categoryFilter" class="form-label">Filter by Category</label>
+          <select 
+            id="categoryFilter" 
+            class="form-select" 
+            [(ngModel)]="selectedCategory" 
+            (ngModelChange)="onFilterChange()">
+            <option value="">All Categories</option>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+          </select>
+        </div>
+        
+        <div class="col-md-4">
+          <label for="startDate" class="form-label">Start Date</label>
+          <input 
+            type="date" 
+            id="startDate" 
+            class="form-control" 
+            [(ngModel)]="startDate" 
+            (ngModelChange)="onFilterChange()">
+        </div>
+        
+        <div class="col-md-4">
+          <label for="endDate" class="form-label">End Date</label>
+          <input 
+            type="date" 
+            id="endDate" 
+            class="form-control" 
+            [(ngModel)]="endDate" 
+            (ngModelChange)="onFilterChange()">
+        </div>
+        
+        <div class="col-12">
+          <button class="btn btn-outline-secondary me-2" (click)="clearFilters()">Clear Filters</button>
+          <span class="text-muted" *ngIf="selectedCategory || startDate || endDate">
+            Showing {{ filteredExpenses.length }} of {{ expenses.length }} expenses
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Card view for mobile -->
+  <div class="d-md-none">
+    <div class="card mb-3" *ngFor="let expense of filteredExpenses">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start">
+          <h5 class="card-title">{{ expense.title }}</h5>
+          <span class="badge bg-primary">{{ expense.category }}</span>
+        </div>
+        <p class="card-text">
+          <strong>Amount:</strong> PKR {{ expense.amount | number:'1.2-2' }}<br>
+          <strong>Date:</strong> {{ expense.date | date:'short' }}<br>
+          <strong>Notes:</strong> {{ expense.notes || 'None' }}
+        </p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button class="btn btn-sm btn-danger" (click)="deleteExpense(expense.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Table view for larger screens -->
+  <div class="d-none d-md-block table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Category</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let expense of filteredExpenses">
+          <td>{{ expense.id }}</td>
+          <td>{{ expense.title }}</td>
+          <td>PKR {{ expense.amount | number:'1.2-2' }}</td>
+          <td>{{ expense.date | date:'short' }}</td>
+          <td><span class="badge bg-primary">{{ expense.category }}</span></td>
+          <td>{{ expense.notes }}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="deleteExpense(expense.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="filteredExpenses.length === 0" class="text-center mt-4">
+    <p class="text-muted">No expenses match your filters. Try changing your criteria.</p>
+  </div>
+  
+  <div *ngIf="expenses.length === 0" class="text-center mt-4">
+    <p class="text-muted">No expenses found. Add your first expense!</p>
+  </div>
+</div>
