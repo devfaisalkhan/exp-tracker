@@ -1,0 +1,1 @@
+var l=(i=>(i.Food="Food",i.Transport="Transport",i.Bills="Bills",i.Entertainment="Entertainment",i.Shopping="Shopping",i.Healthcare="Healthcare",i.Education="Education",i.Travel="Travel",i.Gifts="Gifts",i.Utilities="Utilities",i.Insurance="Insurance",i.Other="Other",i))(l||{});export{l as a};
