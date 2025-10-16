@@ -1,14 +1,13 @@
-# PWA Icons
+This directory should contain the following icons for PWA functionality:
 
-This folder should contain the icons for the PWA application. For a complete PWA experience, you should have icons in the following sizes:
+Required Icons:
+- icon-72x72.png
+- icon-96x96.png  
+- icon-128x128.png
+- icon-144x144.png
+- icon-152x152.png
+- icon-192x192.png
+- icon-384x384.png
+- icon-512x512.png
 
-- 72x72
-- 96x96
-- 128x128
-- 144x144
-- 152x152
-- 192x192
-- 384x384
-- 512x512
-
-These icons should be placed in this directory to support the web app manifest.
+These icons should be placed in the src/assets/icons/ directory to match the manifest.webmanifest configuration.

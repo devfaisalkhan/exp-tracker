@@ -7,6 +7,26 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #f8f9fa;
   padding-top: 56px; /* Space for fixed navbar on mobile */
+  
+  /* PWA standalone mode */
+  &.standalone {
+    padding-top: 0;
+  }
+}
+
+/* PWA specific styles */
+@media all and (display-mode: standalone) {
+  body {
+    padding-top: 0;
+  }
+  
+  .navbar.sticky-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .mobile-nav.fixed-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 /* Mobile-friendly navbar */
