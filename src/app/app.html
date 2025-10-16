@@ -50,6 +50,12 @@
         <li class="nav-item">
           <a class="nav-link text-white" routerLink="/budgets" routerLinkActive="active">Budgets</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/set-income" routerLinkActive="active">Set Income</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" routerLink="/incomes" routerLinkActive="active">Incomes</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Profile
@@ -98,6 +104,18 @@
        class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
       <i class="bi bi-wallet2 fs-5 mb-1"></i>
       <span class="small">Budget</span>
+    </a>
+    <a routerLink="/set-income" 
+       routerLinkActive="active-nav"
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
+      <i class="bi bi-currency-exchange fs-5 mb-1"></i>
+      <span class="small">Income</span>
+    </a>
+    <a routerLink="/incomes" 
+       routerLinkActive="active-nav"
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
+      <i class="bi bi-list fs-5 mb-1"></i>
+      <span class="small">List</span>
     </a>
   </div>
 </div>

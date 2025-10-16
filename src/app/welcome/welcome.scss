@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.vh-100 {
+  min-height: 100vh;
+}
+
+.bg-primary {
+  background-color: #4361ee !important;
+}
+
+.btn-primary {
+  background-color: #4361ee;
+  border-color: #4361ee;
+  
+  &:hover {
+    background-color: #3651d8;
+    border-color: #3651d8;
+  }
+}
+
+.card {
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+}
+
+.display-4 {
+  font-size: 2.5rem;
+  
+  @media (min-width: 768px) {
+    font-size: 3rem;
+  }
+}
+
+.lead {
+  font-size: 1.1rem;
+  
+  @media (min-width: 768px) {
+    font-size: 1.25rem;
+  }
+}

@@ -3,6 +3,87 @@
     <h2 class="mb-0">Dashboard</h2>
   </div>
   
+  <!-- Monthly Budget Summary Cards -->
+  <div class="row mb-4">
+    <div class="col-12 mb-3">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h5 class="card-title mb-0">Monthly Budget</h5>
+              <p class="card-text mb-0 text-muted">{{ currentYear }} - {{ currentMonth | date:'MMMM' }}</p>
+            </div>
+            <div>
+              <a routerLink="/set-income" class="btn btn-outline-primary btn-sm me-2">Set Income</a>
+              <a routerLink="/incomes" class="btn btn-outline-secondary btn-sm">View All</a>
+            </div>
+          </div>
+          
+          <div class="row mt-3">
+            <div class="col-md-3 col-6 mb-3">
+              <div class="text-center">
+                <h6 class="text-muted small">Income</h6>
+                <h4 class="mb-0" [class.text-danger]="isOverBudget">{{ currentMonthIncome !== null ? ('PKR ' + (currentMonthIncome | number:'1.2-2')) : 'Not Set' }}</h4>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <div class="text-center">
+                <h6 class="text-muted small">Spent</h6>
+                <h4 class="mb-0 text-danger">PKR {{ currentMonthSpent | number:'1.2-2' }}</h4>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <div class="text-center">
+                <h6 class="text-muted small">Remaining</h6>
+                <h4 class="mb-0" [class.text-danger]="remainingBudget < 0" [class.text-success]="remainingBudget >= 0">
+                  PKR {{ remainingBudget | number:'1.2-2' }}
+                </h4>
+              </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+              <div class="text-center">
+                <h6 class="text-muted small">Used</h6>
+                <h4 class="mb-0" [class.text-danger]="percentageUsed > 100" [class.text-warning]="percentageUsed >= 80 && percentageUsed <= 100" [class.text-success]="percentageUsed < 80">
+                  {{ percentageUsed | number:'1.0-0' }}%
+                </h4>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Progress bar -->
+          <div class="mt-3">
+            <div class="d-flex justify-content-between mb-1">
+              <small>0%</small>
+              <small>{{ percentageUsed | number:'1.0-0' }}%</small>
+              <small>100%</small>
+            </div>
+            <div class="progress" style="height: 15px;">
+              <div 
+                class="progress-bar" 
+                role="progressbar" 
+                [style.width.%]="Math.min(100, percentageUsed)"
+                [ngClass]="{
+                  'bg-success': percentageUsed < 80,
+                  'bg-warning': percentageUsed >= 80 && percentageUsed <= 100,
+                  'bg-danger': percentageUsed > 100
+                }"
+                [attr.aria-valuenow]="percentageUsed"
+                aria-valuemin="0" 
+                aria-valuemax="100">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Warning message if over budget -->
+          <div class="alert alert-danger mt-3 mb-0" *ngIf="isOverBudget">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Warning:</strong> You are over budget by PKR {{ (currentMonthSpent - (currentMonthIncome || 0)) | number:'1.2-2' }}!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Summary Cards - Spendee style -->
   <div class="row mb-4">
     <div class="col-6 col-md-3 mb-3">
@@ -58,12 +139,35 @@
 
   <!-- Charts Section - Spendee style -->
   <div class="row mb-4">
+    <!-- Monthly Budget Chart -->
+    <div class="col-12 col-md-4 mb-4 mb-md-0">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Monthly Budget</h5>
+          <div class="chart-container" style="height: 250px;">
+            <canvas 
+              baseChart
+              [data]="monthlyBudgetChartData"
+              [options]="chartOptions"
+              [type]="budgetChartType">
+            </canvas>
+          </div>
+          <div class="text-center mt-2">
+            <small class="text-muted">
+              <span class="badge bg-primary me-2">Spent</span>
+              <span class="badge bg-info">Remaining</span>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <!-- Category Breakdown - Primary chart -->
-    <div class="col-12 col-md-8 mb-4 mb-md-0">
-      <div class="card border-0 shadow-sm">
+    <div class="col-12 col-md-5 mb-4 mb-md-0">
+      <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
           <h5 class="card-title mb-4">Category Breakdown</h5>
-          <div class="chart-container" style="height: 300px;">
+          <div class="chart-container" style="height: 250px;">
             <canvas 
               baseChart
               [data]="categoryChartData"
@@ -76,11 +180,11 @@
     </div>
     
     <!-- Weekly Expenses - Secondary chart -->
-    <div class="col-12 col-md-4">
-      <div class="card border-0 shadow-sm">
+    <div class="col-12 col-md-3">
+      <div class="card border-0 shadow-sm h-100">
         <div class="card-body">
           <h5 class="card-title mb-4">Weekly Overview</h5>
-          <div class="chart-container" style="height: 300px;">
+          <div class="chart-container" style="height: 250px;">
             <canvas 
               baseChart
               [data]="weeklyChartData"

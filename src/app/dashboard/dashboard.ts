@@ -7,6 +7,7 @@ import { ExpenseCategory } from '../expense-category.enum';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { LineController, BarController, DoughnutController, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+import { IncomeService } from '../income.service';
 
 // Register the chart components we need
 import { Chart } from 'chart.js';
@@ -44,9 +45,17 @@ export class DashboardComponent implements OnInit {
   weeklyExpenses: { day: string; amount: number }[] = [];
   categorySummaries: CategorySummary[] = [];
 
+  // Income and budget tracking
+  currentMonthIncome: number | null = null;
+  currentMonthSpent: number = 0;
+  remainingBudget: number = 0;
+  percentageUsed: number = 0;
+  isOverBudget: boolean = false;
+
   // Chart configuration
   public weeklyChartType: ChartType = 'line';
   public categoryChartType: ChartType = 'doughnut';
+  public budgetChartType: ChartType = 'doughnut';
   
   public weeklyChartData: ChartData<'line'> = {
     labels: [],
@@ -71,12 +80,33 @@ export class DashboardComponent implements OnInit {
     }]
   };
 
+  public monthlyBudgetChartData: ChartData<'doughnut'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: [
+        '#36A2EB', '#4BC0C0' // Blue for spent, Teal for remaining
+      ]
+    }]
+  };
+
   public chartOptions: ChartConfiguration['options'] = {
     responsive: true,
     maintainAspectRatio: false
   };
 
-  constructor(private expenseService: ExpenseService) {}
+  currentYear: number = new Date().getFullYear();
+  currentMonth: number = new Date().getMonth() + 1; // getMonth() returns 0-11, so add 1
+  
+  // Make Math available to the template
+  Math = Math;
+  // Income and budget tracking
+
+
+  constructor(
+    private expenseService: ExpenseService,
+    private incomeService: IncomeService
+  ) {}
 
   ngOnInit(): void {
     this.loadDashboardData();
@@ -84,8 +114,19 @@ export class DashboardComponent implements OnInit {
 
   loadDashboardData(): void {
     this.expenses = this.expenseService.getExpenses();
+    this.loadIncomeData();
     this.calculateDashboardStats();
     this.updateCharts();
+  }
+
+  private loadIncomeData(): void {
+    // Load current month's income and spending
+    const monthlyIncome = this.incomeService.getMonthlyIncome(this.currentYear, this.currentMonth);
+    this.currentMonthIncome = monthlyIncome ? monthlyIncome.amount : null;
+    this.currentMonthSpent = this.incomeService.getMonthlySpent(this.currentYear, this.currentMonth);
+    this.remainingBudget = this.incomeService.getRemainingBudget(this.currentYear, this.currentMonth);
+    this.percentageUsed = this.incomeService.getPercentageUsed(this.currentYear, this.currentMonth);
+    this.isOverBudget = this.incomeService.isOverBudget(this.currentYear, this.currentMonth);
   }
 
   private calculateDashboardStats(): void {
@@ -139,6 +180,25 @@ export class DashboardComponent implements OnInit {
     // Update category chart data
     this.categoryChartData.labels = this.categorySummaries.map(item => item.category);
     this.categoryChartData.datasets[0].data = this.categorySummaries.map(item => item.total);
+
+    // Update monthly budget chart data
+    if (this.currentMonthIncome !== null) {
+      this.monthlyBudgetChartData.labels = ['Spent', 'Remaining'];
+      this.monthlyBudgetChartData.datasets[0].data = [
+        this.currentMonthSpent,
+        Math.max(0, this.currentMonthIncome - this.currentMonthSpent)
+      ];
+      
+      // Update colors based on over-budget status
+      this.monthlyBudgetChartData.datasets[0].backgroundColor = [
+        this.isOverBudget ? '#dc3545' : '#36A2EB',  // Red if over budget, blue if under
+        this.isOverBudget ? '#ffc107' : '#4BC0C0'   // Yellow if over budget, teal if under
+      ];
+    } else {
+      this.monthlyBudgetChartData.labels = ['No Income Set'];
+      this.monthlyBudgetChartData.datasets[0].data = [1];
+      this.monthlyBudgetChartData.datasets[0].backgroundColor = ['#999999'];
+    }
   }
 
   getTopCategory(): CategorySummary | null {
