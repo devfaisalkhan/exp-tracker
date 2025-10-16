@@ -2,20 +2,19 @@ import { Injectable } from '@angular/core';
 import { Expense } from './expense.model';
 import { ToastService } from './toast.service';
 import { IncomeService } from './income.service';
+import { AppConstant } from './app.constant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpenseService {
-  private localStorageKey = 'expenses';
-
   constructor(
     private toastService: ToastService,
     private incomeService: IncomeService
   ) { }
 
   private loadExpenses(): Expense[] {
-    const stored = localStorage.getItem(this.localStorageKey);
+    const stored = localStorage.getItem(AppConstant.KEY_EXPENSES);
     if (stored) {
       const expenses = JSON.parse(stored);
       // Ensure dates are properly converted to Date objects
@@ -30,7 +29,7 @@ export class ExpenseService {
   }
 
   private saveExpenses(expenses: Expense[]) {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(expenses));
+    localStorage.setItem(AppConstant.KEY_EXPENSES, JSON.stringify(expenses));
   }
 
   getExpenses(): Expense[] {

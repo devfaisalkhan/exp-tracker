@@ -11,7 +11,7 @@ import { ToastService } from '../toast.service';
   templateUrl: './set-monthly-income.html',
   styleUrls: ['./set-monthly-income.scss']
 })
-export class SetMonthlyIncomeComponent implements OnInit {
+export class SetMonthlyIncomeComponent implements OnInit { 
   incomeForm!: FormGroup;
   currentMonthIncome: number | null = null;
   currentYear: number = new Date().getFullYear();
@@ -36,7 +36,7 @@ export class SetMonthlyIncomeComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private incomeService: IncomeService,
+    public incomeService: IncomeService,
     private toastService: ToastService
   ) {
     // Generate years array (current year and next 5 years)
@@ -85,7 +85,7 @@ export class SetMonthlyIncomeComponent implements OnInit {
     }
   }
 
-  private getMonthName(month: number): string {
+  public getMonthName(month: number): string {
     return this.months.find(m => m.value === month)?.name || '';
   }
 

@@ -2,17 +2,16 @@ import { Injectable } from '@angular/core';
 import { Budget } from './enhanced-expense.model';
 import { ExpenseCategory } from './expense-category.enum';
 import { ToastService } from './toast.service';
+import { AppConstant } from './app.constant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  private localStorageKey = 'budgets';
-
   constructor(private toastService: ToastService) { }
 
   private loadBudgets(): Budget[] {
-    const stored = localStorage.getItem(this.localStorageKey);
+    const stored = localStorage.getItem(AppConstant.KEY_BUDGETS);
     if (stored) {
       const budgets = JSON.parse(stored);
       return budgets.map((budget: any) => ({
@@ -27,7 +26,7 @@ export class BudgetService {
   }
 
   private saveBudgets(budgets: Budget[]) {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(budgets));
+    localStorage.setItem(AppConstant.KEY_BUDGETS, JSON.stringify(budgets));
   }
 
   getBudgets(): Budget[] {

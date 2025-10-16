@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { MonthlyIncome } from './income.model';
 import { Expense } from './expense.model';
+import { AppConstant } from './app.constant';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncomeService {
-  private incomeStorageKey = 'monthlyIncome';
   private expensesStorageKey = 'expenses'; // Using the same key as expense service
 
   constructor() { }
 
   private loadMonthlyIncome(): MonthlyIncome[] {
-    const stored = localStorage.getItem(this.incomeStorageKey);
+    const stored = localStorage.getItem(AppConstant.KEY_INCOME);
     if (stored) {
       const income = JSON.parse(stored);
       return income.map((item: any) => ({
@@ -25,7 +25,7 @@ export class IncomeService {
   }
 
   private saveMonthlyIncome(income: MonthlyIncome[]) {
-    localStorage.setItem(this.incomeStorageKey, JSON.stringify(income));
+    localStorage.setItem(AppConstant.KEY_INCOME, JSON.stringify(income));
   }
 
   getMonthlyIncome(year: number, month: number): MonthlyIncome | undefined {
@@ -78,7 +78,7 @@ export class IncomeService {
 
   // Calculate total expenses for a specific month
   getMonthlyExpenses(year: number, month: number): Expense[] {
-    const stored = localStorage.getItem(this.expensesStorageKey);
+    const stored = localStorage.getItem(AppConstant.KEY_EXPENSES);
     if (stored) {
       const expenses = JSON.parse(stored);
       return expenses
