@@ -22,26 +22,62 @@ export class App implements OnInit {
   ) {}
   
   ngOnInit() {
+    console.log('App component initialized');
+    
     this.networkService.networkStatus$.subscribe(status => {
       this.isOnline = status;
+      console.log('Network status changed:', status ? 'Online' : 'Offline');
     });
     
     // Check if install prompt is available
     // The beforeinstallprompt event might not fire immediately, so we'll check periodically
-    window.addEventListener('beforeinstallprompt', () => {
-      this.showInstallButton = this.pwaService.isInstallable();
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('beforeinstallprompt event fired');
+      this.showInstallButton = this.pwaService.isInstallable() && !this.hasSeenInstallBanner();
+      console.log('Install button visibility after event:', this.showInstallButton);
     });
     
-    // Also check after a delay in case the event already fired
-    setTimeout(() => {
-      if (!this.showInstallButton) {
-        this.showInstallButton = this.pwaService.isInstallable();
+    // Also listen to appinstalled event
+    window.addEventListener('appinstalled', () => {
+      console.log('App was installed');
+      this.showInstallButton = false; // Hide the install button after installation
+      this.setInstallBannerSeen(); // Remember that user installed the app
+    });
+    
+    // Check periodically if installable
+    const checkInstallability = () => {
+      const isInstallable = this.pwaService.isInstallable();
+      const canInstall = this.pwaService.canInstall();
+      
+      console.log('Periodic install check - isInstallable:', isInstallable, 'canInstall:', canInstall, 'hasSeenBanner:', this.hasSeenInstallBanner());
+      
+      if (canInstall && !this.hasSeenInstallBanner()) {
+        this.showInstallButton = true;
+        console.log('Install button now shown');
       }
-    }, 2000);
+    };
+    
+    // Check immediately
+    setTimeout(() => {
+      checkInstallability();
+    }, 1000);
+    
+    // Check every 5 seconds to see if installable
+    setInterval(checkInstallability, 5000);
   }
   
   installPWA() {
+    console.log('Install PWA button clicked');
+    this.setInstallBannerSeen(); // Mark that user interacted with install
     this.pwaService.showInstallPrompt();
+  }
+  
+  private hasSeenInstallBanner(): boolean {
+    return localStorage.getItem('installBannerSeen') === 'true';
+  }
+  
+  private setInstallBannerSeen(): void {
+    localStorage.setItem('installBannerSeen', 'true');
   }
   
   isActiveRoute(route: string): boolean {

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { UserService } from '../user.service';
 import { User } from '../enhanced-expense.model';
+import { PWAService } from '../pwa.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -24,15 +25,22 @@ export class UserProfileComponent implements OnInit {
     { value: 'EUR', label: 'Euro (EUR)' },
     { value: 'GBP', label: 'British Pound (GBP)' }
   ];
+  showInstallButton = false;
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private pwaService: PWAService
   ) {}
 
   ngOnInit(): void {
     this.user = this.userService.getUser();
     this.initForm();
+    
+    // Check if install is possible
+    this.showInstallButton = this.pwaService.canInstall();
+    
+    console.log('Profile component - show install button:', this.showInstallButton);
   }
 
   private initForm(): void {
@@ -62,5 +70,10 @@ export class UserProfileComponent implements OnInit {
       
       alert('Profile updated successfully!');
     }
+  }
+  
+  installPWA(): void {
+    console.log('Manual install triggered from profile');
+    this.pwaService.showInstallPrompt();
   }
 }
