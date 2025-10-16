@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --configuration production --base-href /exp-tracker/",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "deploy": "ng build --configuration production --base-href /exp-tracker/ && npx gh-pages -d dist/exp-tracker/browser"
   },
   "prettier": {
     "printWidth": 100,
@@ -31,6 +32,7 @@
     "@angular/service-worker": "^20.1.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
+    "gh-pages": "^6.3.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
