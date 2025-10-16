@@ -27,13 +27,10 @@ export class PWAService {
       e.preventDefault();
       // Stash the event so it can be triggered later
       this.deferredPrompt = e as BeforeInstallPromptEvent;
-      console.log('Install prompt event captured and deferred');
-      console.log('PWA is now installable');
     });
     
     // Listen to the install event
     window.addEventListener('appinstalled', () => {
-      console.log('PWA was installed');
       this.deferredPrompt = null; // Clear the deferred prompt as it's no longer needed
     });
   }
@@ -43,16 +40,13 @@ export class PWAService {
     this.isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
                        (navigator as any).standalone || 
                        document.referrer.includes('android-app://');
-    console.log('App is running in standalone mode:', this.isStandalone);
   }
 
   public showInstallPrompt(): Promise<void> | undefined {
     if (this.deferredPrompt) {
-      console.log('Showing install prompt to user');
       // Show the install prompt
       return this.deferredPrompt.prompt();
     }
-    console.log('No install prompt available, showing manual installation instructions');
     if (!this.hasShownInstallInstructions()) {
       this.showManualInstallInstructions();
       this.setInstallInstructionsShown();
@@ -77,9 +71,6 @@ export class PWAService {
 
   public isInstallable(): boolean {
     const installable = this.deferredPrompt !== null && !this.isStandalone;
-    console.log('PWA installability status:', installable);
-    console.log('Deferred prompt exists:', this.deferredPrompt !== null);
-    console.log('App is standalone:', this.isStandalone);
     return installable;
   }
 
@@ -90,7 +81,6 @@ export class PWAService {
   public async getInstallPromptResult(): Promise<{ outcome: 'accepted' | 'dismissed'; platform: string } | null> {
     if (this.deferredPrompt) {
       const choiceResult = await this.deferredPrompt.userChoice;
-      console.log('Install prompt result:', choiceResult);
       this.deferredPrompt = null;
       return choiceResult;
     }
@@ -109,8 +99,6 @@ export class PWAService {
     // Check if we're in a browser that supports PWA installation
     const supportsPWA = 'serviceWorker' in navigator && 'PushManager' in window;
     const isNotStandalone = !this.isInStandaloneMode();
-    
-    console.log('PWA support check:', { supportsPWA, isNotStandalone, deferredPromptExists: this.deferredPrompt !== null });
     
     // Return true if we can show manual install instructions
     return supportsPWA && isNotStandalone;
