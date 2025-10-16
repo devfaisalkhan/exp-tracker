@@ -1,29 +1,36 @@
-<!-- Top navbar for mobile app -->
-<!-- <nav class="navbar navbar-expand-md navbar-light bg-primary bg-gradient text-white sticky-top d-md-none">
-  <div class="container-fluid">
-    <a class="navbar-brand text-white fw-bold" href="#">Expense Tracker</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon text-white"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            More
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
-            <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active">Settings</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Sign Out</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> -->
+<!-- Show install banner on mobile if installable -->
+<div class="alert alert-info text-center py-2 m-0" 
+     *ngIf="showInstallButton && !isOnline" 
+     style="position: sticky; top: 0; z-index: 1050; border-radius: 0; background-color: #e7f3ff;">
+  <small>
+    <i class="bi bi-download me-1"></i> 
+    Install Expense Tracker for offline use
+    <button class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button>
+  </small>
+</div>
+
+<!-- Show install button on mobile if installable but not offline banner -->
+<div class="alert alert-info text-center py-2 m-0" 
+     *ngIf="showInstallButton && isOnline" 
+     style="position: sticky; top: 0; z-index: 1050; border-radius: 0; background-color: #e7f3ff;">
+  <small>
+    <i class="bi bi-download me-1"></i> 
+    Install Expense Tracker app for offline use
+    <button class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button>
+  </small>
+</div>
+
+<!-- Online/Offline indicator -->
+<div class="alert alert-warning text-center py-1 m-0" 
+     *ngIf="!isOnline && !showInstallButton" 
+     style="position: sticky; top: 0; z-index: 1049; border-radius: 0;">
+  <small><i class="bi bi-wifi-off me-1"></i> You are offline. Data may not be up to date.</small>
+</div>
+
 
 <!-- Desktop navbar (hidden on mobile) -->
-<nav class="navbar navbar-expand-md navbar-light bg-primary bg-gradient text-white sticky-top d-none d-md-block">
+<nav class="navbar navbar-expand-md navbar-light bg-primary bg-gradient text-white sticky-top d-none d-md-block"
+     [ngClass]="{'mt-3': (!isOnline && !showInstallButton) || (isOnline && !showInstallButton), 'mt-4': showInstallButton}">
   <div class="container-fluid">
     <a class="navbar-brand text-white fw-bold" href="#">Expense Tracker</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,27 +74,28 @@
 <div class="mobile-nav d-block d-md-none fixed-bottom">
   <div class="nav d-flex justify-content-around align-items-center py-2 bg-white border-top shadow">
     <a routerLink="/dashboard" 
-       routerLinkActive="active" 
-       class="nav-link text-center flex-column d-flex align-items-center justify-content-center" 
-       >
+       routerLinkActive="active-nav"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
       <i class="bi bi-house-door fs-5 mb-1"></i>
       <span class="small">Home</span>
     </a>
     <a routerLink="/add" 
-       routerLinkActive="active" 
-       class="nav-link text-center flex-column d-flex align-items-center justify-content-center" >
+       routerLinkActive="active-nav"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
       <i class="bi bi-plus-circle fs-5 mb-1"></i>
       <span class="small">Add</span>
     </a>
     <a routerLink="/expenses" 
-       routerLinkActive="active" 
-       class="nav-link text-center flex-column d-flex align-items-center justify-content-center" >
+       routerLinkActive="active-nav"
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
       <i class="bi bi-receipt fs-5 mb-1"></i>
       <span class="small">Expenses</span>
     </a>
     <a routerLink="/budgets" 
-       routerLinkActive="active" 
-       class="nav-link text-center flex-column d-flex align-items-center justify-content-center" >
+       routerLinkActive="active-nav"
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
       <i class="bi bi-wallet2 fs-5 mb-1"></i>
       <span class="small">Budget</span>
     </a>

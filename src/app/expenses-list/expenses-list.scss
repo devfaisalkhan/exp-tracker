@@ -1,18 +1,19 @@
 /* Mobile-friendly expense list styling */
-.container {
+.container-fluid {
   padding: 0.75rem;
 }
 
 h2 {
   font-size: 1.4rem;
+  font-weight: 600;
   margin-bottom: 1rem;
-  text-align: center;
 }
 
 .card {
   margin-bottom: 1rem;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: none;
 }
 
 .card-body {
@@ -22,6 +23,7 @@ h2 {
 .form-label {
   font-weight: 500;
   margin-bottom: 0.25rem;
+  font-size: 0.85rem;
 }
 
 .form-select, .form-control {
@@ -30,29 +32,34 @@ h2 {
   padding: 0.5rem;
 }
 
-.table {
-  margin: 0;
-  font-size: 0.85rem;
+.list-group-item {
+  border: none;
+  padding: 12px 0;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid #eee;
+  }
 }
 
-.table th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  padding: 0.75rem 0.5rem;
+.text-xs {
+  font-size: 0.75rem;
 }
 
-.table td {
-  padding: 0.75rem 0.5rem;
-  border-top: 1px solid #e9ecef;
+.bg-opacity-10 {
+  --bs-bg-opacity: 0.1;
+  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.text-danger {
+  color: #e63946 !important;
 }
 
 .badge {
-  font-size: 0.75rem;
-  padding: 0.3rem 0.5rem;
+  font-weight: 400;
 }
 
-.btn-danger {
-  padding: 0.4rem 0.6rem;
+.btn-sm {
+  padding: 0.25rem 0.5rem;
   font-size: 0.8rem;
 }
 
@@ -69,7 +76,7 @@ h2 {
 
 /* Mobile-specific adjustments */
 @media (max-width: 576px) {
-  .container {
+  .container-fluid {
     padding: 0.5rem;
   }
   
@@ -95,21 +102,17 @@ h2 {
     font-size: 0.9rem;
   }
   
-  .table {
+  .btn-sm {
     font-size: 0.75rem;
-  }
-  
-  .table th, .table td {
-    padding: 0.5rem 0.25rem;
-  }
-  
-  .btn-danger {
-    padding: 0.3rem 0.45rem;
-    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
   }
   
   .btn {
     font-size: 0.85rem;
     padding: 0.4rem 0.6rem;
+  }
+  
+  .text-xs {
+    font-size: 0.7rem;
   }
 }
