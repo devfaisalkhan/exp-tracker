@@ -74,4 +74,5 @@ export class App implements OnInit {
   isActiveRoute(route: string): boolean {
     return this.router.url.includes(route);
   }
+  
 }
