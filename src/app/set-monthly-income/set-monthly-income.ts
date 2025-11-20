@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule } from '@angular/common';
 import { IncomeService } from '../income.service';
 import { ToastService } from '../toast.service';
+import { ExpenseService } from '../expense.service';
 
 @Component({
   selector: 'app-set-monthly-income',
@@ -37,7 +38,8 @@ export class SetMonthlyIncomeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public incomeService: IncomeService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    public expenseService: ExpenseService
   ) {
     // Generate years array (current year and next 5 years)
     const currentYear = new Date().getFullYear();

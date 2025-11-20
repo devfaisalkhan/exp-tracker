@@ -47,7 +47,6 @@ export class ExpenseService {
     };
     expenses.push(newExpense);
     this.saveExpenses(expenses);
-    this.toastService.success('Expense added successfully!');
     return newExpense;
   }
 
@@ -74,10 +73,8 @@ export class ExpenseService {
     if (index !== -1) {
       expenses.splice(index, 1);
       this.saveExpenses(expenses);
-      this.toastService.success('Expense deleted successfully!');
       return true;
     }
-    this.toastService.error('Failed to delete expense!');
     return false;
   }
 
