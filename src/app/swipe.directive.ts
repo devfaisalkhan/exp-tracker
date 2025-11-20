@@ -30,13 +30,6 @@ export class SwipeDirective implements OnInit, OnDestroy {
         threshold: 30 // Minimum distance for swipe recognition
       });
       
-      // Also add a recognizer for the pan gesture to handle more natural swiping
-      const pan = new Hammer.Pan({
-        direction: Hammer.DIRECTION_HORIZONTAL,
-        threshold: 10 // Lower threshold for pan gesture
-      });
-      this.hammer.add(pan);
-      
       this.hammer.on('swipeleft', (event: any) => {
         // Prevent default behavior to avoid conflicts
         event.preventDefault();
@@ -47,21 +40,6 @@ export class SwipeDirective implements OnInit, OnDestroy {
         // Prevent default behavior to avoid conflicts
         event.preventDefault();
         this.swipeRight.emit();
-      });
-      
-      // Handle pan end for more responsive swiping
-      this.hammer.on('panend', (event: any) => {
-        if (Math.abs(event.velocityX) > 0.3) { // Minimum velocity check
-          if (event.velocityX < 0) {
-            // Swiping left
-            event.preventDefault();
-            this.swipeLeft.emit();
-          } else {
-            // Swiping right
-            event.preventDefault();
-            this.swipeRight.emit();
-          }
-        }
       });
     }
   }

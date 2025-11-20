@@ -14,7 +14,6 @@ export class SwipeService {
     '/add', 
     '/expenses',
     '/budgets',
-    '/set-income',
     '/incomes'
   ];
 

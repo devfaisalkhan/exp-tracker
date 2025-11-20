@@ -98,11 +98,19 @@ export class App implements OnInit {
     // console.log('tab changed', event);
   }
   
+  private isSwiping = false;
+
   onSwipeLeft() {
+    if (this.isSwiping) { return; }
+    this.isSwiping = true;
     this.router.navigate([this.swipeService.getNextRoute()]);
+    setTimeout(() => this.isSwiping = false, 300);
   }
 
   onSwipeRight() {
+    if (this.isSwiping) { return; }
+    this.isSwiping = true;
     this.router.navigate([this.swipeService.getPreviousRoute()]);
+    setTimeout(() => this.isSwiping = false, 300);
   }
 }
