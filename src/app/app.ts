@@ -1,22 +1,21 @@
-import { Component, signal, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import { Component, signal, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { NetworkService } from './network.service';
 import { PWAService } from './pwa.service';
 import { ToastComponent } from './toast/toast.component';
 import { CommonModule } from '@angular/common';
-import { SwipeDirective } from './swipe.directive';
 import { SwipeService } from './swipe.service';
 import { filter } from 'rxjs';
 import { DesktopNavComponent } from './desktop-nav/desktop-nav.component';
 import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
+import { SwipeContainerComponent } from './swipe-container.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     CommonModule, 
-    RouterOutlet, 
     ToastComponent, 
-    SwipeDirective, 
+    SwipeContainerComponent,
     DesktopNavComponent,
     MobileNavComponent
   ],
@@ -37,8 +36,6 @@ export class App implements OnInit {
     { path: '/incomes', label: 'Incomes', icon: 'bi-piggy-bank', activeIcon: 'bi-piggy-bank-fill' }
   ];
   selectedIndex = 0;
-  
-  @ViewChild('swipeContainer', { static: false }) swipeContainer!: ElementRef;
 
   constructor(
     public router: Router, 
@@ -100,25 +97,5 @@ export class App implements OnInit {
   
   private setInstallBannerSeen(): void {
     localStorage.setItem('installBannerSeen', 'true');
-  }
-
-  tabChanged(event: any) {
-    // console.log('tab changed', event);
-  }
-  
-  private isSwiping = false;
-
-  onSwipeLeft() {
-    if (this.isSwiping) { return; }
-    this.isSwiping = true;
-    this.router.navigate([this.swipeService.getPreviousRoute()]);
-    setTimeout(() => this.isSwiping = false, 300);
-  }
-
-  onSwipeRight() {
-    if (this.isSwiping) { return; }
-    this.isSwiping = true;
-    this.router.navigate([this.swipeService.getNextRoute()]);
-    setTimeout(() => this.isSwiping = false, 300);
   }
 }

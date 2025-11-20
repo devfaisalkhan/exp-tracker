@@ -15,14 +15,7 @@
 </div>
 
 <!-- Main content with swipe support -->
-<div class="main-content" 
-     #swipeContainer 
-     appSwipe 
-     (swipeLeft)="onSwipeLeft()" 
-     (swiperight)="onSwipeRight()"
-     [enableSwipe]="isMobile">
-  <router-outlet></router-outlet>
-</div>
+<app-swipe-container></app-swipe-container>
 
 <!-- Mobile Bottom Navigation (Material Toolbar, Icon Only) -->
 <div class="d-block d-md-none">

@@ -8,15 +8,20 @@ body {
   background-color: #f8f9fa;
 }
 
-.main-content {
+app-swipe-container {
+  display: block;
+  flex: 1;
   padding-top: 48px; // Height of the desktop tab bar
   padding-bottom: 0; // Reset padding-bottom for desktop
+  height: calc(100vh - 48px);
+  overflow: hidden;
 }
 
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
-  .main-content {
+  app-swipe-container {
     padding-top: 0; // Remove top padding on mobile
     padding-bottom: 56px; // Height of the mobile toolbar
+    height: calc(100vh - 56px);
   }
 }
