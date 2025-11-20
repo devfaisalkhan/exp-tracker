@@ -1,13 +1,15 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NetworkService } from './network.service';
 import { PWAService } from './pwa.service';
 import { ToastComponent } from './toast/toast.component';
 import { CommonModule } from '@angular/common';
+import { SwipeDirective } from './swipe.directive';
+import { SwipeService } from './swipe.service';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent, SwipeDirective],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -15,14 +17,20 @@ export class App implements OnInit {
   protected readonly title = signal('exp-tracker');
   isOnline = true;
   showInstallButton = false;
+  isMobile = false;
   
+  @ViewChild('swipeContainer', { static: false }) swipeContainer!: ElementRef;
+
   constructor(
     public router: Router, 
     private networkService: NetworkService,
-    private pwaService: PWAService
+    private pwaService: PWAService,
+    private swipeService: SwipeService
   ) {}
   
   ngOnInit() {
+    this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     this.networkService.networkStatus$.subscribe(status => {
       this.isOnline = status;
     });
@@ -56,6 +64,13 @@ export class App implements OnInit {
     
     // Check every 5 seconds to see if installable
     setInterval(checkInstallability, 5000);
+    
+    // Update the current route index when the app initializes
+    const currentRoute = this.router.url;
+    const index = this.swipeService.getIndexForRoute(currentRoute);
+    if (index !== -1) {
+      this.swipeService.setCurrentIndex(index);
+    }
   }
   
   installPWA() {
@@ -75,4 +90,15 @@ export class App implements OnInit {
     return this.router.url.includes(route);
   }
   
+  onSwipeLeft() {
+    if (this.isMobile) {
+      this.router.navigate([this.swipeService.getNextRoute()]);
+    }
+  }
+
+  onSwipeRight() {
+    if (this.isMobile) {
+      this.router.navigate([this.swipeService.getPreviousRoute()]);
+    }
+  }
 }

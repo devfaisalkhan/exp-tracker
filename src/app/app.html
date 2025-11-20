@@ -71,8 +71,13 @@
   </div>
 </nav>
 
-<!-- Main content -->
-<div class="main-content">
+<!-- Main content with swipe support -->
+<div class="main-content" 
+     #swipeContainer 
+     appSwipe 
+     (swipeLeft)="onSwipeLeft()" 
+     (swipeRight)="onSwipeRight()"
+     [enableSwipe]="isMobile">
   <router-outlet></router-outlet>
 </div>
 
