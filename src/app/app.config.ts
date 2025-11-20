@@ -7,6 +7,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { HammerModule } from '@angular/platform-browser';
 import { MatTabsModule } from '@angular/material/tabs';
 import { provideZonelessChangeDetection } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +20,7 @@ export const appConfig: ApplicationConfig = {
             registrationStrategy: 'registerWhenStable:30000'
     }),
     SwipeService,
-    importProvidersFrom(HammerModule, MatTabsModule)
+    provideAnimationsAsync('noop'),
+    importProvidersFrom(HammerModule, MatTabsModule, MatToolbarModule, MatIconModule, MatButtonModule)
   ]
 };

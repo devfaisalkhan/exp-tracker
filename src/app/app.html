@@ -9,17 +9,15 @@
   <small><i class="bi bi-wifi-off me-1"></i> You are offline. Data may not be up to date.</small>
 </div>
 
-<!-- Desktop Top Tab Navigation -->
-<div class="d-none d-md-block">
-  <nav mat-tab-nav-bar class="app-tab-nav" [tabPanel]="tabPanel" [selectedIndex]="selectedIndex">
-    <a mat-tab-link *ngFor="let link of links; let i = index"
-       [routerLink]="link.path"
-       [active]="selectedIndex === i">
-      {{ link.label }}
-    </a>
-  </nav>
-  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-</div>
+<!-- Unified Tab Navigation -->
+<nav mat-tab-nav-bar class="app-tab-nav" [backgroundColor]="'primary'">
+  <a mat-tab-link *ngFor="let link of links; let i = index"
+      [routerLink]="link.path"
+      routerLinkActive #rla="routerLinkActive"
+      [active]="rla.isActive"
+      [routerLinkActiveOptions]="{exact: true}">
+          <i class="bi {{ link.icon }}"></i>  </a>
+</nav>
 
 <!-- Main content with swipe support -->
 <div class="main-content" 
@@ -29,20 +27,6 @@
      (swipeRight)="onSwipeRight()"
      [enableSwipe]="isMobile">
   <router-outlet></router-outlet>
-</div>
-
-<!-- Mobile Bottom Navigation -->
-<div class="mobile-nav d-block d-md-none fixed-bottom">
-  <div class="nav d-flex justify-content-around align-items-center py-2 bg-white border-top shadow">
-    <a *ngFor="let link of links"
-       [routerLink]="link.path"
-       routerLinkActive="active-nav"
-       [routerLinkActiveOptions]="{exact: true}"
-       class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
-      <i [class]="'bi ' + link.icon + ' fs-5 mb-1'"></i>
-      <span class="small">{{ link.label }}</span>
-    </a>
-  </div>
 </div>
 
 <!-- Toast notifications -->
