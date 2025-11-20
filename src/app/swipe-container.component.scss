@@ -1,0 +1,66 @@
+.swipe-container {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  /* Allow vertical scrolling while restricting horizontal */
+  overflow-y: auto;
+  /* Use manipulation for better touch handling */
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  position: relative;
+}
+
+.swipe-container ::ng-deep .tab-content {
+  transition: transform 0.3s ease;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+}
+
+/* Visual feedback during swipe */
+.swipe-container:active {
+  transition: none;
+}
+
+/* Add subtle edge indicators for mobile */
+@media (max-width: 768px) {
+  .swipe-container {
+    position: relative;
+  }
+
+  .swipe-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: linear-gradient(to right, rgba(0,0,0,0.1), transparent);
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .swipe-container.swipe-left::before {
+    opacity: 1;
+  }
+
+  .swipe-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: linear-gradient(to left, rgba(0,0,0,0.1), transparent);
+    right: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .swipe-container.swipe-right::after {
+    opacity: 1;
+  }
+}

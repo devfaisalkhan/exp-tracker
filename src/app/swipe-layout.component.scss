@@ -1,0 +1,14 @@
+.swipe-layout-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Only hide overflow at this level */
+}
+
+.layout-content {
+  flex: 1;
+  overflow-y: auto; /* Allow vertical scrolling */
+  -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
+  position: relative; /* Ensure proper positioning context */
+}

@@ -11,13 +11,12 @@ import { MatButtonModule } from '@angular/material/button';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideZonelessChangeDetection(), 
+    provideZonelessChangeDetection(),
     provideRouter(routes, withHashLocation()),
     provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
     }),
-    // SwipeService,
     importProvidersFrom(MatTabsModule, MatToolbarModule, MatIconModule, MatButtonModule)
   ]
 };

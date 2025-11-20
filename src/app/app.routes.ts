@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { SwipeLayoutComponent } from './swipe-layout.component';
 
 export const routes: Routes = [
     {
@@ -11,37 +12,38 @@ export const routes: Routes = [
         loadComponent: () => import('./welcome/welcome').then(m => m.WelcomeComponent)
     },
     {
-        path: 'dashboard',
-        loadComponent: () => import('./dashboard/dashboard').then(m => m.DashboardComponent)
-        // canActivate: [() => import('./welcome.guard').then(m => m.WelcomeGuard)]
-    },
-    {
-        path: 'add',
-        loadComponent: () => import('./add-expense/add-expense').then(m => m.AddExpense)
-        // canActivate: [() => import('./income.guard').then(m => m.IncomeGuard)]
-    },
-    {
-        path: 'expenses',
-        loadComponent: () => import('./expenses-list/expenses-list').then(m => m.ExpensesList)
-        // canActivate: [() => import('./welcome.guard').then(m => m.WelcomeGuard)]
-    },
-    {
-        path: 'budgets',
-        loadComponent: () => import('./budgets/budgets').then(m => m.BudgetsComponent)
-        // canActivate: [() => import('./welcome.guard').then(m => m.WelcomeGuard)]
+        // Group the swipeable routes under a parent layout
+        path: '',
+        component: SwipeLayoutComponent,
+        children: [
+            {
+                path: 'dashboard',
+                loadComponent: () => import('./dashboard/dashboard').then(m => m.DashboardComponent)
+            },
+            {
+                path: 'add',
+                loadComponent: () => import('./add-expense/add-expense').then(m => m.AddExpense)
+            },
+            {
+                path: 'expenses',
+                loadComponent: () => import('./expenses-list/expenses-list').then(m => m.ExpensesList)
+            },
+            {
+                path: 'budgets',
+                loadComponent: () => import('./budgets/budgets').then(m => m.BudgetsComponent)
+            },
+            {
+                path: 'incomes',
+                loadComponent: () => import('./income-list/income-list').then(m => m.IncomeListComponent)
+            }
+        ]
     },
     {
         path: 'set-income',
         loadComponent: () => import('./set-monthly-income/set-monthly-income').then(m => m.SetMonthlyIncomeComponent)
     },
     {
-        path: 'incomes',
-        loadComponent: () => import('./income-list/income-list').then(m => m.IncomeListComponent)
-        // canActivate: [() => import('./welcome.guard').then(m => m.WelcomeGuard)]
-    },
-    {
         path: 'profile',
         loadComponent: () => import('./user-profile/user-profile').then(m => m.UserProfileComponent)
-        // canActivate: [() => import('./welcome.guard').then(m => m.WelcomeGuard)]
     }
 ];

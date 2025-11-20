@@ -8,20 +8,44 @@ body {
   background-color: #f8f9fa;
 }
 
-app-swipe-container {
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* Only hide horizontal overflow to prevent swipe conflicts */
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: calc(100vh - 60px); /* Adjust based on your header height */
+}
+
+app-swipe-layout {
   display: block;
   flex: 1;
-  padding-top: 48px; // Height of the desktop tab bar
-  padding-bottom: 0; // Reset padding-bottom for desktop
-  height: calc(100vh - 48px);
+  height: 100%;
   overflow: hidden;
+}
+
+/* Ensure proper touch behavior for swipe gestures - only on swipe containers */
+app-swipe-container {
+  touch-action: pan-y;
 }
 
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
-  app-swipe-container {
-    padding-top: 0; // Remove top padding on mobile
-    padding-bottom: 56px; // Height of the mobile toolbar
+  .main-content {
+    height: calc(100vh - 56px); /* Adjust for mobile toolbar height */
+  }
+
+  app-swipe-layout {
+    padding-bottom: 56px; /* Space for the mobile toolbar */
     height: calc(100vh - 56px);
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 769px) {
+  app-swipe-layout {
+    padding-top: 48px; /* Space for the desktop navigation */
+    height: calc(100vh - 48px);
   }
 }
