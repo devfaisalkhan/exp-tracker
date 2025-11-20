@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ExpenseService } from '../expense.service';
-import { Expense } from '../expense.model';
+import { Expense } from '../models';
 import { ExpenseCategory } from '../expense-category.enum';
 import { ToastService } from '../toast.service';
 import { IncomeService } from '../income.service';
@@ -53,7 +53,7 @@ export class AddExpense implements OnInit {
     
     if (monthlyIncome) {
       this.currentMonthIncome = monthlyIncome.amount;
-      this.currentMonthSpent = this.incomeService.getMonthlySpent(year, month);
+      this.currentMonthSpent = this.expenseService.getMonthlySpent(year, month);
       this.remainingBudget = this.incomeService.getRemainingBudget(year, month);
       this.percentageUsed = this.incomeService.getPercentageUsed(year, month);
     }
@@ -100,7 +100,7 @@ export class AddExpense implements OnInit {
       
       const monthlyIncome = this.incomeService.getMonthlyIncome(year, month);
       if (monthlyIncome) {
-        const currentSpent = this.incomeService.getMonthlySpent(year, month);
+        const currentSpent = this.expenseService.getMonthlySpent(year, month);
         const newTotal = currentSpent + newExpense.amount;
         
         if (newTotal > monthlyIncome.amount) {

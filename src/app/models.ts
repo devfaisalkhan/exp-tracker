@@ -73,3 +73,7 @@ export interface ExpenseReport {
   generatedAt: Date;
   data: any; // Detailed report data
 }
+
+export interface ExpenseWithBudgetStatus extends Expense {
+  isOverBudget?: boolean; // Added property to track if expense exceeds monthly limit
+}

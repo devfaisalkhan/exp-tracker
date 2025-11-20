@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
 import { MonthlyIncome } from './income.model';
-import { Expense } from './expense.model';
 import { AppConstant } from './app.constant';
+import { StorageService } from './storage.service';
+import { ExpenseService } from './expense.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IncomeService {
-  private expensesStorageKey = 'expenses'; // Using the same key as expense service
 
-  constructor() { }
+  constructor(private storageService: StorageService, private expenseService: ExpenseService) { }
 
   private loadMonthlyIncome(): MonthlyIncome[] {
-    const stored = localStorage.getItem(AppConstant.KEY_INCOME);
+    const stored = this.storageService.getItem(AppConstant.KEY_INCOME);
     if (stored) {
-      const income = JSON.parse(stored);
+      const income = stored;
       return income.map((item: any) => ({
         ...item,
         createdAt: new Date(item.createdAt),
@@ -25,7 +25,7 @@ export class IncomeService {
   }
 
   private saveMonthlyIncome(income: MonthlyIncome[]) {
-    localStorage.setItem(AppConstant.KEY_INCOME, JSON.stringify(income));
+    this.storageService.setItem(AppConstant.KEY_INCOME, income);
   }
 
   getMonthlyIncome(year: number, month: number): MonthlyIncome | undefined {
@@ -75,31 +75,15 @@ export class IncomeService {
     }
     return false;
   }
-
-  // Calculate total expenses for a specific month
-  getMonthlyExpenses(year: number, month: number): Expense[] {
-    const stored = localStorage.getItem(AppConstant.KEY_EXPENSES);
-    if (stored) {
-      const expenses = JSON.parse(stored);
-      return expenses
-        .map((expense: any) => ({
-          ...expense,
-          date: new Date(expense.date),
-          createdAt: new Date(expense.createdAt),
-          updatedAt: new Date(expense.updatedAt)
-        }))
-        .filter((expense: any) => {
-          const expenseDate = new Date(expense.date);
-          return expenseDate.getFullYear() === year && expenseDate.getMonth() + 1 === month;
-        });
-    }
-    return [];
+  
+  // Get all monthly incomes
+  getAllMonthlyIncomes(): MonthlyIncome[] {
+    return this.loadMonthlyIncome();
   }
-
-  // Calculate total spent for a specific month
-  getMonthlySpent(year: number, month: number): number {
-    const expenses = this.getMonthlyExpenses(year, month);
-    return expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  
+  // Format month key
+  private formatMonthKey(year: number, month: number): string {
+    return `${year}-${month.toString().padStart(2, '0')}`;
   }
 
   // Calculate remaining budget for a specific month
@@ -107,7 +91,7 @@ export class IncomeService {
     const monthlyIncome = this.getMonthlyIncome(year, month);
     if (!monthlyIncome) return 0;
 
-    const totalSpent = this.getMonthlySpent(year, month);
+    const totalSpent = this.expenseService.getMonthlySpent(year, month);
     return monthlyIncome.amount - totalSpent;
   }
 
@@ -116,7 +100,7 @@ export class IncomeService {
     const monthlyIncome = this.getMonthlyIncome(year, month);
     if (!monthlyIncome || monthlyIncome.amount === 0) return 0;
 
-    const totalSpent = this.getMonthlySpent(year, month);
+    const totalSpent = this.expenseService.getMonthlySpent(year, month);
     return Math.min(100, (totalSpent / monthlyIncome.amount) * 100);
   }
 
@@ -124,12 +108,7 @@ export class IncomeService {
   isOverBudget(year: number, month: number): boolean {
     return this.getRemainingBudget(year, month) < 0;
   }
-  
-  // Get all monthly incomes
-  getAllMonthlyIncomes(): MonthlyIncome[] {
-    return this.loadMonthlyIncome();
-  }
-  
+
   // Check if a specific expense amount would exceed the monthly budget
   wouldExceedBudget(year: number, month: number, expenseAmount: number): { exceeds: boolean; excessAmount: number } {
     const monthlyIncome = this.getMonthlyIncome(year, month);
@@ -137,7 +116,7 @@ export class IncomeService {
       return { exceeds: false, excessAmount: 0 };
     }
     
-    const currentSpent = this.getMonthlySpent(year, month);
+    const currentSpent = this.expenseService.getMonthlySpent(year, month);
     const newTotal = currentSpent + expenseAmount;
     const excessAmount = newTotal - monthlyIncome.amount;
     
@@ -145,11 +124,5 @@ export class IncomeService {
       exceeds: newTotal > monthlyIncome.amount,
       excessAmount: Math.max(0, excessAmount)
     };
-  }
-  
-  
-  // Format month key
-  private formatMonthKey(year: number, month: number): string {
-    return `${year}-${month.toString().padStart(2, '0')}`;
   }
 }

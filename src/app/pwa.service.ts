@@ -1,13 +1,6 @@
 import { Injectable } from '@angular/core';
-
-export interface BeforeInstallPromptEvent extends Event {
-  readonly platforms: string[];
-  readonly userChoice: Promise<{
-    outcome: 'accepted' | 'dismissed';
-    platform: string;
-  }>;
-  prompt(): Promise<void>;
-}
+import { BeforeInstallPromptEvent } from './before-install-prompt.event';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +9,7 @@ export class PWAService {
   deferredPrompt: BeforeInstallPromptEvent | null = null;
   isStandalone: boolean = false;
 
-  constructor() {
+  constructor(private storageService: StorageService) {
     this.listenForInstallPrompt();
     this.checkStandaloneMode();
   }
@@ -120,14 +113,14 @@ export class PWAService {
   }
   
   private hasShownInstallInstructions(): boolean {
-    return localStorage.getItem('installInstructionsShown') === 'true';
+    return this.storageService.getItem('installInstructionsShown') === 'true';
   }
   
   private setInstallInstructionsShown(): void {
-    localStorage.setItem('installInstructionsShown', 'true');
+    this.storageService.setItem('installInstructionsShown', 'true');
   }
   
   public resetInstallInstructions(): void {
-    localStorage.removeItem('installInstructionsShown');
+    this.storageService.removeItem('installInstructionsShown');
   }
 }

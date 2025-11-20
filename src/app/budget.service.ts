@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Budget } from './enhanced-expense.model';
+import { Budget } from './models';
 import { ExpenseCategory } from './expense-category.enum';
 import { ToastService } from './toast.service';
 import { AppConstant } from './app.constant';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  constructor(private toastService: ToastService) { }
+  constructor(private toastService: ToastService, private storageService: StorageService) { }
 
   private loadBudgets(): Budget[] {
-    const stored = localStorage.getItem(AppConstant.KEY_BUDGETS);
+    const stored = this.storageService.getItem(AppConstant.KEY_BUDGETS);
     if (stored) {
-      const budgets = JSON.parse(stored);
+      const budgets = stored;
       return budgets.map((budget: any) => ({
         ...budget,
         startDate: new Date(budget.startDate),
@@ -26,7 +27,7 @@ export class BudgetService {
   }
 
   private saveBudgets(budgets: Budget[]) {
-    localStorage.setItem(AppConstant.KEY_BUDGETS, JSON.stringify(budgets));
+    this.storageService.setItem(AppConstant.KEY_BUDGETS, budgets);
   }
 
   getBudgets(): Budget[] {

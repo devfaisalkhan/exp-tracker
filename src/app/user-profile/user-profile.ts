@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../user.service';
-import { User } from '../enhanced-expense.model';
 import { PWAService } from '../pwa.service';
+import { User } from '../models';
 
 @Component({
   selector: 'app-user-profile',

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ExpenseService } from '../expense.service';
-import { Expense } from '../expense.model';
 import { ExpenseCategory } from '../expense-category.enum';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
@@ -11,6 +10,7 @@ import { IncomeService } from '../income.service';
 
 // Register the chart components we need
 import { Chart } from 'chart.js';
+import { Expense } from '../models';
 Chart.register(
   LineController,
   BarController,
@@ -123,7 +123,7 @@ export class DashboardComponent implements OnInit {
     // Load current month's income and spending
     const monthlyIncome = this.incomeService.getMonthlyIncome(this.currentYear, this.currentMonth);
     this.currentMonthIncome = monthlyIncome ? monthlyIncome.amount : null;
-    this.currentMonthSpent = this.incomeService.getMonthlySpent(this.currentYear, this.currentMonth);
+    this.currentMonthSpent = this.expenseService.getMonthlySpent(this.currentYear, this.currentMonth);
     this.remainingBudget = this.incomeService.getRemainingBudget(this.currentYear, this.currentMonth);
     this.percentageUsed = this.incomeService.getPercentageUsed(this.currentYear, this.currentMonth);
     this.isOverBudget = this.incomeService.isOverBudget(this.currentYear, this.currentMonth);

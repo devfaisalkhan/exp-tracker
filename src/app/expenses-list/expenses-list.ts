@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Expense } from '../expense.model';
 import { ExpenseService } from '../expense.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExpenseCategory } from '../expense-category.enum';
 import { ToastService } from '../toast.service';
+import { Expense } from '../models';
 
 @Component({
   selector: 'app-expenses-list',

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { BudgetService } from '../budget.service';
 import { ExpenseService } from '../expense.service';
-import { Budget } from '../enhanced-expense.model';
+import { Budget } from '../models';
 import { ExpenseCategory } from '../expense-category.enum';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { User } from './enhanced-expense.model';
+import { User } from './models';
 import { ToastService } from './toast.service';
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,12 @@ export class UserService {
     updatedAt: new Date()
   };
 
-  constructor(private toastService: ToastService) { }
+  constructor(private toastService: ToastService, private storageService: StorageService) { }
 
   private loadUser(): User | null {
-    const stored = localStorage.getItem(this.localStorageKey);
+    const stored = this.storageService.getItem(this.localStorageKey);
     if (stored) {
-      const userData = JSON.parse(stored);
+      const userData = stored;
       return {
         ...userData,
         createdAt: new Date(userData.createdAt),
@@ -33,7 +34,7 @@ export class UserService {
   }
 
   private saveUser(user: User): void {
-    localStorage.setItem(this.localStorageKey, JSON.stringify(user));
+    this.storageService.setItem(this.localStorageKey, user);
   }
 
   getUser(): User {
