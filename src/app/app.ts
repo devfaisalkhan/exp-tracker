@@ -1,15 +1,17 @@
 import { Component, signal, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
 import { NetworkService } from './network.service';
 import { PWAService } from './pwa.service';
 import { ToastComponent } from './toast/toast.component';
 import { CommonModule } from '@angular/common';
 import { SwipeDirective } from './swipe.directive';
 import { SwipeService } from './swipe.service';
+import { MatTabsModule } from '@angular/material/tabs';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent, SwipeDirective],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent, SwipeDirective, MatTabsModule],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -18,6 +20,15 @@ export class App implements OnInit {
   isOnline = true;
   showInstallButton = false;
   isMobile = false;
+
+  links = [
+    { path: '/dashboard', label: 'Dashboard' },
+    { path: '/add', label: 'Add Expense' },
+    { path: '/expenses', label: 'Expenses' },
+    { path: '/budgets', label: 'Budgets' },
+    { path: '/incomes', label: 'Incomes' }
+  ];
+  selectedIndex = 0;
   
   @ViewChild('swipeContainer', { static: false }) swipeContainer!: ElementRef;
 
@@ -36,7 +47,6 @@ export class App implements OnInit {
     });
     
     // Check if install prompt is available
-    // The beforeinstallprompt event might not fire immediately, so we'll check periodically
     window.addEventListener('beforeinstallprompt', (e) => {
       this.showInstallButton = this.pwaService.isInstallable() && !this.hasSeenInstallBanner();
     });
@@ -57,24 +67,22 @@ export class App implements OnInit {
       }
     };
     
-    // Check immediately
-    setTimeout(() => {
-      checkInstallability();
-    }, 1000);
-    
-    // Check every 5 seconds to see if installable
+    setTimeout(checkInstallability, 1000);
     setInterval(checkInstallability, 5000);
     
-    // Update the current route index when the app initializes
-    const currentRoute = this.router.url;
-    const index = this.swipeService.getIndexForRoute(currentRoute);
-    if (index !== -1) {
-      this.swipeService.setCurrentIndex(index);
-    }
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      const index = this.links.findIndex(link => event.urlAfterRedirects.includes(link.path));
+      if (index !== -1) {
+        this.selectedIndex = index;
+        this.swipeService.setCurrentIndex(index);
+      }
+    });
   }
   
   installPWA() {
-    this.setInstallBannerSeen(); // Mark that user interacted with install
+    this.setInstallBannerSeen();
     this.pwaService.showInstallPrompt();
   }
   
@@ -85,20 +93,16 @@ export class App implements OnInit {
   private setInstallBannerSeen(): void {
     localStorage.setItem('installBannerSeen', 'true');
   }
-  
-  isActiveRoute(route: string): boolean {
-    return this.router.url.includes(route);
+
+  tabChanged(event: any) {
+    // console.log('tab changed', event);
   }
   
   onSwipeLeft() {
-    if (this.isMobile) {
-      this.router.navigate([this.swipeService.getNextRoute()]);
-    }
+    this.router.navigate([this.swipeService.getNextRoute()]);
   }
 
   onSwipeRight() {
-    if (this.isMobile) {
-      this.router.navigate([this.swipeService.getPreviousRoute()]);
-    }
+    this.router.navigate([this.swipeService.getPreviousRoute()]);
   }
 }
