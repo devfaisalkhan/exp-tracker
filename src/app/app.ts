@@ -103,14 +103,14 @@ export class App implements OnInit {
   onSwipeLeft() {
     if (this.isSwiping) { return; }
     this.isSwiping = true;
-    this.router.navigate([this.swipeService.getNextRoute()]);
+    this.router.navigate([this.swipeService.getPreviousRoute()]);
     setTimeout(() => this.isSwiping = false, 300);
   }
 
   onSwipeRight() {
     if (this.isSwiping) { return; }
     this.isSwiping = true;
-    this.router.navigate([this.swipeService.getPreviousRoute()]);
+    this.router.navigate([this.swipeService.getNextRoute()]);
     setTimeout(() => this.isSwiping = false, 300);
   }
 }
