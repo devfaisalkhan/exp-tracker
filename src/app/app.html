@@ -1,43 +1,25 @@
-<header class="app-header">
-  <!-- Show install banner on mobile if installable -->
-  <div class="alert alert-info text-center py-2 m-0"
-       *ngIf="showInstallButton && !isOnline"
-       style="position: sticky; top: 0; z-index: 1050; border-radius: 0; background-color: #e7f3ff;">
-    <small>
-      <i class="bi bi-download me-1"></i>
-      Install Expense Tracker for offline use
-      <button class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button>
-    </small>
-  </div>
+<!-- Banners, outside of any nav container -->
+<div class="alert alert-info text-center py-2 m-0" *ngIf="showInstallButton && !isOnline">
+  <small><i class="bi bi-download me-1"></i> Install Expense Tracker for offline use <button class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button></small>
+</div>
+<div class="alert alert-info text-center py-2 m-0" *ngIf="showInstallButton && isOnline">
+  <small><i class="bi bi-download me-1"></i> Install Expense Tracker app for offline use <button class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button></small>
+</div>
+<div class="alert alert-warning text-center py-1 m-0" *ngIf="!isOnline && !showInstallButton">
+  <small><i class="bi bi-wifi-off me-1"></i> You are offline. Data may not be up to date.</small>
+</div>
 
-  <!-- Show install button on mobile if installable but not offline banner -->
-  <div class="alert alert-info text-center py-2 m-0"
-       *ngIf="showInstallButton && isOnline"
-       style="position: sticky; top: 0; z-index: 1050; border-radius: 0; background-color: #e7f3ff;">
-    <small>
-      <i class="bi bi-download me-1"></i>
-      Install Expense Tracker app for offline use
-      <button class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button>
-    </small>
-  </div>
-
-  <!-- Online/Offline indicator -->
-  <div class="alert alert-warning text-center py-1 m-0"
-       *ngIf="!isOnline && !showInstallButton"
-       style="position: sticky; top: 0; z-index: 1049; border-radius: 0;">
-    <small><i class="bi bi-wifi-off me-1"></i> You are offline. Data may not be up to date.</small>
-  </div>
-
-  <nav mat-tab-nav-bar class="app-tab-nav" [tabPanel]="tabPanel" [selectedIndex]="selectedIndex" (selectedTabChange)="tabChanged($event)">
+<!-- Desktop Top Tab Navigation -->
+<div class="d-none d-md-block">
+  <nav mat-tab-nav-bar class="app-tab-nav" [tabPanel]="tabPanel" [selectedIndex]="selectedIndex">
     <a mat-tab-link *ngFor="let link of links; let i = index"
        [routerLink]="link.path"
-       [active]="selectedIndex === i"
-       (click)="selectedIndex = i">
+       [active]="selectedIndex === i">
       {{ link.label }}
     </a>
   </nav>
-</header>
-<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+</div>
 
 <!-- Main content with swipe support -->
 <div class="main-content" 
@@ -47,6 +29,20 @@
      (swipeRight)="onSwipeRight()"
      [enableSwipe]="isMobile">
   <router-outlet></router-outlet>
+</div>
+
+<!-- Mobile Bottom Navigation -->
+<div class="mobile-nav d-block d-md-none fixed-bottom">
+  <div class="nav d-flex justify-content-around align-items-center py-2 bg-white border-top shadow">
+    <a *ngFor="let link of links"
+       [routerLink]="link.path"
+       routerLinkActive="active-nav"
+       [routerLinkActiveOptions]="{exact: true}"
+       class="nav-link text-center flex-column d-flex align-items-center justify-content-center">
+      <i [class]="'bi ' + link.icon + ' fs-5 mb-1'"></i>
+      <span class="small">{{ link.label }}</span>
+    </a>
+  </div>
 </div>
 
 <!-- Toast notifications -->

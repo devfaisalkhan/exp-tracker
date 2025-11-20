@@ -22,11 +22,11 @@ export class App implements OnInit {
   isMobile = false;
 
   links = [
-    { path: '/dashboard', label: 'Dashboard' },
-    { path: '/add', label: 'Add Expense' },
-    { path: '/expenses', label: 'Expenses' },
-    { path: '/budgets', label: 'Budgets' },
-    { path: '/incomes', label: 'Incomes' }
+    { path: '/dashboard', label: 'Dashboard', icon: 'bi-house-door' },
+    { path: '/add', label: 'Add Expense', icon: 'bi-plus-circle' },
+    { path: '/expenses', label: 'Expenses', icon: 'bi-receipt' },
+    { path: '/budgets', label: 'Budgets', icon: 'bi-wallet2' },
+    { path: '/incomes', label: 'Incomes', icon: 'bi-cash-stack' }
   ];
   selectedIndex = 0;
   

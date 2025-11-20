@@ -6,12 +6,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f8f9fa;
-  padding-top: 56px; /* Space for fixed navbar on mobile */
   
   /* PWA standalone mode */
   &.standalone {
     padding-top: 0;
   }
+}
+
+.app-tab-nav {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* PWA specific styles */
@@ -48,11 +52,6 @@ body {
 
 .main-content {
   padding: 0;
-  min-height: calc(100vh - 116px); /* Account for both top and bottom nav on mobile */
-  
-  @media (min-width: 768px) {
-    min-height: calc(100vh - 56px); /* Only account for top nav on desktop */
-  }
 }
 
 /* Container adjustments for mobile */
@@ -128,10 +127,6 @@ body {
 
 /* Mobile-specific media queries */
 @media (max-width: 576px) {
-  body {
-    padding-top: 50px; /* Adjust for smaller mobile navbar */
-  }
-  
   .navbar {
     height: 50px;
     padding: 0.25rem 0.5rem !important;
