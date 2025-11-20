@@ -1,0 +1,35 @@
+:host {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.mobile-bottom-toolbar {
+  height: 56px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0;
+
+  .mat-mdc-button {
+    min-width: 0;
+    padding: 0 8px;
+    flex: 1;
+    
+    .bi {
+      font-size: 1.5rem;
+      color: rgba(0, 0, 0, 0.54); // Default icon color
+    }
+
+    &.active {
+      .bi {
+        color: var(--mat-primary-500, #3f51b5); // Active icon color
+      }
+    }
+  }
+}

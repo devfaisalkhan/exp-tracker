@@ -1,0 +1,10 @@
+<nav mat-tab-nav-bar class="app-tab-nav" [tabPanel]="tabPanel">
+  <a mat-tab-link *ngFor="let link of links; let i = index"
+     [routerLink]="link.path"
+     routerLinkActive #rla="routerLinkActive"
+     [active]="rla.isActive"
+     [routerLinkActiveOptions]="{exact: true}">
+    <i [ngClass]="rla.isActive ? link.activeIcon : link.icon"></i>
+  </a>
+</nav>
+<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

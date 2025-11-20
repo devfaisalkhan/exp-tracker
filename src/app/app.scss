@@ -8,91 +8,15 @@ body {
   background-color: #f8f9fa;
 }
 
-/* PWA specific styles */
-@media all and (display-mode: standalone) {
-  .mobile-bottom-toolbar-container {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-}
-
-/* Default (Desktop) Navigation Styles */
-.app-tab-nav {
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  height: 48px;
-
-  .mat-mdc-tab-link {
-    min-width: 0; // Allow tabs to shrink
-    padding: 0 12px; // Adjust padding
-    
-    .bi {
-      font-size: 1.25rem;
-    }
-
-    &.mdc-tab--active {
-      color: var(--mat-primary-500, #3f51b5); // Active link color
-    }
-  }
-}
-
 .main-content {
   padding-top: 48px; // Height of the desktop tab bar
   padding-bottom: 0; // Reset padding-bottom for desktop
 }
 
-/* Mobile Navigation Styles */
+/* Mobile-specific adjustments */
 @media (max-width: 768px) {
   .main-content {
     padding-top: 0; // Remove top padding on mobile
     padding-bottom: 56px; // Height of the mobile toolbar
   }
-
-  .app-tab-nav {
-    display: none; // Hide desktop nav on mobile
-  }
-
-  .mobile-bottom-toolbar-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background-color: white;
-    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-
-    .mobile-bottom-toolbar {
-      height: 56px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0;
-
-      .mat-mdc-button {
-        min-width: 0;
-        padding: 0 8px;
-        flex: 1;
-        
-        .bi {
-          font-size: 1.5rem;
-          color: rgba(0, 0, 0, 0.54); // Default icon color
-        }
-
-        &.active {
-          .bi {
-            color: var(--mat-primary-500, #3f51b5); // Active icon color
-          }
-        }
-      }
-    }
-  }
-}
-
-/* Common overrides for mat-mdc-button for bottom nav */
-.mat-mdc-button.mat-unthemed {
-  --mat-mdc-button-persistent-ripple-color: transparent;
-  --mat-mdc-button-ripple-color: transparent;
-  --mat-mdc-button-text-color: currentColor; // Inherit color for text
-  --mat-mdc-button-container-color: transparent; // No background
-  --mat-mdc-button-label-text-color: currentColor;
-  --mat-mdc-button-state-layer-color: currentColor;
 }

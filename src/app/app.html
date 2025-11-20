@@ -11,16 +11,7 @@
 
 <!-- Desktop Top Tab Navigation (Icon Only) -->
 <div class="d-none d-md-block">
-  <nav mat-tab-nav-bar class="app-tab-nav">
-    <a mat-tab-link *ngFor="let link of links; let i = index"
-       [routerLink]="link.path"
-       routerLinkActive #rla="routerLinkActive"
-       [active]="rla.isActive"
-       [routerLinkActiveOptions]="{exact: true}">
-      <i class="bi {{ link.icon }}"></i>
-    </a>
-  </nav>
-  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  <app-desktop-nav [links]="links" [selectedIndex]="selectedIndex"></app-desktop-nav>
 </div>
 
 <!-- Main content with swipe support -->
@@ -34,15 +25,8 @@
 </div>
 
 <!-- Mobile Bottom Navigation (Material Toolbar, Icon Only) -->
-<div class="d-block d-md-none mobile-bottom-toolbar-container">
-  <mat-toolbar class="mobile-bottom-toolbar">
-    <a mat-icon-button *ngFor="let link of links"
-       [routerLink]="link.path"
-       routerLinkActive="active"
-       [routerLinkActiveOptions]="{exact: true}">
-      <i class="bi {{ link.icon }}"></i>
-    </a>
-  </mat-toolbar>
+<div class="d-block d-md-none">
+  <app-mobile-nav [links]="links"></app-mobile-nav>
 </div>
 
 <!-- Toast notifications -->

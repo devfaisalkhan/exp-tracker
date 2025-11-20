@@ -1,30 +1,24 @@
 import { Component, signal, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet, NavigationEnd } from '@angular/router';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { NetworkService } from './network.service';
 import { PWAService } from './pwa.service';
 import { ToastComponent } from './toast/toast.component';
 import { CommonModule } from '@angular/common';
 import { SwipeDirective } from './swipe.directive';
 import { SwipeService } from './swipe.service';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { filter } from 'rxjs';
+import { DesktopNavComponent } from './desktop-nav/desktop-nav.component';
+import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     CommonModule, 
     RouterOutlet, 
-    RouterLink, 
-    RouterLinkActive, 
     ToastComponent, 
     SwipeDirective, 
-    MatTabsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule
+    DesktopNavComponent,
+    MobileNavComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -36,11 +30,11 @@ export class App implements OnInit {
   isMobile = false;
 
   links = [
-    { path: '/dashboard', label: 'Dashboard', icon: 'bi-house-door' },
-    { path: '/add', label: 'Add Expense', icon: 'bi-plus-circle' },
-    { path: '/expenses', label: 'Expenses', icon: 'bi-receipt' },
-    { path: '/budgets', label: 'Budgets', icon: 'bi-wallet2' },
-    { path: '/incomes', label: 'Incomes', icon: 'bi-cash-stack' }
+    { path: '/dashboard', label: 'Dashboard', icon: 'bi-house-door', activeIcon: 'bi-house-door-fill' },
+    { path: '/add', label: 'Add Expense', icon: 'bi-plus-circle', activeIcon: 'bi-plus-circle-fill' },
+    { path: '/expenses', label: 'Expenses', icon: 'bi-collection', activeIcon: 'bi-collection-fill' },
+    { path: '/budgets', label: 'Budgets', icon: 'bi-wallet', activeIcon: 'bi-wallet-fill' },
+    { path: '/incomes', label: 'Incomes', icon: 'bi-piggy-bank', activeIcon: 'bi-piggy-bank-fill' }
   ];
   selectedIndex = 0;
   
