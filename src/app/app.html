@@ -11,11 +11,13 @@
 
 <!-- Desktop Top Tab Navigation (Icon Only) -->
 <div class="d-none d-md-block">
-  <app-desktop-nav [links]="links" [selectedIndex]="selectedIndex"></app-desktop-nav>
+  <app-desktop-nav [links]="links"></app-desktop-nav>
 </div>
 
-<!-- Main content with swipe support -->
-<app-swipe-container></app-swipe-container>
+<!-- Main content -->
+<div class="main-content">
+  <router-outlet></router-outlet>
+</div>
 
 <!-- Mobile Bottom Navigation (Material Toolbar, Icon Only) -->
 <div class="d-block d-md-none">

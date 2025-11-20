@@ -1,10 +1,8 @@
 import { ApplicationConfig, isDevMode, importProvidersFrom } from '@angular/core';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
-import { SwipeService } from './swipe.service';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HammerModule } from '@angular/platform-browser';
 import { MatTabsModule } from '@angular/material/tabs';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,7 +17,8 @@ export const appConfig: ApplicationConfig = {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
     }),
-    SwipeService,
-    importProvidersFrom(HammerModule, MatTabsModule, MatToolbarModule, MatIconModule, MatButtonModule)
+    // SwipeService,
+    provideAnimationsAsync('noop'),
+    importProvidersFrom(MatTabsModule, MatToolbarModule, MatIconModule, MatButtonModule)
   ]
 };

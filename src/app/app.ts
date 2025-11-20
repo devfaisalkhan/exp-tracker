@@ -1,23 +1,20 @@
 import { Component, signal, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { NetworkService } from './network.service';
 import { PWAService } from './pwa.service';
 import { ToastComponent } from './toast/toast.component';
 import { CommonModule } from '@angular/common';
-import { SwipeService } from './swipe.service';
-import { filter } from 'rxjs';
 import { DesktopNavComponent } from './desktop-nav/desktop-nav.component';
 import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
-import { SwipeContainerComponent } from './swipe-container.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     CommonModule, 
     ToastComponent, 
-    SwipeContainerComponent,
     DesktopNavComponent,
-    MobileNavComponent
+    MobileNavComponent,
+    RouterOutlet
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -35,13 +32,11 @@ export class App implements OnInit {
     { path: '/budgets', label: 'Budgets', icon: 'bi-wallet', activeIcon: 'bi-wallet-fill' },
     { path: '/incomes', label: 'Incomes', icon: 'bi-piggy-bank', activeIcon: 'bi-piggy-bank-fill' }
   ];
-  selectedIndex = 0;
 
   constructor(
     public router: Router, 
     private networkService: NetworkService,
-    private pwaService: PWAService,
-    private swipeService: SwipeService
+    private pwaService: PWAService
   ) {}
   
   ngOnInit() {
@@ -74,16 +69,6 @@ export class App implements OnInit {
     
     setTimeout(checkInstallability, 1000);
     setInterval(checkInstallability, 5000);
-    
-    this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      const index = this.links.findIndex(link => event.urlAfterRedirects.includes(link.path));
-      if (index !== -1) {
-        this.selectedIndex = index;
-        this.swipeService.setCurrentIndex(index);
-      }
-    });
   }
   
   installPWA() {
