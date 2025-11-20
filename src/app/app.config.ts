@@ -20,7 +20,6 @@ export const appConfig: ApplicationConfig = {
             registrationStrategy: 'registerWhenStable:30000'
     }),
     SwipeService,
-    provideAnimationsAsync('noop'),
     importProvidersFrom(HammerModule, MatTabsModule, MatToolbarModule, MatIconModule, MatButtonModule)
   ]
 };

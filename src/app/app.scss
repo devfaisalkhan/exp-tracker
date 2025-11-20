@@ -10,7 +10,7 @@ body {
 
 /* PWA specific styles */
 @media all and (display-mode: standalone) {
-  .app-tab-nav.fixed-bottom {
+  .mobile-bottom-toolbar-container {
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
@@ -19,73 +19,80 @@ body {
 .app-tab-nav {
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: 48px;
 
-  .bi {
-    display: none; // Hide icons on desktop
+  .mat-mdc-tab-link {
+    min-width: 0; // Allow tabs to shrink
+    padding: 0 12px; // Adjust padding
+    
+    .bi {
+      font-size: 1.25rem;
+    }
+
+    &.mdc-tab--active {
+      color: var(--mat-primary-500, #3f51b5); // Active link color
+    }
   }
 }
 
 .main-content {
   padding-top: 48px; // Height of the desktop tab bar
+  padding-bottom: 0; // Reset padding-bottom for desktop
 }
 
 /* Mobile Navigation Styles */
 @media (max-width: 768px) {
   .main-content {
-    padding-top: 0; // Remove top padding
-    padding-bottom: 60px; // Add padding for bottom nav
+    padding-top: 0; // Remove top padding on mobile
+    padding-bottom: 56px; // Height of the mobile toolbar
   }
 
   .app-tab-nav {
+    display: none; // Hide desktop nav on mobile
+  }
+
+  .mobile-bottom-toolbar-container {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    height: 60px;
+    background-color: white;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
 
-    .bi {
-      display: block; // Show icons on mobile
-      font-size: 1.25rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .tab-label {
-      font-size: 0.75rem;
-      line-height: 1;
-    }
-    
-    // Override Material component styles for bottom nav appearance
-    .mat-mdc-tab-header {
-      --mat-tab-header-height: 60px;
-    }
-
-    .mdc-tab {
-      padding: 0 12px;
-    }
-    
-    .mat-mdc-tab-link {
+    .mobile-bottom-toolbar {
+      height: 56px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
       padding: 0;
-      min-width: 60px;
-      flex: 1;
-      
-      .mdc-tab__content {
-        flex-direction: column;
-        justify-content: center;
-      }
-      
-      // Customize active indicator for bottom nav
-      .mdc-tab-indicator__content--underline {
-        display: none; // Hide the default underline
-      }
-      
-      &.mdc-tab--active {
-        color: var(--mat-primary-500, #3f51b5); // Use Material primary color
 
-        .mdc-tab__text-label, .bi {
-          color: var(--mat-primary-500, #3f51b5);
+      .mat-mdc-button {
+        min-width: 0;
+        padding: 0 8px;
+        flex: 1;
+        
+        .bi {
+          font-size: 1.5rem;
+          color: rgba(0, 0, 0, 0.54); // Default icon color
+        }
+
+        &.active {
+          .bi {
+            color: var(--mat-primary-500, #3f51b5); // Active icon color
+          }
         }
       }
     }
   }
+}
+
+/* Common overrides for mat-mdc-button for bottom nav */
+.mat-mdc-button.mat-unthemed {
+  --mat-mdc-button-persistent-ripple-color: transparent;
+  --mat-mdc-button-ripple-color: transparent;
+  --mat-mdc-button-text-color: currentColor; // Inherit color for text
+  --mat-mdc-button-container-color: transparent; // No background
+  --mat-mdc-button-label-text-color: currentColor;
+  --mat-mdc-button-state-layer-color: currentColor;
 }

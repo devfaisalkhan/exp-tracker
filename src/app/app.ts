@@ -7,11 +7,25 @@ import { CommonModule } from '@angular/common';
 import { SwipeDirective } from './swipe.directive';
 import { SwipeService } from './swipe.service';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent, SwipeDirective, MatTabsModule],
+  imports: [
+    CommonModule, 
+    RouterOutlet, 
+    RouterLink, 
+    RouterLinkActive, 
+    ToastComponent, 
+    SwipeDirective, 
+    MatTabsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule
+  ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
