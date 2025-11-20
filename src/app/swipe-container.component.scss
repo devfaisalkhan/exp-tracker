@@ -10,11 +10,11 @@
   position: relative;
 }
 
-.swipe-container ::ng-deep .tab-content {
-  transition: transform 0.3s ease;
+.swipe-content {
   width: 100%;
-  height: auto;
-  min-height: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.3s ease-out;
 }
 
 /* Visual feedback during swipe */

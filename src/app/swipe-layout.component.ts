@@ -47,9 +47,11 @@ export class SwipeLayoutComponent implements OnInit, OnDestroy {
 
     if (direction === 'left') {
       // Swiping left goes to next tab (e.g., from dashboard to add)
+      // This always moves exactly one position forward
       nextRoute = this.swipeService.getNextRoute();
     } else if (direction === 'right') {
       // Swiping right goes to previous tab
+      // This always moves exactly one position backward
       nextRoute = this.swipeService.getPreviousRoute();
     }
 
@@ -57,8 +59,11 @@ export class SwipeLayoutComponent implements OnInit, OnDestroy {
       const index = this.swipeService.getIndexForRoute(nextRoute);
       if (index !== -1) {
         this.swipeService.setCurrentIndex(index);
-        // Navigate to the new route
-        this.router.navigate([nextRoute]);
+        // Navigate to the new route with animation
+        this.router.navigate([nextRoute], {
+          queryParamsHandling: 'preserve',
+          replaceUrl: true
+        });
       }
     }
   }

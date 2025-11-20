@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden; /* Only hide overflow at this level */
+  position: relative;
 }
 
 .layout-content {
@@ -11,4 +12,23 @@
   overflow-y: auto; /* Allow vertical scrolling */
   -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
   position: relative; /* Ensure proper positioning context */
+
+  /* Add smooth transitions for content changes */
+  transition: all 0.3s ease;
+}
+
+/* Add fade-in animation for new content */
+.layout-content ::ng-deep > * {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0.8;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

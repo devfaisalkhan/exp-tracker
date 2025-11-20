@@ -15,7 +15,6 @@ import { SwipeLayoutComponent } from './swipe-layout.component';
     ToastComponent,
     DesktopNavComponent,
     MobileNavComponent,
-    SwipeLayoutComponent,
     RouterOutlet
   ],
   templateUrl: './app.html',
