@@ -3,11 +3,7 @@ import { provideRouter, withHashLocation } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { MatTabsModule } from '@angular/material/tabs';
 import { provideZonelessChangeDetection } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +13,6 @@ export const appConfig: ApplicationConfig = {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000'
     }),
-    importProvidersFrom(MatTabsModule, MatToolbarModule, MatIconModule, MatButtonModule)
+    importProvidersFrom()
   ]
 };
