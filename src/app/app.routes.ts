@@ -4,7 +4,7 @@ import { SwipeLayoutComponent } from './swipe-layout.component';
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'welcome',
+        redirectTo: 'dashboard',
         pathMatch: 'full'
     },
     {
