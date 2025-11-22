@@ -1,118 +1,64 @@
-/* Mobile-friendly expense list styling */
-.container-fluid {
-  padding: 0.75rem;
-}
+.expense-item {
+  transition: background-color 0.2s;
+  position: relative;
 
-h2 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
 
-.card {
-  margin-bottom: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  border: none;
-}
-
-.card-body {
-  padding: 1rem;
-}
-
-.form-label {
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  font-size: 0.85rem;
-}
-
-.form-select, .form-control {
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
-  padding: 0.5rem;
-}
-
-.list-group-item {
-  border: none;
-  padding: 12px 0;
-  
-  &:not(:last-child) {
-    border-bottom: 1px solid #eee;
+    .expense-actions {
+      opacity: 1;
+    }
   }
 }
 
-.text-xs {
-  font-size: 0.75rem;
+.expense-actions {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-.bg-opacity-10 {
-  --bs-bg-opacity: 0.1;
-  background-color: rgba(var(--bs-dark-rgb), var(--bs-bg-opacity)) !important;
+/* On mobile, actions might need to be always visible or handled differently. 
+   For now, we keep it simple. */
+@media (max-width: 768px) {
+  .expense-actions {
+    position: static;
+    transform: none;
+    opacity: 1;
+    margin-top: 12px;
+    text-align: right;
+  }
 }
 
-.text-danger {
-  color: #e63946 !important;
+.icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.badge {
-  font-weight: 400;
+.bg-white-5 {
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.btn-sm {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.8rem;
+.bg-white-10 {
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.empty-state {
-  text-align: center;
-  padding: 2rem;
-  color: #6c757d;
+.border-white-10 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.empty-state p {
-  margin: 0;
-  font-size: 1rem;
+.text-accent {
+  color: var(--text-accent) !important;
 }
 
-/* Mobile-specific adjustments */
-@media (max-width: 576px) {
-  .container-fluid {
-    padding: 0.5rem;
-  }
-  
-  h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .card-body {
-    padding: 0.75rem;
-  }
-  
-  .row {
-    margin: 0;
-  }
-  
-  .col-md-4, .col-12 {
-    padding: 0.25rem;
-  }
-  
-  .form-select, .form-control {
-    padding: 0.4rem;
-    font-size: 0.9rem;
-  }
-  
-  .btn-sm {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.4rem;
-  }
-  
-  .btn {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.6rem;
-  }
-  
-  .text-xs {
-    font-size: 0.7rem;
-  }
+/* Custom scrollbar for the list if needed */
+.list-group {
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
 }

@@ -1,12 +1,5 @@
 /* Global styles */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #f8f9fa;
-}
+/* Body styles are handled in styles.scss */
 
 .main-content {
   flex: 1;
@@ -15,7 +8,10 @@ body {
   /* Only hide horizontal overflow to prevent swipe conflicts */
   overflow-x: hidden;
   overflow-y: auto;
-  height: calc(100vh - 60px); /* Adjust based on your header height */
+  height: calc(100vh - 60px);
+  /* Adjust based on your header height */
+  position: relative;
+  z-index: 1;
 }
 
 app-swipe-layout {
@@ -33,11 +29,13 @@ app-swipe-container {
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
   .main-content {
-    height: calc(100vh - 56px); /* Adjust for mobile toolbar height */
+    height: calc(100vh - 56px);
+    /* Adjust for mobile toolbar height */
   }
 
   app-swipe-layout {
-    padding-bottom: 56px; /* Space for the mobile toolbar */
+    padding-bottom: 56px;
+    /* Space for the mobile toolbar */
     height: calc(100vh - 56px);
   }
 }
@@ -45,7 +43,8 @@ app-swipe-container {
 /* Desktop adjustments */
 @media (min-width: 769px) {
   app-swipe-layout {
-    padding-top: 48px; /* Space for the desktop navigation */
+    padding-top: 48px;
+    /* Space for the desktop navigation */
     height: calc(100vh - 48px);
   }
 }

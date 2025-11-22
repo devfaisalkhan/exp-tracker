@@ -1,52 +1,60 @@
-/* Mobile-friendly form styling */
-.container {
-  max-width: 100%;
-  padding: 1rem;
-  margin: 0 auto;
-}
+.form-control,
+.form-select {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
 
-.form-control, .form-select {
-  margin-bottom: 0.75rem;
-  border-radius: 12px;
-  border: 2px solid #e9ecef;
-  padding: 0.8rem 1rem;
-  font-size: 1rem;
-  transition: border-color 0.2s;
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-}
-
-.form-label {
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-  display: block;
-}
-
-.btn-primary {
-  width: 100%;
-  padding: 0.8rem;
-  font-size: 1.1rem;
-  border-radius: 12px;
-  margin-top: 1rem;
-}
-
-@media (max-width: 576px) {
-  .container {
-    padding: 0.75rem;
+  &:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--text-accent);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    color: white;
   }
-  
-  .form-control, .form-select {
-    padding: 0.7rem 0.8rem;
-    font-size: 0.95rem;
-    margin-bottom: 0.6rem;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.3);
   }
-  
-  .btn-primary {
-    padding: 0.7rem;
-    font-size: 1rem;
-    margin-top: 0.75rem;
+}
+
+.input-group-text {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: none;
+}
+
+.form-control:focus+.input-group-text,
+.form-control:focus~.input-group-text {
+  border-color: var(--text-accent);
+}
+
+/* Custom select styling for dark mode options */
+select option {
+  background-color: #1e293b;
+  color: white;
+  padding: 10px;
+}
+
+/* Remove default appearance for cleaner look */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-2px);
   }
 }

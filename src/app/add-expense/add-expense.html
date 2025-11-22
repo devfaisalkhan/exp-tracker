@@ -1,150 +1,158 @@
-<div class="container">
-  <h2 class="mb-4">Add New Expense</h2>
-  
-  <div class="alert alert-warning" *ngIf="!hasMonthlyIncome">
-    <h5><i class="bi bi-exclamation-triangle-fill me-2"></i>Monthly Income Not Set</h5>
-    <p class="mb-3">Please set your monthly income before adding expenses to track your budget.</p>
-    <a routerLink="/set-income" class="btn btn-primary">Set Monthly Income</a>
+<div class="container-fluid dashboard-container">
+  <div class="d-flex align-items-center mb-4">
+    <a routerLink="/dashboard" class="btn btn-icon btn-sm me-3 text-white">
+      <i class="bi bi-arrow-left fs-4"></i>
+    </a>
+    <h2 class="mb-0 fw-bold text-gradient">Add Expense</h2>
   </div>
-  
-  <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate *ngIf="hasMonthlyIncome">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input type="text" 
-                 class="form-control form-control-lg" 
-                 id="title" 
-                 formControlName="title">
-          <div *ngIf="expenseForm.get('title')?.invalid && expenseForm.get('title')?.touched" class="text-danger mt-1">
+
+  <div class="alert alert-warning glass-card border-warning text-warning mb-4" *ngIf="!hasMonthlyIncome">
+    <div class="d-flex">
+      <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+      <div>
+        <h5 class="alert-heading fw-bold">Budget Not Set</h5>
+        <p class="mb-3 small">Please set your monthly income before adding expenses to track your budget effectively.
+        </p>
+        <a routerLink="/set-income" class="btn btn-sm btn-warning text-dark fw-bold">Set Income</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center" *ngIf="hasMonthlyIncome">
+    <div class="col-12 col-lg-8">
+      <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()" class="glass-card p-4" novalidate>
+
+        <!-- Title Input -->
+        <div class="mb-4">
+          <label for="title" class="form-label text-secondary small text-uppercase fw-bold">Title</label>
+          <div class="input-group">
+            <span class="input-group-text bg-transparent border-end-0 text-accent">
+              <i class="bi bi-type"></i>
+            </span>
+            <input type="text" class="form-control form-control-lg bg-transparent text-white border-start-0 ps-0"
+              id="title" formControlName="title" placeholder="What did you buy?">
+          </div>
+          <div *ngIf="expenseForm.get('title')?.invalid && expenseForm.get('title')?.touched"
+            class="text-danger small mt-1">
             Title is required
           </div>
         </div>
-      </div>
-      
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="amount" class="form-label">Amount (PKR)</label>
-          <input type="number" 
-                 class="form-control form-control-lg" 
-                 id="amount" 
-                 formControlName="amount" 
-                 min="0.01" 
-                 step="0.01">
-          <div *ngIf="expenseForm.get('amount')?.invalid && expenseForm.get('amount')?.touched" class="text-danger mt-1">
-            Amount is required
+
+        <div class="row">
+          <!-- Amount Input -->
+          <div class="col-md-6 mb-4">
+            <label for="amount" class="form-label text-secondary small text-uppercase fw-bold">Amount</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 text-accent">
+                <span class="fw-bold">PKR</span>
+              </span>
+              <input type="number" class="form-control form-control-lg bg-transparent text-white border-start-0 ps-0"
+                id="amount" formControlName="amount" min="0.01" step="0.01" placeholder="0.00">
+            </div>
+            <div *ngIf="expenseForm.get('amount')?.invalid && expenseForm.get('amount')?.touched"
+              class="text-danger small mt-1">
+              Amount is required
+            </div>
+          </div>
+
+          <!-- Date Input -->
+          <div class="col-md-6 mb-4">
+            <label for="date" class="form-label text-secondary small text-uppercase fw-bold">Date</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 text-accent">
+                <i class="bi bi-calendar-event"></i>
+              </span>
+              <input type="date" class="form-control form-control-lg bg-transparent text-white border-start-0 ps-0"
+                id="date" formControlName="date">
+            </div>
+            <div *ngIf="expenseForm.get('date')?.invalid && expenseForm.get('date')?.touched"
+              class="text-danger small mt-1">
+              Date is required
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="date" class="form-label">Date</label>
-          <input type="date" 
-                 class="form-control form-control-lg" 
-                 id="date" 
-                 formControlName="date">
-          <div *ngIf="expenseForm.get('date')?.invalid && expenseForm.get('date')?.touched" class="text-danger mt-1">
-            Date is required
+
+        <div class="row">
+          <!-- Category Select -->
+          <div class="col-md-6 mb-4">
+            <label for="category" class="form-label text-secondary small text-uppercase fw-bold">Category</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 text-accent">
+                <i class="bi bi-tag"></i>
+              </span>
+              <select class="form-select form-select-lg bg-transparent text-white border-start-0 ps-0" id="category"
+                formControlName="category">
+                <option value="" disabled selected>Select Category</option>
+                <option *ngFor="let category of expenseCategories" [value]="category" class="text-dark">{{category}}
+                </option>
+              </select>
+            </div>
+            <div *ngIf="expenseForm.get('category')?.invalid && expenseForm.get('category')?.touched"
+              class="text-danger small mt-1">
+              Please select a category
+            </div>
+          </div>
+
+          <!-- Payment Method Select -->
+          <div class="col-md-6 mb-4">
+            <label for="paymentMethod" class="form-label text-secondary small text-uppercase fw-bold">Payment
+              Method</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 text-accent">
+                <i class="bi bi-credit-card"></i>
+              </span>
+              <select class="form-select form-select-lg bg-transparent text-white border-start-0 ps-0"
+                id="paymentMethod" formControlName="paymentMethod">
+                <option value="" disabled selected>Select Method</option>
+                <option *ngFor="let method of paymentMethods" [value]="method" class="text-dark">{{method}}</option>
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="category" class="form-label">Category</label>
-          <select class="form-select form-select-lg" 
-                  id="category" 
-                  formControlName="category">
-            <option value="" disabled>Select a category</option>
-            <option *ngFor="let category of expenseCategories" [value]="category">{{category}}</option>
-          </select>
-          <div *ngIf="expenseForm.get('category')?.invalid && expenseForm.get('category')?.touched" class="text-danger mt-1">
-            Please select a category
+
+        <!-- Tags Input -->
+        <div class="mb-4">
+          <label for="tags" class="form-label text-secondary small text-uppercase fw-bold">Tags</label>
+          <div class="input-group">
+            <span class="input-group-text bg-transparent border-end-0 text-accent">
+              <i class="bi bi-hash"></i>
+            </span>
+            <input type="text" class="form-control bg-transparent text-white border-start-0 ps-0" id="tags"
+              formControlName="tags" placeholder="business, urgent, etc.">
           </div>
         </div>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="paymentMethod" class="form-label">Payment Method</label>
-          <select class="form-select" 
-                  id="paymentMethod" 
-                  formControlName="paymentMethod">
-            <option value="">Select payment method</option>
-            <option *ngFor="let method of paymentMethods" [value]="method">{{method}}</option>
-          </select>
+
+        <!-- Notes Textarea -->
+        <div class="mb-5">
+          <label for="notes" class="form-label text-secondary small text-uppercase fw-bold">Notes</label>
+          <textarea class="form-control bg-transparent text-white" id="notes" formControlName="notes" rows="3"
+            placeholder="Add any additional details..."></textarea>
         </div>
-      </div>
-      
-      <div class="col-md-6">
-        <div class="mb-3">
-          <label for="tags" class="form-label">Tags (comma separated)</label>
-          <input type="text" 
-                 class="form-control" 
-                 id="tags" 
-                 formControlName="tags"
-                 placeholder="e.g., business, urgent, receipt">
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary-gradient btn-lg rounded-pill py-3 fw-bold"
+            [disabled]="expenseForm.invalid">
+            Save Expense
+          </button>
         </div>
-      </div>
-    </div>
-    
-    <div class="mb-4">
-      <label for="notes" class="form-label">Notes</label>
-      <textarea class="form-control" 
-                id="notes" 
-                formControlName="notes" 
-                rows="3" 
-                placeholder="Add any additional notes..."></textarea>
-    </div>
-    
-    <div class="d-grid">
-      <button type="submit" 
-              class="btn btn-primary btn-lg" 
-              [disabled]="expenseForm.invalid">
-        Save Expense
-      </button>
-    </div>
-  </form>
-  
-  <div class="card mt-4" *ngIf="hasMonthlyIncome">
-    <div class="card-body">
-      <h5 class="card-title">Current Month Budget</h5>
-      <div class="d-flex justify-content-between mb-2">
-        <span>Income:</span>
-        <strong>PKR {{ currentMonthIncome | number:'1.2-2' }}</strong>
-      </div>
-      <div class="d-flex justify-content-between mb-2">
-        <span>Spent:</span>
-        <strong class="text-danger">PKR {{ currentMonthSpent | number:'1.2-2' }}</strong>
-      </div>
-      <div class="d-flex justify-content-between mb-3">
-        <span>Remaining:</span>
-        <strong [class.text-danger]="remainingBudget < 0" [class.text-success]="remainingBudget >= 0">
-          PKR {{ remainingBudget | number:'1.2-2' }}
-        </strong>
-      </div>
-      <div class="progress" style="height: 10px;">
-        <div 
-          class="progress-bar" 
-          role="progressbar" 
-          [style.width.%]="Math.min(100, percentageUsed)"
-          [ngClass]="{
-            'bg-success': percentageUsed < 80,
-            'bg-warning': percentageUsed >= 80 && percentageUsed <= 100,
-            'bg-danger': percentageUsed > 100
-          }"
-          [attr.aria-valuenow]="percentageUsed"
-          aria-valuemin="0" 
-          aria-valuemax="100">
+      </form>
+
+      <!-- Budget Preview -->
+      <div class="glass-card mt-4 p-3">
+        <h6 class="text-white mb-3">Budget Impact</h6>
+        <div class="d-flex justify-content-between mb-2">
+          <span class="text-secondary">Current Remaining:</span>
+          <span class="text-white">PKR {{ remainingBudget | number:'1.0-0' }}</span>
         </div>
-      </div>
-      <div class="text-center mt-2">
-        <small>{{ percentageUsed | number:'1.0-0' }}% of monthly budget used</small>
+        <div class="progress bg-dark" style="height: 6px;">
+          <div class="progress-bar" role="progressbar" [style.width.%]="Math.min(100, percentageUsed)" [ngClass]="{
+              'bg-gradient-success': percentageUsed < 80,
+              'bg-gradient-warning': percentageUsed >= 80 && percentageUsed <= 100,
+              'bg-gradient-danger': percentageUsed > 100
+            }">
+          </div>
+        </div>
       </div>
     </div>
   </div>

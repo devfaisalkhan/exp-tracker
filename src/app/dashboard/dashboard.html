@@ -1,233 +1,176 @@
-<div class="container-fluid">
-  <div class="dashboard-header mb-4">
-    <h2 class="mb-0">Dashboard</h2>
+<div class="container-fluid dashboard-container">
+  <div class="dashboard-header mb-4 d-flex justify-content-between align-items-center">
+    <div>
+      <h2 class="mb-0 fw-bold text-gradient">Dashboard</h2>
+      <p class="text-secondary mb-0">Welcome back to your financial overview</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a routerLink="/set-income" class="btn btn-outline-light btn-sm rounded-pill px-3">
+        <i class="bi bi-wallet2 me-2"></i>Set Income
+      </a>
+    </div>
   </div>
-  
-  <!-- Monthly Budget Summary Cards -->
+
+  <!-- Monthly Budget Summary -->
   <div class="row mb-4">
-    <div class="col-12 mb-3">
-      <div class="card border-0 shadow-sm">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="card-title mb-0">Monthly Budget</h5>
-              <p class="card-text mb-0 text-muted">{{ currentYear }} - {{ currentMonth | date:'MMMM' }}</p>
-            </div>
-            <div>
-              <a routerLink="/set-income" class="btn btn-outline-primary btn-sm me-2">Set Income</a>
-              <a routerLink="/incomes" class="btn btn-outline-secondary btn-sm">View All</a>
+    <div class="col-12">
+      <div class="glass-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h5 class="text-white mb-1">Monthly Budget</h5>
+            <p class="text-secondary mb-0 small">{{ currentYear }} - {{ currentMonth | date:'MMMM' }}</p>
+          </div>
+          <div class="text-end">
+            <h3 class="mb-0 fw-bold" [class.text-danger]="isOverBudget" [class.text-success]="!isOverBudget">
+              {{ remainingBudget | number:'1.0-0' }} <small class="fs-6 text-secondary">PKR left</small>
+            </h3>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="mb-4">
+          <div class="d-flex justify-content-between mb-2">
+            <small class="text-secondary">Spent: {{ currentMonthSpent | number:'1.0-0' }}</small>
+            <small class="text-secondary">Limit: {{ currentMonthIncome | number:'1.0-0' }}</small>
+          </div>
+          <div class="progress bg-dark" style="height: 8px; border-radius: 4px;">
+            <div class="progress-bar" role="progressbar" [style.width.%]="Math.min(100, percentageUsed)" [ngClass]="{
+                'bg-gradient-success': percentageUsed < 80,
+                'bg-gradient-warning': percentageUsed >= 80 && percentageUsed <= 100,
+                'bg-gradient-danger': percentageUsed > 100
+              }" [attr.aria-valuenow]="percentageUsed" aria-valuemin="0" aria-valuemax="100">
             </div>
           </div>
-          
-          <div class="row mt-3">
-            <div class="col-md-3 col-6 mb-3">
-              <div class="text-center">
-                <h6 class="text-muted small">Income</h6>
-                <h4 class="mb-0" [class.text-danger]="isOverBudget">{{ currentMonthIncome !== null ? ('PKR ' + (currentMonthIncome | number:'1.2-2')) : 'Not Set' }}</h4>
-              </div>
-            </div>
-            <div class="col-md-3 col-6 mb-3">
-              <div class="text-center">
-                <h6 class="text-muted small">Spent</h6>
-                <h4 class="mb-0 text-danger">PKR {{ currentMonthSpent | number:'1.2-2' }}</h4>
-              </div>
-            </div>
-            <div class="col-md-3 col-6 mb-3">
-              <div class="text-center">
-                <h6 class="text-muted small">Remaining</h6>
-                <h4 class="mb-0" [class.text-danger]="remainingBudget < 0" [class.text-success]="remainingBudget >= 0">
-                  PKR {{ remainingBudget | number:'1.2-2' }}
-                </h4>
-              </div>
-            </div>
-            <div class="col-md-3 col-6 mb-3">
-              <div class="text-center">
-                <h6 class="text-muted small">Used</h6>
-                <h4 class="mb-0" [class.text-danger]="percentageUsed > 100" [class.text-warning]="percentageUsed >= 80 && percentageUsed <= 100" [class.text-success]="percentageUsed < 80">
-                  {{ percentageUsed | number:'1.0-0' }}%
-                </h4>
-              </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-4">
+            <div class="p-3 rounded-3 bg-white-5 text-center">
+              <small class="d-block text-secondary mb-1">Income</small>
+              <span class="fw-bold text-white">{{ currentMonthIncome !== null ? (currentMonthIncome | number:'1.0-0') :
+                '-' }}</span>
             </div>
           </div>
-          
-          <!-- Progress bar -->
-          <div class="mt-3">
-            <div class="d-flex justify-content-between mb-1">
-              <small>0%</small>
-              <small>{{ percentageUsed | number:'1.0-0' }}%</small>
-              <small>100%</small>
-            </div>
-            <div class="progress" style="height: 15px;">
-              <div 
-                class="progress-bar" 
-                role="progressbar" 
-                [style.width.%]="Math.min(100, percentageUsed)"
-                [ngClass]="{
-                  'bg-success': percentageUsed < 80,
-                  'bg-warning': percentageUsed >= 80 && percentageUsed <= 100,
-                  'bg-danger': percentageUsed > 100
-                }"
-                [attr.aria-valuenow]="percentageUsed"
-                aria-valuemin="0" 
-                aria-valuemax="100">
-              </div>
+          <div class="col-4">
+            <div class="p-3 rounded-3 bg-white-5 text-center">
+              <small class="d-block text-secondary mb-1">Spent</small>
+              <span class="fw-bold text-white">{{ currentMonthSpent | number:'1.0-0' }}</span>
             </div>
           </div>
-          
-          <!-- Warning message if over budget -->
-          <div class="alert alert-danger mt-3 mb-0" *ngIf="isOverBudget">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            <strong>Warning:</strong> You are over budget by PKR {{ (currentMonthSpent - (currentMonthIncome || 0)) | number:'1.2-2' }}!
+          <div class="col-4">
+            <div class="p-3 rounded-3 bg-white-5 text-center">
+              <small class="d-block text-secondary mb-1">Used</small>
+              <span class="fw-bold" [class.text-danger]="percentageUsed > 100">{{ percentageUsed | number:'1.0-0'
+                }}%</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Summary Cards - Spendee style -->
-  <div class="row mb-4">
-    <div class="col-6 col-md-3 mb-3">
-      <div class="card summary-card h-100 border-0 shadow-sm">
-        <div class="card-body text-center">
-          <div class="card-icon bg-primary rounded-circle mb-3 mx-auto">
-            <i class="bi bi-receipt text-white fs-4"></i>
-          </div>
-          <h5 class="card-title text-muted">Total Expenses</h5>
-          <h3 class="card-text text-dark mb-0">{{ totalExpenses }}</h3>
-          <p class="card-text text-primary mb-0 small">items</p>
+  <!-- Summary Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="glass-card h-100 p-3 text-center">
+        <div class="icon-box bg-primary-gradient mb-3 mx-auto">
+          <i class="bi bi-receipt text-white fs-5"></i>
+        </div>
+        <h3 class="fw-bold text-white mb-0">{{ totalExpenses }}</h3>
+        <small class="text-secondary">Total Transactions</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="glass-card h-100 p-3 text-center">
+        <div class="icon-box bg-success-gradient mb-3 mx-auto">
+          <i class="bi bi-cash-stack text-white fs-5"></i>
+        </div>
+        <h3 class="fw-bold text-white mb-0">{{ totalAmount | number:'1.0-0' }}</h3>
+        <small class="text-secondary">Total Spent</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="glass-card h-100 p-3 text-center">
+        <div class="icon-box bg-info-gradient mb-3 mx-auto">
+          <i class="bi bi-tag text-white fs-5"></i>
+        </div>
+        <h5 class="fw-bold text-white mb-0 text-truncate">{{ getTopCategory()?.category || '-' }}</h5>
+        <small class="text-secondary">Top Category</small>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="glass-card h-100 p-3 text-center">
+        <div class="icon-box bg-warning-gradient mb-3 mx-auto">
+          <i class="bi bi-graph-up text-white fs-5"></i>
+        </div>
+        <h3 class="fw-bold text-white mb-0">{{ totalExpenses > 0 ? (totalAmount / totalExpenses | number:'1.0-0') : '0'
+          }}</h3>
+        <small class="text-secondary">Avg. per Txn</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="row g-4 mb-4">
+    <!-- Weekly Activity -->
+    <div class="col-12 col-lg-8">
+      <div class="glass-card h-100">
+        <h5 class="text-white mb-4">Weekly Activity</h5>
+        <div class="chart-container" style="height: 250px;">
+          <canvas baseChart [data]="weeklyChartData" [options]="chartOptions" [type]="weeklyChartType">
+          </canvas>
         </div>
       </div>
     </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="card summary-card h-100 border-0 shadow-sm">
-        <div class="card-body text-center">
-          <div class="card-icon bg-success rounded-circle mb-3 mx-auto">
-            <i class="bi bi-cash text-white fs-4"></i>
-          </div>
-          <h5 class="card-title text-muted">Total Spent</h5>
-          <h3 class="card-text text-dark mb-0">PKR {{ totalAmount | number:'1.2-2' }}</h3>
-          <p class="card-text text-success mb-0 small">overall</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="card summary-card h-100 border-0 shadow-sm">
-        <div class="card-body text-center">
-          <div class="card-icon bg-info rounded-circle mb-3 mx-auto">
-            <i class="bi bi-list-task text-white fs-4"></i>
-          </div>
-          <h5 class="card-title text-muted">Top Category</h5>
-          <h3 class="card-text text-dark mb-0">{{ getTopCategory()?.category || 'N/A' }}</h3>
-          <p class="card-text text-info mb-0 small">highest spending</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-md-3 mb-3">
-      <div class="card summary-card h-100 border-0 shadow-sm">
-        <div class="card-body text-center">
-          <div class="card-icon bg-warning rounded-circle mb-3 mx-auto">
-            <i class="bi bi-graph-up text-white fs-4"></i>
-          </div>
-          <h5 class="card-title text-muted">Average</h5>
-          <h3 class="card-text text-dark mb-0" *ngIf="totalExpenses > 0">PKR {{ (totalAmount / totalExpenses) | number:'1.2-2' }}</h3>
-          <h3 class="card-text text-dark mb-0" *ngIf="totalExpenses === 0">PKR 0.00</h3>
-          <p class="card-text text-warning mb-0 small">per expense</p>
+
+    <!-- Category Breakdown -->
+    <div class="col-12 col-lg-4">
+      <div class="glass-card h-100">
+        <h5 class="text-white mb-4">Spending by Category</h5>
+        <div class="chart-container" style="height: 250px;">
+          <canvas baseChart [data]="categoryChartData" [options]="chartOptions" [type]="categoryChartType">
+          </canvas>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Charts Section - Spendee style -->
-  <div class="row mb-4">
-    <!-- Monthly Budget Chart -->
-    <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title mb-4">Monthly Budget</h5>
-          <div class="chart-container" style="height: 250px;">
-            <canvas 
-              baseChart
-              [data]="monthlyBudgetChartData"
-              [options]="chartOptions"
-              [type]="budgetChartType">
-            </canvas>
+  <!-- Recent Expenses -->
+  <div class="glass-card mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h5 class="text-white mb-0">Recent Transactions</h5>
+      <a routerLink="/expenses" class="btn btn-link text-accent text-decoration-none p-0">View All</a>
+    </div>
+
+    <div class="list-group list-group-flush bg-transparent">
+      <div class="list-group-item bg-transparent border-bottom border-white-10 px-0 py-3"
+        *ngFor="let expense of expenses | slice:0:5">
+        <div class="d-flex align-items-center">
+          <div class="icon-circle bg-white-5 me-3 text-accent">
+            <i class="bi bi-bag"></i>
           </div>
-          <div class="text-center mt-2">
-            <small class="text-muted">
-              <span class="badge bg-primary me-2">Spent</span>
-              <span class="badge bg-info">Remaining</span>
-            </small>
+          <div class="flex-grow-1">
+            <h6 class="text-white mb-0">{{ expense.title }}</h6>
+            <small class="text-secondary">{{ expense.date | date:'MMM d, y' }} • {{ expense.category }}</small>
+          </div>
+          <div class="text-end">
+            <h6 class="text-white mb-0">- {{ expense.amount | number:'1.0-0' }}</h6>
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Category Breakdown - Primary chart -->
-    <div class="col-12 col-md-5 mb-4 mb-md-0">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title mb-4">Category Breakdown</h5>
-          <div class="chart-container" style="height: 250px;">
-            <canvas 
-              baseChart
-              [data]="categoryChartData"
-              [options]="chartOptions"
-              [type]="categoryChartType">
-            </canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Weekly Expenses - Secondary chart -->
-    <div class="col-12 col-md-3">
-      <div class="card border-0 shadow-sm h-100">
-        <div class="card-body">
-          <h5 class="card-title mb-4">Weekly Overview</h5>
-          <div class="chart-container" style="height: 250px;">
-            <canvas 
-              baseChart
-              [data]="weeklyChartData"
-              [options]="chartOptions"
-              [type]="weeklyChartType">
-            </canvas>
-          </div>
-        </div>
+
+      <div class="text-center py-4" *ngIf="expenses.length === 0">
+        <p class="text-secondary mb-0">No transactions yet</p>
       </div>
     </div>
   </div>
 
-  <!-- Recent Expenses - Spendee style -->
-  <div class="card border-0 shadow-sm mb-4">
-    <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="card-title mb-0">Recent Expenses</h5>
-        <a routerLink="/expenses" class="btn btn-outline-primary btn-sm">View All</a>
-      </div>
-      <div class="list-group list-group-flush">
-        <div class="list-group-item border-0 px-0 py-3" *ngFor="let expense of expenses | slice:0:5">
-          <div class="d-flex justify-content-between">
-            <div>
-              <h6 class="mb-0">{{ expense.title }}</h6>
-              <small class="text-muted">{{ expense.date | date:'MMM d' }}</small>
-            </div>
-            <div class="text-end">
-              <h6 class="mb-0 text-danger">- PKR {{ expense.amount | number:'1.2-2' }}</h6>
-              <span class="badge bg-secondary">{{ expense.category }}</span>
-            </div>
-          </div>
-        </div>
-        <div class="list-group-item border-0 px-0 py-3" *ngIf="expenses.length === 0">
-          <p class="text-center text-muted mb-0">No expenses recorded yet</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add Expense Button - Floating style like Spendee -->
-  <div class="text-center mt-1 mb-5">
-    <a routerLink="/add" class="btn btn-primary btn-lg rounded-pill px-5 py-3 shadow">
-      <i class="bi bi-plus-lg me-2"></i>Add Expense
+  <!-- Floating Action Button -->
+  <div class="fab-container">
+    <a routerLink="/add"
+      class="btn btn-primary-gradient rounded-circle shadow-lg d-flex align-items-center justify-content-center"
+      style="width: 60px; height: 60px;">
+      <i class="bi bi-plus-lg fs-3"></i>
     </a>
   </div>
 </div>

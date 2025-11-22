@@ -1,8 +1,9 @@
-<mat-toolbar class="mobile-bottom-toolbar">
-  <a mat-icon-button *ngFor="let link of links"
-     [routerLink]="link.path"
-     routerLinkActive="active" #rla="routerLinkActive"
-     [routerLinkActiveOptions]="{exact: true}">
-    <i [ngClass]="'bi ' + (rla.isActive ? link.activeIcon : link.icon)"></i>
-  </a>
-</mat-toolbar>
+<div class="mobile-nav-container glass-nav">
+  <div class="nav-item" *ngFor="let link of links" [routerLink]="link.path" routerLinkActive="active"
+    #rla="routerLinkActive" [routerLinkActiveOptions]="{exact: true}">
+    <div class="icon-container">
+      <i [ngClass]="'bi ' + (rla.isActive ? link.activeIcon : link.icon)"></i>
+    </div>
+    <div class="active-indicator" *ngIf="rla.isActive"></div>
+  </div>
+</div>

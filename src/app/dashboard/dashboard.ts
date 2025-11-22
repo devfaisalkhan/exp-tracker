@@ -56,27 +56,34 @@ export class DashboardComponent implements OnInit {
   public weeklyChartType: ChartType = 'line';
   public categoryChartType: ChartType = 'doughnut';
   public budgetChartType: ChartType = 'doughnut';
-  
+
   public weeklyChartData: ChartData<'line'> = {
     labels: [],
     datasets: [{
       data: [],
       label: 'Amount (PKR)',
-      borderColor: '#42A5F5',
-      backgroundColor: 'rgba(66, 165, 245, 0.2)',
-      fill: true
+      borderColor: '#818cf8', // Indigo 400
+      backgroundColor: 'rgba(129, 140, 248, 0.2)',
+      pointBackgroundColor: '#818cf8',
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: '#818cf8',
+      fill: true,
+      tension: 0.4
     }]
   };
-  
+
   public categoryChartData: ChartData<'doughnut'> = {
     labels: [],
     datasets: [{
       data: [],
       backgroundColor: [
-        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
-        '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF',
-        '#4BC0C0', '#FF6384', '#36A2EB', '#FFCE56'
-      ]
+        '#6366f1', '#8b5cf6', '#d946ef', '#ec4899',
+        '#f43f5e', '#f97316', '#eab308', '#84cc16',
+        '#10b981', '#06b6d4', '#3b82f6', '#64748b'
+      ],
+      borderWidth: 0,
+      hoverOffset: 4
     }]
   };
 
@@ -85,28 +92,47 @@ export class DashboardComponent implements OnInit {
     datasets: [{
       data: [],
       backgroundColor: [
-        '#36A2EB', '#4BC0C0' // Blue for spent, Teal for remaining
-      ]
+        '#3b82f6', '#10b981' // Blue for spent, Emerald for remaining
+      ],
+      borderWidth: 0
     }]
   };
 
   public chartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#94a3b8',
+          font: {
+            family: 'Inter'
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#94a3b8' },
+        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+      },
+      y: {
+        ticks: { color: '#94a3b8' },
+        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+      }
+    }
   };
 
   currentYear: number = new Date().getFullYear();
   currentMonth: number = new Date().getMonth() + 1; // getMonth() returns 0-11, so add 1
-  
+
   // Make Math available to the template
   Math = Math;
-  // Income and budget tracking
-
 
   constructor(
     private expenseService: ExpenseService,
     private incomeService: IncomeService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadDashboardData();
@@ -140,14 +166,14 @@ export class DashboardComponent implements OnInit {
     for (let i = 6; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
-      
+
       const dayExpenses = this.expenses.filter(expense => {
         const expenseDate = new Date(expense.date);
         return expenseDate.toDateString() === date.toDateString();
       });
-      
+
       const dayTotal = dayExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-      
+
       this.weeklyExpenses.push({
         day: date.toLocaleDateString('en-US', { weekday: 'short' }),
         amount: dayTotal
@@ -176,7 +202,7 @@ export class DashboardComponent implements OnInit {
     // Update weekly chart data
     this.weeklyChartData.labels = this.weeklyExpenses.map(item => item.day);
     this.weeklyChartData.datasets[0].data = this.weeklyExpenses.map(item => item.amount);
-    
+
     // Update category chart data
     this.categoryChartData.labels = this.categorySummaries.map(item => item.category);
     this.categoryChartData.datasets[0].data = this.categorySummaries.map(item => item.total);
@@ -188,16 +214,16 @@ export class DashboardComponent implements OnInit {
         this.currentMonthSpent,
         Math.max(0, this.currentMonthIncome - this.currentMonthSpent)
       ];
-      
+
       // Update colors based on over-budget status
       this.monthlyBudgetChartData.datasets[0].backgroundColor = [
-        this.isOverBudget ? '#dc3545' : '#36A2EB',  // Red if over budget, blue if under
-        this.isOverBudget ? '#ffc107' : '#4BC0C0'   // Yellow if over budget, teal if under
+        this.isOverBudget ? '#ef4444' : '#3b82f6',  // Red if over budget, blue if under
+        this.isOverBudget ? '#f59e0b' : '#10b981'   // Amber if over budget, emerald if under
       ];
     } else {
       this.monthlyBudgetChartData.labels = ['No Income Set'];
       this.monthlyBudgetChartData.datasets[0].data = [1];
-      this.monthlyBudgetChartData.datasets[0].backgroundColor = ['#999999'];
+      this.monthlyBudgetChartData.datasets[0].backgroundColor = ['#475569'];
     }
   }
 
