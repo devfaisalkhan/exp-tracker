@@ -1,110 +1,112 @@
-<div class="container mt-4">
-  <h2>User Profile</h2>
-  
+<div class="container-fluid dashboard-container">
+  <div class="d-flex align-items-center mb-4">
+    <a routerLink="/dashboard" class="btn btn-icon btn-sm me-3 text-white">
+      <i class="bi bi-arrow-left fs-4"></i>
+    </a>
+    <h2 class="mb-0 fw-bold text-gradient">User Profile</h2>
+  </div>
+
   <!-- PWA Install Section -->
-  <div class="row mb-4" *ngIf="showInstallButton">
-    <div class="col-12">
-      <div class="card border-primary">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <h5 class="card-title text-primary">Install App</h5>
-              <p class="card-text mb-0">Add Expense Tracker to your home screen for quick access and offline functionality.</p>
-            </div>
-            <button 
-              class="btn btn-primary"
-              (click)="installPWA()">
-              <i class="bi bi-download me-1"></i> Install
-            </button>
+  <div class="row justify-content-center mb-4" *ngIf="showInstallButton">
+    <div class="col-12 col-lg-6">
+      <div class="glass-card p-4 position-relative overflow-hidden">
+        <div class="position-absolute top-0 end-0 p-3 opacity-10">
+          <i class="bi bi-download fs-1 text-white"></i>
+        </div>
+        <div class="d-flex justify-content-between align-items-center position-relative z-1">
+          <div>
+            <h5 class="text-white mb-2 fw-bold">Install App</h5>
+            <p class="text-secondary mb-0 small">Add to home screen for offline access.</p>
           </div>
+          <button class="btn btn-primary-gradient btn-sm rounded-pill px-4 py-2 fw-bold shadow-sm"
+            (click)="installPWA()">
+            <i class="bi bi-download me-2"></i>Install
+          </button>
         </div>
       </div>
     </div>
   </div>
-  
-  <div class="row">
-    <div class="col-md-6 offset-md-3">
-      <div class="card">
-        <div class="card-body">
-          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
-            <div class="mb-3">
-              <label for="name" class="form-label">Full Name</label>
-              <input 
-                type="text" 
-                class="form-control" 
-                id="name" 
-                formControlName="name"
-                [class.is-invalid]="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
-                placeholder="Enter your full name">
-              <div 
-                *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched" 
-                class="invalid-feedback">
-                Name is required (minimum 2 characters)
-              </div>
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-6">
+      <div class="glass-card p-4">
+        <div class="text-center mb-5">
+          <div class="avatar-circle mx-auto mb-3">
+            <i class="bi bi-person-fill text-white fs-1"></i>
+          </div>
+          <h5 class="text-white mb-1">{{ profileForm.get('name')?.value || 'User' }}</h5>
+          <p class="text-secondary small">{{ profileForm.get('email')?.value || 'email@example.com' }}</p>
+        </div>
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="mb-4">
+            <label for="name" class="form-label text-secondary small fw-bold text-uppercase">Full Name</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 text-accent border-white-10">
+                <i class="bi bi-person"></i>
+              </span>
+              <input type="text" class="form-control bg-transparent text-white border-start-0 ps-0 border-white-10"
+                id="name" formControlName="name" placeholder="Enter your full name">
             </div>
-            
-            <div class="mb-3">
-              <label for="email" class="form-label">Email Address</label>
-              <input 
-                type="email" 
-                class="form-control" 
-                id="email" 
-                formControlName="email"
-                [class.is-invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
-                placeholder="Enter your email">
-              <div 
-                *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched" 
-                class="invalid-feedback">
-                Please enter a valid email address
-              </div>
+            <div *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
+              class="text-danger small mt-1">
+              Name is required (min 2 chars)
             </div>
-            
-            <div class="mb-3">
-              <label for="currency" class="form-label">Preferred Currency</label>
-              <select 
-                class="form-select" 
-                id="currency" 
-                formControlName="currency"
-                [class.is-invalid]="profileForm.get('currency')?.invalid && profileForm.get('currency')?.touched">
-                <option *ngFor="let currency of currencies" [value]="currency.value">
+          </div>
+
+          <div class="mb-4">
+            <label for="email" class="form-label text-secondary small fw-bold text-uppercase">Email Address</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 text-accent border-white-10">
+                <i class="bi bi-envelope"></i>
+              </span>
+              <input type="email" class="form-control bg-transparent text-white border-start-0 ps-0 border-white-10"
+                id="email" formControlName="email" placeholder="Enter your email">
+            </div>
+            <div *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+              class="text-danger small mt-1">
+              Valid email required
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="currency" class="form-label text-secondary small fw-bold text-uppercase">Preferred
+              Currency</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 text-accent border-white-10">
+                <i class="bi bi-currency-exchange"></i>
+              </span>
+              <select class="form-select bg-transparent text-white border-start-0 ps-0 border-white-10" id="currency"
+                formControlName="currency">
+                <option *ngFor="let currency of currencies" [value]="currency.value" class="text-dark">
                   {{ currency.label }}
                 </option>
               </select>
-              <div 
-                *ngIf="profileForm.get('currency')?.invalid && profileForm.get('currency')?.touched" 
-                class="invalid-feedback">
-                Please select a currency
-              </div>
             </div>
-            
-            <div class="mb-4">
-              <label for="theme" class="form-label">Theme</label>
-              <select 
-                class="form-select" 
-                id="theme" 
-                formControlName="theme"
-                [class.is-invalid]="profileForm.get('theme')?.invalid && profileForm.get('theme')?.touched">
-                <option *ngFor="let theme of themes" [value]="theme.value">
+          </div>
+
+          <div class="mb-5">
+            <label for="theme" class="form-label text-secondary small fw-bold text-uppercase">Theme</label>
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0 text-accent border-white-10">
+                <i class="bi bi-palette"></i>
+              </span>
+              <select class="form-select bg-transparent text-white border-start-0 ps-0 border-white-10" id="theme"
+                formControlName="theme">
+                <option *ngFor="let theme of themes" [value]="theme.value" class="text-dark">
                   {{ theme.label }}
                 </option>
               </select>
-              <div 
-                *ngIf="profileForm.get('theme')?.invalid && profileForm.get('theme')?.touched" 
-                class="invalid-feedback">
-                Please select a theme
-              </div>
             </div>
-            
-            <div class="d-grid">
-              <button 
-                type="submit" 
-                class="btn btn-primary btn-lg"
-                [disabled]="profileForm.invalid">
-                Update Profile
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary-gradient btn-lg rounded-pill py-3 fw-bold"
+              [disabled]="profileForm.invalid">
+              <i class="bi bi-save me-2"></i>Update Profile
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
