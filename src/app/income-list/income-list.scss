@@ -1,26 +1,45 @@
-.card {
+.income-item {
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+}
+
+.icon-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-white-5 {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.border-white-10 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.2s;
   border: none;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-.table th {
-  font-weight: 600;
-  border-top: none;
-}
-
-.btn-sm {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
-}
-
-@media (max-width: 768px) {
-  .table-responsive {
-    font-size: 0.875rem;
+  &:hover {
+    background: rgba(220, 53, 69, 0.2);
+    color: #ff6b6b !important;
   }
-  
-  .btn-sm {
-    padding: 0.2rem 0.4rem;
-    font-size: 0.8rem;
-  }
+}
+
+.text-success {
+  color: #10b981 !important;
 }

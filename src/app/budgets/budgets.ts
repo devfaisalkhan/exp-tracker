@@ -61,23 +61,35 @@ export class BudgetsComponent implements OnInit {
     datasets: [{
       data: [],
       backgroundColor: [
-        '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
-        '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF',
-        '#4BC0C0', '#FF6384', '#36A2EB', '#FFCE56'
-      ]
+        '#6366f1', '#8b5cf6', '#d946ef', '#ec4899',
+        '#f43f5e', '#f97316', '#eab308', '#84cc16',
+        '#10b981', '#06b6d4', '#3b82f6', '#64748b'
+      ],
+      borderWidth: 0,
+      hoverOffset: 4
     }]
   };
 
   public chartOptions: ChartConfiguration['options'] = {
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#94a3b8',
+          font: {
+            family: 'Inter'
+          }
+        }
+      }
+    }
   };
 
   constructor(
     private fb: FormBuilder,
     private budgetService: BudgetService,
     private expenseService: ExpenseService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -105,8 +117,8 @@ export class BudgetsComponent implements OnInit {
 
     this.budgets = allBudgets.map(budget => {
       // Calculate total expenses for this budget's category within the budget period
-      const budgetExpenses = expenses.filter(expense => 
-        expense.category === budget.categoryId && 
+      const budgetExpenses = expenses.filter(expense =>
+        expense.category === budget.categoryId &&
         new Date(expense.date) >= new Date(budget.startDate) &&
         (!budget.endDate || new Date(expense.date) <= new Date(budget.endDate))
       );
@@ -130,7 +142,7 @@ export class BudgetsComponent implements OnInit {
   private updateBudgetChart(): void {
     // Only show chart for budgets that have spending activity
     const activeBudgets = this.budgets.filter(b => b.currentSpent > 0 || b.amount > 0);
-    
+
     if (activeBudgets.length > 0) {
       this.budgetChartData.labels = activeBudgets.map(b => `${b.name} (${b.categoryId})`);
       this.budgetChartData.datasets[0].data = activeBudgets.map(b => b.currentSpent);

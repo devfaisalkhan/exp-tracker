@@ -1,46 +1,49 @@
-<div class="container mt-4">
+<div class="container-fluid dashboard-container">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Monthly Incomes</h2>
-    <a routerLink="/set-income" class="btn btn-primary">
-      <i class="bi bi-plus-lg me-1"></i> Set New Income
+    <div>
+      <h2 class="mb-0 fw-bold text-gradient">Monthly Incomes</h2>
+      <p class="text-secondary mb-0 small">History of your monthly budgets</p>
+    </div>
+    <a routerLink="/set-income" class="btn btn-primary-gradient btn-sm rounded-pill px-3">
+      <i class="bi bi-plus-lg me-1"></i> Set New
     </a>
   </div>
 
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Month & Year</th>
-                  <th>Income Amount</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let income of monthlyIncomes">
-                  <td>{{ formatIncomeDate(income.id) }}</td>
-                  <td>PKR {{ income.amount | number:'1.2-2' }}</td>
-                  <td>
-                    <button 
-                      class="btn btn-sm btn-outline-danger" 
-                      (click)="deleteIncome(income.id)"
-                      title="Delete">
-                      <i class="bi bi-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr *ngIf="monthlyIncomes.length === 0">
-                  <td colspan="3" class="text-center text-muted">
-                    No monthly incomes set yet. <a routerLink="/set-income">Set your first income</a>.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+  <div class="glass-card p-0 overflow-hidden">
+    <div class="list-group list-group-flush bg-transparent">
+      <div class="list-group-item bg-transparent border-bottom border-white-10 px-4 py-3 income-item"
+        *ngFor="let income of monthlyIncomes">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <div class="icon-circle bg-white-5 me-3 text-success">
+              <i class="bi bi-calendar-check"></i>
+            </div>
+            <div>
+              <h6 class="text-white mb-1 fw-medium">{{ formatIncomeDate(income.id) }}</h6>
+              <small class="text-secondary">Budget Limit</small>
+            </div>
+          </div>
+
+          <div class="text-end">
+            <h6 class="mb-1 text-success fw-bold">+ PKR {{ income.amount | number:'1.0-0' }}</h6>
+            <div class="income-actions d-inline-block ms-2">
+              <button class="btn btn-icon btn-sm text-danger bg-white-5" (click)="deleteIncome(income.id)"
+                title="Delete">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="text-center py-5" *ngIf="monthlyIncomes.length === 0">
+        <div class="icon-box bg-white-5 mx-auto mb-3 rounded-circle" style="width: 64px; height: 64px;">
+          <i class="bi bi-wallet2 text-secondary fs-3"></i>
+        </div>
+        <h5 class="text-white">No incomes set</h5>
+        <p class="text-secondary mb-3">Set your first monthly income to start tracking</p>
+        <a routerLink="/set-income" class="btn btn-outline-light btn-sm rounded-pill px-4">Set Income</a>
       </div>
     </div>
   </div>
