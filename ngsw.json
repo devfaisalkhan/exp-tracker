@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1763894664767,
+  "timestamp": 1763895344139,
   "index": "/exp-tracker/index.html",
   "assetGroups": [
     {
@@ -45,14 +45,8 @@
         "ignoreVary": true
       },
       "urls": [
-        "/exp-tracker/icons/icon-128x128.png",
-        "/exp-tracker/icons/icon-144x144.png",
-        "/exp-tracker/icons/icon-152x152.png",
         "/exp-tracker/icons/icon-192x192.png",
-        "/exp-tracker/icons/icon-384x384.png",
         "/exp-tracker/icons/icon-512x512.png",
-        "/exp-tracker/icons/icon-72x72.png",
-        "/exp-tracker/icons/icon-96x96.png",
         "/exp-tracker/media/bootstrap-icons-CVBWLLHT.woff2",
         "/exp-tracker/media/bootstrap-icons-VQNJTM6Q.woff"
       ],
@@ -79,17 +73,11 @@
     "/exp-tracker/chunk-VO7WKPRB.js": "a599f530b6c91d68102fe6c1e433590d0b7bdab4",
     "/exp-tracker/chunk-XWIFTWPN.js": "f75bc6d4be39c9fdf6410b533f5f7a87f3906b17",
     "/exp-tracker/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
-    "/exp-tracker/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
-    "/exp-tracker/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
-    "/exp-tracker/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
-    "/exp-tracker/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
-    "/exp-tracker/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
-    "/exp-tracker/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
-    "/exp-tracker/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
-    "/exp-tracker/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/exp-tracker/index.html": "2025f613fc887948670a573f320c847efb4aee37",
+    "/exp-tracker/icons/icon-192x192.png": "8d95c53007d72af65f6fbe3a14b16a67bb032e4a",
+    "/exp-tracker/icons/icon-512x512.png": "8d95c53007d72af65f6fbe3a14b16a67bb032e4a",
+    "/exp-tracker/index.html": "a36c268e07d3a5761efa8c27ca683a2928bece2f",
     "/exp-tracker/main-6F6AAVUW.js": "eefda15aece042c3b2707083bb9fec735c8c76d4",
-    "/exp-tracker/manifest.webmanifest": "befff9e8dcd5b3681a82522d2799c7c6338c75f4",
+    "/exp-tracker/manifest.webmanifest": "a15c1ff88069310a4bd93efefe426eb8aecfebb3",
     "/exp-tracker/media/bootstrap-icons-CVBWLLHT.woff2": "b441fcff939e24fa0906a37b7788788b9fddbb68",
     "/exp-tracker/media/bootstrap-icons-VQNJTM6Q.woff": "762010c79b4a05e1131fc8fb3b1aeff324d8033f",
     "/exp-tracker/scripts-TTWY4XDY.js": "59aa489af6324127a3d773836250da08639d4b26",
