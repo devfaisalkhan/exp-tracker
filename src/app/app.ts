@@ -83,7 +83,7 @@ export class App implements OnInit {
 
   installPWA() {
     // this.setInstallButtonSeen();
-    this.pwaService.showInstallPrompt();
+    // this.pwaService.showInstallPrompt();
   }
 
   private hasSeenInstallBanner(): boolean {
