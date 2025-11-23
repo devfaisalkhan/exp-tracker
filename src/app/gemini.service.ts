@@ -4,7 +4,7 @@ import { map, catchError } from 'rxjs/operators';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { Expense } from './models';
 import { ExpenseCategory } from './expense-category.enum';
-import { AppConstant } from './app.constant';
+import { environment } from '../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -13,9 +13,9 @@ export class GeminiService {
     private genAI: GoogleGenerativeAI | null = null;
 
     constructor() {
-        const savedKey = this.getApiKey();
-        if (savedKey) {
-            this.initializeAI(savedKey);
+        // Initialize with API key from environment
+        if (environment.geminiApiKey) {
+            this.initializeAI(environment.geminiApiKey);
         }
     }
 
@@ -23,17 +23,8 @@ export class GeminiService {
         this.genAI = new GoogleGenerativeAI(apiKey);
     }
 
-    setApiKey(key: string): void {
-        localStorage.setItem(AppConstant.KEY_API_STORAGE, key);
-        this.initializeAI(key);
-    }
-
-    getApiKey(): string | null {
-        return localStorage.getItem(AppConstant.KEY_API_STORAGE);
-    }
-
     hasApiKey(): boolean {
-        return !!this.getApiKey();
+        return this.genAI !== null;
     }
 
     async parseExpense(userMessage: string): Promise<Expense | { error: string }> {

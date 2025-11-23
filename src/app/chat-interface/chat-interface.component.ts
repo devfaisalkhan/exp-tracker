@@ -27,8 +27,6 @@ export class ChatInterfaceComponent implements OnInit {
 
     messages: ChatMessage[] = [];
     userInput = '';
-    apiKeyInput = '';
-    hasApiKey = false;
     isProcessing = false;
     pendingExpense: Expense | null = null;
 
@@ -40,16 +38,7 @@ export class ChatInterfaceComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.hasApiKey = this.geminiService.hasApiKey();
-    }
-
-    saveApiKey(): void {
-        if (this.apiKeyInput.trim()) {
-            this.geminiService.setApiKey(this.apiKeyInput.trim());
-            this.hasApiKey = true;
-            this.apiKeyInput = '';
-            this.toastService.success('API Key saved successfully!');
-        }
+        // No need to check for API key - it's in environment now
     }
 
     closeChat(): void {

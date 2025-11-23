@@ -54,16 +54,6 @@ export class ExpenseService {
       updatedAt: now
     };
 
-    // Debug logging
-    console.log('Adding expense:', {
-      originalDate: expense.date,
-      convertedDate: newExpense.date,
-      year: newExpense.date.getFullYear(),
-      month: newExpense.date.getMonth() + 1,
-      amount: newExpense.amount,
-      category: newExpense.category
-    });
-
     const updatedExpenses = [...expenses, newExpense];
     this.saveExpenses(updatedExpenses);
     return newExpense;
@@ -109,21 +99,6 @@ export class ExpenseService {
 
   getMonthlySpent(year: number, month: number): number {
     const expenses = this.getMonthlyExpenses(year, month);
-    const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-
-    // Debug logging
-    console.log('getMonthlySpent:', {
-      year,
-      month,
-      expensesFound: expenses.length,
-      total,
-      expenses: expenses.map(e => ({
-        date: e.date,
-        amount: e.amount,
-        category: e.category
-      }))
-    });
-
-    return total;
+    return expenses.reduce((sum, expense) => sum + expense.amount, 0);
   }
 }

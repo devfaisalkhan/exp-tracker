@@ -63,23 +63,13 @@
 
             <div class="d-flex gap-2">
                 <button class="btn btn-sm btn-outline-danger flex-grow-1" (click)="discardExpense()">Discard</button>
-                <button class="btn btn-sm btn-success flex-grow-1" (click)="confirmExpense()">Add
-                    Expense</button>
+                <button class="btn btn-sm btn-success flex-grow-1" (click)="confirmExpense()">Add Expense</button>
             </div>
         </div>
     </div>
 
     <div class="chat-input p-3 border-top border-white-10">
-        <div *ngIf="!hasApiKey" class="mb-2">
-            <div class="input-group">
-                <input type="password" class="form-control bg-transparent text-white border-white-10 small"
-                    placeholder="Enter Gemini API Key" [(ngModel)]="apiKeyInput">
-                <button class="btn btn-primary-gradient btn-sm" (click)="saveApiKey()">Save</button>
-            </div>
-            <small class="text-secondary x-small">Key is stored locally on your device.</small>
-        </div>
-
-        <div *ngIf="hasApiKey" class="input-group">
+        <div class="input-group">
             <input type="text" class="form-control bg-transparent text-white border-white-10"
                 placeholder="Type an expense..." [(ngModel)]="userInput" (keyup.enter)="sendMessage()"
                 [disabled]="isProcessing || !!pendingExpense">
