@@ -101,3 +101,8 @@
 .x-small {
     font-size: 0.7rem;
 }
+
+.form-control::placeholder {
+    color: #ffffff !important;
+    opacity: 1;
+}
