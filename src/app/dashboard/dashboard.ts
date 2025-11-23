@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ExpenseService } from '../expense.service';
@@ -131,7 +131,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private expenseService: ExpenseService,
-    private incomeService: IncomeService
+    private incomeService: IncomeService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -139,10 +140,13 @@ export class DashboardComponent implements OnInit {
   }
 
   loadDashboardData(): void {
-    this.expenses = this.expenseService.getExpenses();
-    this.loadIncomeData();
-    this.calculateDashboardStats();
-    this.updateCharts();
+    this.expenseService.expenses$.subscribe(expenses => {
+      this.expenses = expenses;
+      this.loadIncomeData();
+      this.calculateDashboardStats();
+      this.updateCharts();
+      this.cdr.markForCheck();
+    });
   }
 
   private loadIncomeData(): void {

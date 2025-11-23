@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { BudgetService } from '../budget.service';
@@ -88,7 +88,8 @@ export class BudgetsComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private budgetService: BudgetService,
-    private expenseService: ExpenseService
+    private expenseService: ExpenseService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -112,31 +113,34 @@ export class BudgetsComponent implements OnInit {
   }
 
   private loadBudgets(): void {
-    const allBudgets = this.budgetService.getBudgets();
-    const expenses = this.expenseService.getExpenses();
+    // Subscribe to expenses updates
+    this.expenseService.expenses$.subscribe(expenses => {
+      const allBudgets = this.budgetService.getBudgets();
 
-    this.budgets = allBudgets.map(budget => {
-      // Calculate total expenses for this budget's category within the budget period
-      const budgetExpenses = expenses.filter(expense =>
-        expense.category === budget.categoryId &&
-        new Date(expense.date) >= new Date(budget.startDate) &&
-        (!budget.endDate || new Date(expense.date) <= new Date(budget.endDate))
-      );
+      this.budgets = allBudgets.map(budget => {
+        // Calculate total expenses for this budget's category within the budget period
+        const budgetExpenses = expenses.filter(expense =>
+          expense.category === budget.categoryId &&
+          new Date(expense.date) >= new Date(budget.startDate) &&
+          (!budget.endDate || new Date(expense.date) <= new Date(budget.endDate))
+        );
 
-      const currentSpent = budgetExpenses.reduce((sum, expense) => sum + expense.amount, 0);
-      const spentPercentage = budget.amount > 0 ? (currentSpent / budget.amount) * 100 : 0;
-      const remainingAmount = budget.amount - currentSpent;
+        const currentSpent = budgetExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+        const spentPercentage = budget.amount > 0 ? (currentSpent / budget.amount) * 100 : 0;
+        const remainingAmount = budget.amount - currentSpent;
 
-      return {
-        ...budget,
-        currentSpent,
-        spentPercentage,
-        remainingAmount
-      };
+        return {
+          ...budget,
+          currentSpent,
+          spentPercentage,
+          remainingAmount
+        };
+      });
+
+      // Update the budget chart data
+      this.updateBudgetChart();
+      this.cdr.markForCheck();
     });
-
-    // Update the budget chart data
-    this.updateBudgetChart();
   }
 
   private updateBudgetChart(): void {
