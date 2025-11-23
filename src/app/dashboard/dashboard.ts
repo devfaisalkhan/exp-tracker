@@ -124,9 +124,8 @@ export class DashboardComponent implements OnInit {
   };
 
   currentYear: number = new Date().getFullYear();
-  currentMonth: number = new Date().getMonth() + 1; // getMonth() returns 0-11, so add 1
-
-  // Make Math available to the template
+  currentMonth: number = new Date().getMonth() + 1;
+  currentDate: Date = new Date();
   Math = Math;
 
   constructor(

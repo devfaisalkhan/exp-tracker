@@ -44,9 +44,21 @@ export class GeminiService {
         try {
             const model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
+            // Get current date in YYYY-MM-DD format
+            const today = new Date();
+            const currentDate = today.toISOString().split('T')[0]; // e.g., "2025-11-23"
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth() + 1;
+            const currentDay = today.getDate();
+
             const prompt = `
         You are the AI engine of an expense-tracking application.
         Your job is to read a user's natural-language expense message and convert it into a structured Expense object.
+
+        CURRENT DATE CONTEXT:
+        Today's date is: ${currentDate} (${currentYear}-${currentMonth.toString().padStart(2, '0')}-${currentDay.toString().padStart(2, '0')})
+        Current year: ${currentYear}
+        Current month: ${currentMonth}
 
         EXPENSE OBJECT FORMAT (output must match EXACTLY):
         {
@@ -69,7 +81,11 @@ export class GeminiService {
         id: Generate a random integer (example: 53211)
         title: 1–3 words summarizing the expense
         amount: Extract numeric amount. If "Rs 200", "200 rupees", detect it.
-        date: Convert "today", "yesterday", etc. to YYYY-MM-DD. Default to today's date (YYYY-MM-DD).
+        date: Convert "today", "yesterday", etc. to YYYY-MM-DD. 
+              - "today" = ${currentDate}
+              - "yesterday" = subtract 1 day from ${currentDate}
+              - If no date mentioned, use ${currentDate}
+              - IMPORTANT: Always use ${currentYear} as the year unless user explicitly mentions a different year
         category: Use EXACT enum values: "Food", "Transport", "Bills", "Entertainment", "Shopping", "Healthcare", "Education", "Travel", "Gifts", "Utilities", "Insurance", "Other". Infer based on keywords.
         notes: Full interpreted explanation (e.g., "User spent 200 PKR on chai today using cash.").
         paymentMethod: Infer "Cash", "Credit Card", "Debit Card", "Bank Transfer", "Mobile Payment", "Other". Default to "".
@@ -83,6 +99,7 @@ export class GeminiService {
         1. Output must always be VALID JSON.
         2. Output must contain ONLY JSON. No text outside JSON.
         3. If NOT an expense → return { "error": "Not an expense entry" }
+        4. ALWAYS use the current year (${currentYear}) unless user explicitly states otherwise
 
         User Message: "${userMessage}"
       `;
