@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1763895947934,
+  "timestamp": 1763896427669,
   "index": "/exp-tracker/index.html",
   "assetGroups": [
     {
@@ -33,7 +33,7 @@
         "/exp-tracker/main-SHJSV7IQ.js",
         "/exp-tracker/manifest.webmanifest",
         "/exp-tracker/scripts-TTWY4XDY.js",
-        "/exp-tracker/styles-L44ADZZD.css"
+        "/exp-tracker/styles-NLPN4LNY.css"
       ],
       "patterns": []
     },
@@ -47,8 +47,29 @@
       "urls": [
         "/exp-tracker/icons/icon-192x192.png",
         "/exp-tracker/icons/icon-512x512.png",
+        "/exp-tracker/media/MaterialIcons-Regular-2G4ZMI5K.woff2",
+        "/exp-tracker/media/MaterialIcons-Regular-7JMLZOL7.ttf",
+        "/exp-tracker/media/MaterialIcons-Regular-CSYLW52G.woff",
         "/exp-tracker/media/bootstrap-icons-CVBWLLHT.woff2",
-        "/exp-tracker/media/bootstrap-icons-VQNJTM6Q.woff"
+        "/exp-tracker/media/bootstrap-icons-VQNJTM6Q.woff",
+        "/exp-tracker/media/inter-cyrillic-400-normal-G4TQJ72A.woff2",
+        "/exp-tracker/media/inter-cyrillic-400-normal-U23O635P.woff",
+        "/exp-tracker/media/inter-cyrillic-ext-400-normal-6VZLC4H3.woff2",
+        "/exp-tracker/media/inter-cyrillic-ext-400-normal-FIY4AS7B.woff",
+        "/exp-tracker/media/inter-greek-400-normal-24BA4PDP.woff2",
+        "/exp-tracker/media/inter-greek-400-normal-ZRMMCGZA.woff",
+        "/exp-tracker/media/inter-greek-ext-400-normal-JTQ56XIH.woff2",
+        "/exp-tracker/media/inter-greek-ext-400-normal-RDW6D2QK.woff",
+        "/exp-tracker/media/inter-latin-400-normal-55WT6UWF.woff2",
+        "/exp-tracker/media/inter-latin-400-normal-FR5HOXA4.woff",
+        "/exp-tracker/media/inter-latin-ext-400-normal-GKRFIQRI.woff2",
+        "/exp-tracker/media/inter-latin-ext-400-normal-J3OKVTXA.woff",
+        "/exp-tracker/media/inter-vietnamese-400-normal-3ZH4IT4J.woff2",
+        "/exp-tracker/media/inter-vietnamese-400-normal-VHOS7L4B.woff",
+        "/exp-tracker/media/outfit-latin-400-normal-MJX636HN.woff",
+        "/exp-tracker/media/outfit-latin-400-normal-WPZHQ72E.woff2",
+        "/exp-tracker/media/outfit-latin-ext-400-normal-NXIOCYCR.woff",
+        "/exp-tracker/media/outfit-latin-ext-400-normal-ZJBXP5IH.woff2"
       ],
       "patterns": []
     }
@@ -75,13 +96,34 @@
     "/exp-tracker/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "/exp-tracker/icons/icon-192x192.png": "8d95c53007d72af65f6fbe3a14b16a67bb032e4a",
     "/exp-tracker/icons/icon-512x512.png": "8d95c53007d72af65f6fbe3a14b16a67bb032e4a",
-    "/exp-tracker/index.html": "0b005ed1c035d5ac39e19db8db56a4ee50e1707a",
+    "/exp-tracker/index.html": "d5da1cdc25a0b66619aa847578b11e23d603daea",
     "/exp-tracker/main-SHJSV7IQ.js": "2548035e837ea8cf3f5acc111ebafb453df5eb9c",
-    "/exp-tracker/manifest.webmanifest": "a15c1ff88069310a4bd93efefe426eb8aecfebb3",
+    "/exp-tracker/manifest.webmanifest": "da3be700350a69181ee76735e1e2bf2a292ce6d9",
+    "/exp-tracker/media/MaterialIcons-Regular-2G4ZMI5K.woff2": "7e67acf56f6d527980504c3d0dd2a30d706e5339",
+    "/exp-tracker/media/MaterialIcons-Regular-7JMLZOL7.ttf": "b582b869fe05f35f5a1d08cdf50b2b5eb37bae44",
+    "/exp-tracker/media/MaterialIcons-Regular-CSYLW52G.woff": "e5fa525648c74213cdeb8554aa77057f0c4d8488",
     "/exp-tracker/media/bootstrap-icons-CVBWLLHT.woff2": "b441fcff939e24fa0906a37b7788788b9fddbb68",
     "/exp-tracker/media/bootstrap-icons-VQNJTM6Q.woff": "762010c79b4a05e1131fc8fb3b1aeff324d8033f",
+    "/exp-tracker/media/inter-cyrillic-400-normal-G4TQJ72A.woff2": "d9401374dbd2ca1030053156ec959746725e6729",
+    "/exp-tracker/media/inter-cyrillic-400-normal-U23O635P.woff": "8afa0dcf9e53dc2623b1119856f23bf15e8783ce",
+    "/exp-tracker/media/inter-cyrillic-ext-400-normal-6VZLC4H3.woff2": "bf1da00a265c6484bb052c875aa11ed4b9b9a7c6",
+    "/exp-tracker/media/inter-cyrillic-ext-400-normal-FIY4AS7B.woff": "d1e7caddf8858489e51c78ead12166f8655ecb66",
+    "/exp-tracker/media/inter-greek-400-normal-24BA4PDP.woff2": "85ad3a879941ee7c6e5af34a7fad437277357752",
+    "/exp-tracker/media/inter-greek-400-normal-ZRMMCGZA.woff": "6dd5f53779cd319c50759245895508bdf82f3d49",
+    "/exp-tracker/media/inter-greek-ext-400-normal-JTQ56XIH.woff2": "16e7963cecdd350a527232a37d1715bf962fd473",
+    "/exp-tracker/media/inter-greek-ext-400-normal-RDW6D2QK.woff": "334068a0efdf167ad0960449cd43270cc590fd0a",
+    "/exp-tracker/media/inter-latin-400-normal-55WT6UWF.woff2": "68f645c6b6ff12e25c54b13d4ed119e631dcbb26",
+    "/exp-tracker/media/inter-latin-400-normal-FR5HOXA4.woff": "49bbcbc0ac6cb1385d93b7843ba01a7ead440c80",
+    "/exp-tracker/media/inter-latin-ext-400-normal-GKRFIQRI.woff2": "1bf1f83717a4c0295d876fabef93fc5bb4b317df",
+    "/exp-tracker/media/inter-latin-ext-400-normal-J3OKVTXA.woff": "0618dae93e950b02f06f5c1a760052cb731f2413",
+    "/exp-tracker/media/inter-vietnamese-400-normal-3ZH4IT4J.woff2": "c792d220ebed70ca4da40697b47b2046bf58d3af",
+    "/exp-tracker/media/inter-vietnamese-400-normal-VHOS7L4B.woff": "533daa7fee0fdfb19162b8f6b677e235dcf77307",
+    "/exp-tracker/media/outfit-latin-400-normal-MJX636HN.woff": "3902cf4a63a45950572addb8bc5b77ecb1893901",
+    "/exp-tracker/media/outfit-latin-400-normal-WPZHQ72E.woff2": "692b8f6440183da29347a7efaa8d28edbe835401",
+    "/exp-tracker/media/outfit-latin-ext-400-normal-NXIOCYCR.woff": "12762916ba7b9b0796c0c94df49050f7bdd79b84",
+    "/exp-tracker/media/outfit-latin-ext-400-normal-ZJBXP5IH.woff2": "0458c8bbf863602f879f5f011b50f44e6d25e71c",
     "/exp-tracker/scripts-TTWY4XDY.js": "59aa489af6324127a3d773836250da08639d4b26",
-    "/exp-tracker/styles-L44ADZZD.css": "11ded794673f4c6731d4644ee83f32ff71fd415a"
+    "/exp-tracker/styles-NLPN4LNY.css": "e81c9400f27d9df0120822b1b4d6ef0bfec56fd2"
   },
   "navigationUrls": [
     {
