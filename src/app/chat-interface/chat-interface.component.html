@@ -1,0 +1,92 @@
+<div class="chat-container glass-card" [class.open]="isOpen">
+    <div class="chat-header d-flex justify-content-between align-items-center p-3 border-bottom border-white-10">
+        <div class="d-flex align-items-center">
+            <div class="icon-circle bg-primary-gradient me-2" style="width: 32px; height: 32px;">
+                <i class="bi bi-robot text-white small"></i>
+            </div>
+            <h6 class="text-white mb-0">AI Assistant</h6>
+        </div>
+        <button class="btn btn-icon btn-sm text-secondary" (click)="closeChat()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <div class="chat-messages p-3" #scrollContainer>
+        <div *ngIf="messages.length === 0" class="text-center py-4">
+            <div class="icon-box bg-white-5 mx-auto mb-3 rounded-circle" style="width: 48px; height: 48px;">
+                <i class="bi bi-stars text-accent fs-4"></i>
+            </div>
+            <p class="text-white small mb-1">Hi! I can help you track expenses.</p>
+            <p class="text-secondary x-small">Try "Spent 500 on lunch" or "Paid 2000 for petrol"</p>
+        </div>
+
+        <div *ngFor="let msg of messages" class="message mb-3" [class.user]="msg.sender === 'user'"
+            [class.ai]="msg.sender === 'ai'">
+            <div class="message-content p-3 rounded-3"
+                [ngClass]="msg.sender === 'user' ? 'bg-primary-gradient text-white' : 'bg-white-10 text-white'">
+                <p class="mb-0 small">{{ msg.text }}</p>
+            </div>
+            <small class="text-secondary x-small mt-1 d-block" [class.text-end]="msg.sender === 'user'">
+                {{ msg.timestamp | date:'shortTime' }}
+            </small>
+        </div>
+
+        <div *ngIf="isProcessing" class="message ai mb-3">
+            <div class="message-content p-3 rounded-3 bg-white-10">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expense Confirmation Card -->
+        <div *ngIf="pendingExpense" class="expense-preview glass-card p-3 mt-2 border border-accent">
+            <h6 class="text-accent mb-2 small fw-bold text-uppercase">Confirm Expense</h6>
+            <div class="d-flex justify-content-between mb-1">
+                <span class="text-secondary small">Title</span>
+                <span class="text-white small">{{ pendingExpense.title }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+                <span class="text-secondary small">Amount</span>
+                <span class="text-white small fw-bold">{{ pendingExpense.amount | number:'1.0-0' }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+                <span class="text-secondary small">Category</span>
+                <span class="text-white small">{{ pendingExpense.category }}</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
+                <span class="text-secondary small">Date</span>
+                <span class="text-white small">{{ pendingExpense.date | date }}</span>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-danger flex-grow-1" (click)="discardExpense()">Discard</button>
+                <button class="btn btn-sm btn-success-gradient flex-grow-1" (click)="confirmExpense()">Add
+                    Expense</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-input p-3 border-top border-white-10">
+        <div *ngIf="!hasApiKey" class="mb-2">
+            <div class="input-group">
+                <input type="password" class="form-control bg-transparent text-white border-white-10 small"
+                    placeholder="Enter Gemini API Key" [(ngModel)]="apiKeyInput">
+                <button class="btn btn-primary-gradient btn-sm" (click)="saveApiKey()">Save</button>
+            </div>
+            <small class="text-secondary x-small">Key is stored locally on your device.</small>
+        </div>
+
+        <div *ngIf="hasApiKey" class="input-group">
+            <input type="text" class="form-control bg-transparent text-white border-white-10"
+                placeholder="Type an expense..." [(ngModel)]="userInput" (keyup.enter)="sendMessage()"
+                [disabled]="isProcessing || !!pendingExpense">
+            <button class="btn btn-primary-gradient" (click)="sendMessage()"
+                [disabled]="!userInput.trim() || isProcessing || !!pendingExpense">
+                <i class="bi bi-send"></i>
+            </button>
+        </div>
+    </div>
+</div>

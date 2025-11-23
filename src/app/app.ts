@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { DesktopNavComponent } from './desktop-nav/desktop-nav.component';
 import { MobileNavComponent } from './mobile-nav/mobile-nav.component';
 import { SwipeLayoutComponent } from './swipe-layout.component';
+import { ChatInterfaceComponent } from './chat-interface/chat-interface.component';
+import { ChatFabComponent } from './chat-fab/chat-fab.component';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,9 @@ import { SwipeLayoutComponent } from './swipe-layout.component';
     ToastComponent,
     DesktopNavComponent,
     MobileNavComponent,
-    RouterOutlet
+    RouterOutlet,
+    ChatInterfaceComponent,
+    ChatFabComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
@@ -25,6 +29,7 @@ export class App implements OnInit {
   isOnline = true;
   showInstallButton = false;
   isMobile = false;
+  isChatOpen = false;
 
   links = [
     { path: '/dashboard', label: 'Dashboard', icon: 'bi-house-door', activeIcon: 'bi-house-door-fill' },
@@ -38,7 +43,7 @@ export class App implements OnInit {
     public router: Router,
     private networkService: NetworkService,
     private pwaService: PWAService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -70,6 +75,10 @@ export class App implements OnInit {
 
     setTimeout(checkInstallability, 1000);
     setInterval(checkInstallability, 5000);
+  }
+
+  toggleChat(): void {
+    this.isChatOpen = !this.isChatOpen;
   }
 
   installPWA() {

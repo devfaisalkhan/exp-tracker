@@ -1,9 +1,11 @@
 <!-- Banners, outside of any nav container -->
 <div class="alert alert-info text-center py-2 m-0" *ngIf="showInstallButton && !isOnline">
-  <small><i class="bi bi-download me-1"></i> Install Expense Tracker for offline use <button class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button></small>
+  <small><i class="bi bi-download me-1"></i> Install Expense Tracker for offline use <button
+      class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button></small>
 </div>
 <div class="alert alert-info text-center py-2 m-0" *ngIf="showInstallButton && isOnline">
-  <small><i class="bi bi-download me-1"></i> Install Expense Tracker app for offline use <button class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button></small>
+  <small><i class="bi bi-download me-1"></i> Install Expense Tracker app for offline use <button
+      class="btn btn-sm btn-primary ms-2" (click)="installPWA()">Install</button></small>
 </div>
 <div class="alert alert-warning text-center py-1 m-0" *ngIf="!isOnline && !showInstallButton">
   <small><i class="bi bi-wifi-off me-1"></i> You are offline. Data may not be up to date.</small>
@@ -27,3 +29,6 @@
 <!-- Toast notifications -->
 <app-toast></app-toast>
 
+<!-- AI Assistant -->
+<app-chat-interface [isOpen]="isChatOpen" (close)="isChatOpen = false"></app-chat-interface>
+<app-chat-fab *ngIf="!isChatOpen" (toggle)="toggleChat()"></app-chat-fab>
