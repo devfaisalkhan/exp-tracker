@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ToastService, Toast } from '../toast.service';
-import { Subscription } from 'rxjs';
+import { ToastService } from '../toast.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-toast',
@@ -10,13 +10,14 @@ import { Subscription } from 'rxjs';
   template: `
     <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1090;">
       <div 
-        *ngFor="let toast of toasts; let i = index" 
-        class="toast fade show align-items-center mb-2"
+        *ngFor="let toast of toastService.toasts$ | async; trackBy: trackById" 
+        class="toast align-items-center mb-2"
         [ngClass]="'toast-' + toast.type"
         role="alert"
         aria-live="assertive"
         aria-atomic="true"
-        style="min-width: 300px; max-width: 400px;"
+        style="min-width: 300px; max-width: 400px; display: block;"
+        [@toastAnimation]
       >
         <div class="toast-body d-flex align-items-center">
           <span class="me-2" [ngSwitch]="toast.type">
@@ -36,25 +37,27 @@ import { Subscription } from 'rxjs';
       </div>
     </div>
   `,
-  styleUrls: ['./toast.scss']
+  styleUrls: ['./toast.scss'],
+  animations: [
+    trigger('toastAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
-export class ToastComponent implements OnInit, OnDestroy {
-  toasts: Toast[] = [];
-  private subscription = new Subscription();
-
-  constructor(private toastService: ToastService) {}
-
-  ngOnInit() {
-    this.subscription = this.toastService.toasts$.subscribe(toasts => {
-      this.toasts = toasts;
-    });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+export class ToastComponent {
+  constructor(public toastService: ToastService) { }
 
   removeToast(id: number) {
     this.toastService.remove(id);
+  }
+
+  trackById(index: number, item: any): number {
+    return item.id;
   }
 }
