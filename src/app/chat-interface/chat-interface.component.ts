@@ -57,19 +57,60 @@ export class ChatInterfaceComponent implements OnInit {
         try {
             const result = await this.geminiService.parseExpense(text);
 
-            if ('error' in result) {
-                this.addMessage(`I couldn't understand that as an expense. ${result.error}`, 'ai');
+            console.log('Result type:', result);
+            console.log('Has conversational?', 'conversational' in result);
+            console.log('Has error?', 'error' in result);
+
+            if ('conversational' in result) {
+                // Handle conversational responses (non-expense messages)
+                console.log('Showing conversational response');
+                this.addTypingMessage(result.conversational);
+            } else if ('error' in result) {
+                // Handle errors - but show them as conversational too
+                console.log('Got error, converting to conversational');
+                this.addTypingMessage(`I'm here to help you track expenses! You can tell me things like:\n\n• 'spend 500 on chai'\n• 'paid 200 for groceries'\n• 'bought coffee for 150'\n\nWhat would you like to track?`);
             } else {
+                // Handle valid expense
+                console.log('Got valid expense');
                 this.pendingExpense = result;
                 this.addMessage('I found an expense! Please confirm the details below.', 'ai');
             }
         } catch (error) {
-            this.addMessage('Sorry, something went wrong. Please try again.', 'ai');
+            console.error('Caught exception:', error);
+            this.addTypingMessage('I\'m here to help you track your expenses! Try telling me something like "spend 500 on chai" or "paid 200 for groceries".');
         } finally {
             this.isProcessing = false;
             this.cdr.markForCheck();
             this.scrollToBottom();
         }
+    }
+
+    private async addTypingMessage(text: string): Promise<void> {
+        // Add an empty message first
+        const messageIndex = this.messages.length;
+        this.messages.push({
+            text: '',
+            sender: 'ai',
+            timestamp: new Date()
+        });
+        this.cdr.markForCheck();
+        this.scrollToBottom();
+
+        // Type out the message character by character
+        let currentText = '';
+        const typingSpeed = 20; // milliseconds per character
+
+        for (let i = 0; i < text.length; i++) {
+            currentText += text[i];
+            this.messages[messageIndex].text = currentText;
+            this.cdr.markForCheck();
+            this.scrollToBottom();
+            await this.delay(typingSpeed);
+        }
+    }
+
+    private delay(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     confirmExpense(): void {
