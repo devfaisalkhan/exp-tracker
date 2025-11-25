@@ -51,6 +51,8 @@
 
         .message-content {
             border-bottom-right-radius: 4px !important;
+            display: flex !important;
+            justify-content: end !important;
         }
     }
 

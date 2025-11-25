@@ -24,7 +24,7 @@
             [class.ai]="msg.sender === 'ai'">
             <div class="message-content p-3 rounded-3"
                 [ngClass]="msg.sender === 'user' ? 'bg-primary-gradient text-white' : 'bg-white-10 text-white'">
-                <p class="mb-0 small">{{ msg.text }}</p>
+                <p class="mb-0 small text-start">{{ msg.text }}</p>
             </div>
             <small class="text-secondary x-small mt-1 d-block" [class.text-end]="msg.sender === 'user'">
                 {{ msg.timestamp | date:'shortTime' }}
