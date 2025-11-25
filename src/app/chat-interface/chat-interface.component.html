@@ -6,9 +6,36 @@
             </div>
             <h6 class="text-white mb-0">AI Assistant</h6>
         </div>
-        <button class="btn btn-icon btn-sm text-secondary" (click)="closeChat()">
-            <i class="bi bi-x-lg"></i>
-        </button>
+        <div class="d-flex gap-2">
+            <button class="btn btn-icon btn-sm text-secondary" (click)="showApiKeyModal = true" title="API Settings">
+                <i class="bi bi-gear"></i>
+            </button>
+            <button class="btn btn-icon btn-sm text-secondary" (click)="closeChat()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div *ngIf="showApiKeyModal" class="api-key-modal">
+        <div class="modal-content glass-card p-4">
+            <h6 class="text-white mb-3">Gemini API Key</h6>
+            <p class="text-secondary small mb-3">
+                Get your free API key from <a href="https://aistudio.google.com/app/apikey" target="_blank"
+                    class="text-accent">Google AI Studio</a>
+            </p>
+            <input type="text" class="form-control bg-transparent text-white border-white-10 mb-3"
+                placeholder="Enter your Gemini API key" [(ngModel)]="apiKeyInput">
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-secondary flex-grow-1"
+                    (click)="showApiKeyModal = false">Cancel</button>
+                <button class="btn btn-sm btn-primary-gradient flex-grow-1" (click)="saveApiKey()">Save</button>
+            </div>
+            <button *ngIf="geminiService.hasApiKey()" class="btn btn-sm btn-outline-danger w-100 mt-2"
+                (click)="clearApiKey()">
+                Clear API Key
+            </button>
+        </div>
     </div>
 
     <div class="chat-messages p-3" #scrollContainer>

@@ -29,16 +29,39 @@ export class ChatInterfaceComponent implements OnInit {
     userInput = '';
     isProcessing = false;
     pendingExpense: Expense | null = null;
+    showApiKeyModal = false;
+    apiKeyInput = '';
 
     constructor(
-        private geminiService: GeminiService,
+        public geminiService: GeminiService,
         private expenseService: ExpenseService,
         private toastService: ToastService,
         private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit(): void {
-        // No need to check for API key - it's in environment now
+        // Load existing API key if available
+        const existingKey = this.geminiService.getApiKey();
+        if (existingKey) {
+            this.apiKeyInput = existingKey;
+        }
+    }
+
+    saveApiKey(): void {
+        if (this.apiKeyInput.trim()) {
+            this.geminiService.initializeAI(this.apiKeyInput.trim());
+            this.toastService.success('API Key saved successfully!');
+            this.showApiKeyModal = false;
+        } else {
+            this.toastService.error('Please enter a valid API key');
+        }
+    }
+
+    clearApiKey(): void {
+        this.geminiService.clearApiKey();
+        this.apiKeyInput = '';
+        this.showApiKeyModal = false;
+        this.toastService.success('API Key cleared');
     }
 
     closeChat(): void {
