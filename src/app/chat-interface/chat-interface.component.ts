@@ -31,6 +31,13 @@ export class ChatInterfaceComponent implements OnInit {
     pendingExpense: Expense | null = null;
     showApiKeyModal = false;
     apiKeyInput = '';
+    usageStats = {
+        used: 0,
+        limit: 1500,
+        percentage: 0,
+        requestsUsed: 0,
+        requestsLimit: 1500
+    };
 
     constructor(
         public geminiService: GeminiService,
@@ -44,6 +51,20 @@ export class ChatInterfaceComponent implements OnInit {
         const existingKey = this.geminiService.getApiKey();
         if (existingKey) {
             this.apiKeyInput = existingKey;
+        }
+
+        // Update usage stats periodically
+        this.updateUsageStats();
+        setInterval(() => this.updateUsageStats(), 5000); // Update every 5 seconds
+    }
+
+    updateUsageStats(): void {
+        if (this.geminiService.hasApiKey()) {
+            this.usageStats = {
+                ...this.geminiService.getUsageStats(),
+                used: 0,
+                limit: 1500
+            };
         }
     }
 

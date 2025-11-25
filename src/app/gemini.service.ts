@@ -8,6 +8,8 @@ import { Expense } from './models';
 export class GeminiService {
     private genAI: GoogleGenerativeAI | null = null;
     private readonly STORAGE_KEY = 'gemini_api_key';
+    private readonly USAGE_KEY = 'gemini_usage';
+    private readonly DAILY_LIMIT = 1500;
 
     constructor() {
         // Try to load API key from localStorage
@@ -15,6 +17,44 @@ export class GeminiService {
         if (savedKey) {
             this.initializeAI(savedKey);
         }
+        // Reset usage if it's a new day
+        this.checkAndResetDailyUsage();
+    }
+
+    private checkAndResetDailyUsage(): void {
+        const usage = this.getUsageData();
+        const today = new Date().toDateString();
+        if (usage.date !== today) {
+            this.saveUsageData({ date: today, requestCount: 0 });
+        }
+    }
+
+    private getUsageData(): { date: string; requestCount: number } {
+        const data = localStorage.getItem(this.USAGE_KEY);
+        if (data) {
+            return JSON.parse(data);
+        }
+        return { date: new Date().toDateString(), requestCount: 0 };
+    }
+
+    private saveUsageData(data: { date: string; requestCount: number }): void {
+        localStorage.setItem(this.USAGE_KEY, JSON.stringify(data));
+    }
+
+    private incrementUsage(): void {
+        const usage = this.getUsageData();
+        usage.requestCount++;
+        this.saveUsageData(usage);
+    }
+
+    getUsageStats(): { requestsUsed: number; requestsLimit: number; percentage: number } {
+        const usage = this.getUsageData();
+        const percentage = Math.min((usage.requestCount / this.DAILY_LIMIT) * 100, 100);
+        return {
+            requestsUsed: usage.requestCount,
+            requestsLimit: this.DAILY_LIMIT,
+            percentage: Math.round(percentage)
+        };
     }
 
     initializeAI(apiKey: string): void {
@@ -90,6 +130,9 @@ User message: "${userMessage}"`;
             const result = await model.generateContent(prompt);
             const response = await result.response;
             const text = response.text();
+
+            // Track usage
+            this.incrementUsage();
 
             console.log('=== GEMINI RAW RESPONSE ===');
             console.log(text);
